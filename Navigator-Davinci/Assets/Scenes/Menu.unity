@@ -2709,7 +2709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5842f4dc5691a94f80b87775a3be528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   questionText: {fileID: 0}
+=======
+>>>>>>> Stashed changes
   question: Wat is 1 + 1 ?
   answers:
   - {fileID: 1002663113}
@@ -2717,6 +2720,7 @@ MonoBehaviour:
   - {fileID: 1122715966}
   - {fileID: 557564974}
   - {fileID: 570656080}
+<<<<<<< Updated upstream
   answersText:
   - answer: Sander
     correct: 1
@@ -2728,6 +2732,8 @@ MonoBehaviour:
     correct: 1
   - answer: Jurn
     correct: 0
+=======
+>>>>>>> Stashed changes
 --- !u!1 &615220428
 GameObject:
   m_ObjectHideFlags: 0
