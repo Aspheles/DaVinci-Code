@@ -17,6 +17,7 @@ public class Authentication : MonoBehaviour
         var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
         PlayFabClientAPI.LoginWithEmailAddress(request, result => {
             Debug.Log("User " + request.Email + " has logged in");
+            Launcher.instance.OpenLoggedInMenu();
         
         }, error => {
             Debug.Log(error.GenerateErrorReport());
@@ -41,6 +42,12 @@ public class Authentication : MonoBehaviour
         });
 
        
+    }
+
+    public void Logout()
+    {
+        PlayFabClientAPI.ForgetAllCredentials();
+        MenuManager.instance.OpenMenu("main");
     }
 
 }
