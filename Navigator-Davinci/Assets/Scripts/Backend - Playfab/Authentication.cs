@@ -12,7 +12,7 @@ public class Authentication : MonoBehaviour
     {
         instance = this;
     }
-    public void Login(string username, string email, string password)
+    public void Login(string email, string password)
     {
         var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
         PlayFabClientAPI.LoginWithEmailAddress(request, result => {

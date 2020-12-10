@@ -89,4 +89,10 @@ public class FormValidation : MonoBehaviour
         message.color = Color.green;
         
     }
+
+    public void Login()
+    {
+        Authentication.instance.Login(email.text, password.text);
+
+    }
 }
