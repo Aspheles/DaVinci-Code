@@ -1945,7 +1945,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Register
+  m_text: 'Registerrrr
 
 '
   m_isRightToLeft: 0
@@ -2016,7 +2016,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1174675886}
-    characterCount: 9
+    characterCount: 12
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
