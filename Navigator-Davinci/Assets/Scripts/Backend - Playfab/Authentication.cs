@@ -6,14 +6,15 @@ using PlayFab;
 
 public class Authentication : MonoBehaviour
 {
+    public static Authentication instance;
 
     private void Start()
     {
-        Login();
+        instance = this;
     }
-    public void Login()
+    public void Login(string username, string email, string password)
     {
-        var request = new LoginWithEmailAddressRequest { Email = "yavuzkaand@hotmail.com", Password = "poker12345" };
+        var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
         PlayFabClientAPI.LoginWithEmailAddress(request, result => {
             Debug.Log("User " + request.Email + " has logged in");
         
@@ -23,4 +24,23 @@ public class Authentication : MonoBehaviour
         });
 
     }
+
+    public void Register(string username, string email, string password)
+    {
+        var request = new RegisterPlayFabUserRequest { Username = username, Email = email, Password = password };
+        PlayFabClientAPI.RegisterPlayFabUser(request, 
+        result => {
+            Debug.Log("User " + result.Username + " Created");
+            FormValidation.instance.message.color = Color.green;
+            FormValidation.instance.message.text = "User " + result.Username + " Created";
+        }, 
+        error => {
+            Debug.Log(error.GenerateErrorReport());
+            FormValidation.instance.message.color = Color.red;
+            FormValidation.instance.message.text = error.GenerateErrorReport();
+        });
+
+       
+    }
+
 }

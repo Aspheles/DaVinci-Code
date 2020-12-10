@@ -28,4 +28,9 @@ public class Launcher : MonoBehaviour
     {
         MenuManager.instance.OpenMenu("success");
     }
+
+    public void CheckValues()
+    {
+        Debug.Log("Value changed");
+    }
 }

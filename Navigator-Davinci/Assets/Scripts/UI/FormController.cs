@@ -3,19 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class FormController : MonoBehaviour
 {
+    public TMP_Text questionText;
     public string question;
     public List<Button> answers;
-    public List<Question> answersText;
+    public List<Answer> answersText;
+  
 
     public void Start()
     {
-        answersText = new List<Question> { new Question("Variable 1", false),
-         new Question("Variable 2", false), new Question("Variable 3", false), new Question("Variable 4", true), new Question("Variable 5", false)};
+        questionText = GameObject.FindGameObjectWithTag("question").GetComponent<TMP_Text>();
+        questionText.text = question;
+        if(answersText.Count < 5)
+        {
+            Debug.LogError("You need 5 answers");
+        }
         ChangeAnswers();
         
+              
     }
 
     public void ChangeQuestion()
@@ -29,35 +37,51 @@ public class FormController : MonoBehaviour
         {
             for(int i = 0; i < answersText.Count; i++)
             {
-                answers[i].GetComponentInChildren<TMP_Text>().text = answersText[i].question;
+                answers[i].GetComponentInChildren<TMP_Text>().text = answersText[i].answer;
                 
             }
             
             foreach(Button answer in answers)
             {
-                answer.onClick.AddListener(() => CompareAnswer(answer.GetComponentInChildren<TMP_Text>().text));
+                answer.onClick.AddListener(() => CompareAnswer(answer));
+
             }
         }
         
     }
 
-    public void CompareAnswer(string a)
+    void SelectAnswer()
     {
-        int index = answersText.FindIndex((x) => x.question == a);
-        Debug.Log(index);
+
+    }
+    public void CompareAnswer(Button a)
+    {
+        
+        int index = answersText.FindIndex((x) => x.answer == a.GetComponentInChildren<TMP_Text>().text);
+        if(answersText[index].correct == true)
+        {
+            a.GetComponent<Image>().color = Color.green;
+            Debug.Log("Correct answer");
+        }
+        else
+        {
+            a.GetComponent<Image>().color = Color.red;
+            Debug.Log("False answer");
+        }
 
     }
 }
 
-public class Question
+[Serializable]
+public class Answer
 {
-    public string question;
+    public string answer;
     public bool correct;
     
 
-    public Question(string question, bool correct)
+    public Answer(string answer, bool correct)
     {
-        this.question = question;
+        this.answer = answer;
         this.correct = correct;
     }
 }
