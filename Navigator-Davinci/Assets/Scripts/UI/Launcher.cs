@@ -51,6 +51,11 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("puzzle");
     }
 
+    public void OpenPuzzleQuestionCreatorMenu()
+    {
+        MenuManager.instance.OpenMenu("question");
+    }
+
     public void CheckValues()
     {
         Debug.Log("Value changed");

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab.ClientModels;
 using PlayFab;
+using UnityEngine.Networking;
+
 
 public class Authentication : MonoBehaviour
 {
@@ -31,9 +33,11 @@ public class Authentication : MonoBehaviour
         var request = new RegisterPlayFabUserRequest { Username = username, Email = email, Password = password };
         PlayFabClientAPI.RegisterPlayFabUser(request, 
         result => {
+            FormValidation.instance.ClearData();
             Debug.Log("User " + result.Username + " Created");
             FormValidation.instance.message.color = Color.green;
             FormValidation.instance.message.text = "User " + result.Username + " Created";
+            StartCoroutine(RegisterToDatabase(email, username, password));
         }, 
         error => {
             Debug.Log(error.GenerateErrorReport());
@@ -42,6 +46,23 @@ public class Authentication : MonoBehaviour
         });
 
        
+    }
+
+    IEnumerator RegisterToDatabase(string email, string username, string password)
+    {
+        //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("username", username),
+            new MultipartFormDataSection("password", password)
+        };
+        //formData.Add(new MultipartFormFileSection(email, "my file data"));
+
+        //Sending the data 
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
+
+        yield return www.SendWebRequest();
     }
 
     public void Logout()
