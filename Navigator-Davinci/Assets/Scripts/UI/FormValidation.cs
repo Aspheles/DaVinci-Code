@@ -80,7 +80,10 @@ public class FormValidation : MonoBehaviour
 
     public void ClearData()
     {
-
+        username.text = string.Empty;
+        password.text = string.Empty;
+        email.text = string.Empty;
+        message.text = string.Empty;
     }
 
     public void Register()
@@ -89,7 +92,7 @@ public class FormValidation : MonoBehaviour
         message.color = Color.green;
         
     }
-
+   
     public void Login()
     {
         Authentication.instance.Login(email.text, password.text);

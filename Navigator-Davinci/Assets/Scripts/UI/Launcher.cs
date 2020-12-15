@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
+    public static Launcher instance;
+
+    private void Start()
+    {
+        instance = this;
+    }
+
     public void OpenLoginMenu()
     {
         MenuManager.instance.OpenMenu("login");
@@ -27,6 +34,26 @@ public class Launcher : MonoBehaviour
     public void OpenSuccessMenu()
     {
         MenuManager.instance.OpenMenu("success");
+    }
+
+    public void OpenLoggedInMenu()
+    {
+        MenuManager.instance.OpenMenu("loggedin");
+    }
+
+    public void OpenControlsMenu()
+    {
+        MenuManager.instance.OpenMenu("controls");
+    }
+
+    public void OpenPuzzleCreatorMenu()
+    {
+        MenuManager.instance.OpenMenu("puzzle");
+    }
+
+    public void OpenPuzzleQuestionCreatorMenu()
+    {
+        MenuManager.instance.OpenMenu("question");
     }
 
     public void CheckValues()
