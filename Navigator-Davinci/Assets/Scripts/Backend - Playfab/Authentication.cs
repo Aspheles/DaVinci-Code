@@ -23,7 +23,8 @@ public class Authentication : MonoBehaviour
         
         }, error => {
             Debug.Log(error.GenerateErrorReport());
-        
+            FormValidation.instance.message.color = Color.red;
+            FormValidation.instance.message.text = "Email and password do not match";
         });
 
     }
