@@ -52,7 +52,7 @@ public class FormValidation : MonoBehaviour
 
     public void EmailValidator()
     {
-        if(email.text.IndexOf("@") <= 0)
+        if(email.text.IndexOf("@mydavinci.nl") <= 0)
         {
             message.color = Color.red;
             message.text = "Email needs to be valid";

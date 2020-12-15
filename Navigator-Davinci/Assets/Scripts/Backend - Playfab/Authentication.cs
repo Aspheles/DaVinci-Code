@@ -60,7 +60,7 @@ public class Authentication : MonoBehaviour
         //formData.Add(new MultipartFormFileSection(email, "my file data"));
 
         //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
+        UnityWebRequest www = UnityWebRequest.Post("https://davincicodeproject.000webhostapp.com/register.php", formData);
 
         yield return www.SendWebRequest();
     }
