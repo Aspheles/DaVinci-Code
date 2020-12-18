@@ -44,7 +44,16 @@ public class VerificationManager : MonoBehaviour
          
             testData = System.Text.Encoding.Default.GetString(results);
             Data = testData.Split("b" [0]);
-            MenuManager.instance.OpenMenu("verification");
+            
+            if(int.Parse(Data[2]) == 1)
+            {
+                Debug.Log("Account is activated");
+                MenuManager.instance.OpenMenu("loggedin");
+            }
+            else
+            {
+                MenuManager.instance.OpenMenu("verification");
+            }
         }
     }
 
@@ -104,8 +113,8 @@ public class VerificationManager : MonoBehaviour
         }
         else
         {
-            Debug.Log(www.downloadHandler.data);
-            MenuManager.instance.OpenMenu("main");
+            Debug.Log("Account has been activated");
+            MenuManager.instance.OpenMenu("loggedin");
             
         }
     }

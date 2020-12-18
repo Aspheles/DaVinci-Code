@@ -17,10 +17,14 @@ public class Verification : MonoBehaviour
     }
     public void Verify()
     {
+        
+        DateTime now = DateTime.Now;
         Debug.Log(DateTime.Parse(VerificationManager.instance.Data[1]));
-        Debug.Log(DateTime.Now);
+        Debug.Log(now);
 
-        if(int.Parse(VerificationManager.instance.Data[2]) == 0) // Checking if account isn't verified yet
+
+
+        if (int.Parse(VerificationManager.instance.Data[2]) == 0) // Checking if account isn't verified yet
         {
             if (codeInput.text == VerificationManager.instance.Data[0] && DateTime.Now <= DateTime.Parse(VerificationManager.instance.Data[1]))
             {
@@ -41,6 +45,11 @@ public class Verification : MonoBehaviour
             Debug.Log(emailInput.text + " is already activated");
         }
         
+    }
+
+    public void CheckVerification()
+    {
+        StartCoroutine(VerificationManager.instance.GetToken(emailInput.text));
     }
 
 }

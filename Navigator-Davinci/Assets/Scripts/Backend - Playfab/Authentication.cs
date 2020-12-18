@@ -19,7 +19,7 @@ public class Authentication : MonoBehaviour
         var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
         PlayFabClientAPI.LoginWithEmailAddress(request, result => {
             Debug.Log("User " + request.Email + " has logged in");
-            Launcher.instance.OpenLoggedInMenu();
+            StartCoroutine(VerificationManager.instance.GetToken(email));
         
         }, error => {
             Debug.Log(error.GenerateErrorReport());
