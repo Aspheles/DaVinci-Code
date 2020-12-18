@@ -7,6 +7,7 @@ using System;
 
 public class Verification : MonoBehaviour
 {
+    public InputField emailInput;
     [SerializeField] InputField codeInput;
     public static Verification instance;
 

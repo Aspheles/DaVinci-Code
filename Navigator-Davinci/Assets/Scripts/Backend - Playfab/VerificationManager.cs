@@ -12,7 +12,7 @@ public class VerificationManager : MonoBehaviour
     public static VerificationManager instance;
     public string testData;
     public string[] Data;
-    public string _email;
+
    
 
     private void Start()
@@ -44,14 +44,13 @@ public class VerificationManager : MonoBehaviour
          
             testData = System.Text.Encoding.Default.GetString(results);
             Data = testData.Split("b" [0]);
-            _email = email;
             MenuManager.instance.OpenMenu("verification");
         }
     }
 
     public void RequestNewCode()
     {
-        StartCoroutine(ResendCode(_email));
+        StartCoroutine(ResendCode(Verification.instance.emailInput.text));
     }
 
     public IEnumerator ResendCode(string email)
