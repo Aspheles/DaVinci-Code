@@ -91,6 +91,7 @@ public class FormValidation : MonoBehaviour
         Authentication.instance.Register(username.text, email.text, password.text);
         message.color = Color.green;
         
+        
     }
    
     public void Login()

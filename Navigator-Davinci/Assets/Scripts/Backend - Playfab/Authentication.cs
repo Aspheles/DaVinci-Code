@@ -39,6 +39,7 @@ public class Authentication : MonoBehaviour
             FormValidation.instance.message.color = Color.green;
             FormValidation.instance.message.text = "User " + result.Username + " Created";
             StartCoroutine(RegisterToDatabase(email, username, password));
+           
         }, 
         error => {
             Debug.Log(error.GenerateErrorReport());
@@ -61,10 +62,27 @@ public class Authentication : MonoBehaviour
         //formData.Add(new MultipartFormFileSection(email, "my file data"));
 
         //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("https://davincicodeproject.000webhostapp.com/register.php", formData);
+        //UnityWebRequest www = UnityWebRequest.Post("https://davincicodeproject.000webhostapp.com/register.php", formData);
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
+
+
 
         yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            StartCoroutine(VerificationManager.instance.GetToken(email));
+        }
     }
+
+    
 
     public void Logout()
     {
