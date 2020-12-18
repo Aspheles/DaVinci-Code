@@ -20,18 +20,27 @@ public class Verification : MonoBehaviour
         Debug.Log(DateTime.Parse(VerificationManager.instance.Data[1]));
         Debug.Log(DateTime.Now);
 
-        if (codeInput.text == VerificationManager.instance.Data[0] && DateTime.Now <= DateTime.Parse(VerificationManager.instance.Data[1]))
+        if(int.Parse(VerificationManager.instance.Data[2]) == 0) // Checking if account isn't verified yet
         {
-            Debug.Log("Account succesfully activated");
+            if (codeInput.text == VerificationManager.instance.Data[0] && DateTime.Now <= DateTime.Parse(VerificationManager.instance.Data[1]))
+            {
+                Debug.Log("Account succesfully activated");
+                VerificationManager.instance.VerifyAccount(emailInput.text);
+            }
+            else if (codeInput.text != VerificationManager.instance.Data[0] && DateTime.Now <= DateTime.Parse(VerificationManager.instance.Data[1]))
+            {
+                Debug.Log("Token isn't valid");
+            }
+            else if (codeInput.text == VerificationManager.instance.Data[0] && DateTime.Now >= DateTime.Parse(VerificationManager.instance.Data[1]))
+            {
+                Debug.Log("Code has been expired");
+            }
         }
-        else if (codeInput.text != VerificationManager.instance.Data[0] && DateTime.Now <= DateTime.Parse(VerificationManager.instance.Data[1]))
+        else
         {
-            Debug.Log("Token isn't valid");
+            Debug.Log(emailInput.text + " is already activated");
         }
-        else if (codeInput.text == VerificationManager.instance.Data[0] && DateTime.Now >= DateTime.Parse(VerificationManager.instance.Data[1])) 
-        {
-            Debug.Log("Code has been expired");
-        }
+        
     }
 
 }

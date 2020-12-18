@@ -53,6 +53,11 @@ public class VerificationManager : MonoBehaviour
         StartCoroutine(ResendCode(Verification.instance.emailInput.text));
     }
 
+    public void VerifyAccount(string email)
+    {
+        StartCoroutine(Verify(email));
+    }
+
     public IEnumerator ResendCode(string email)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
@@ -78,6 +83,30 @@ public class VerificationManager : MonoBehaviour
             testData = System.Text.Encoding.Default.GetString(results);
             Data = testData.Split("b"[0]);
             MenuManager.instance.OpenMenu("verification");
+        }
+    }
+
+    public IEnumerator Verify(string email)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email)
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/verifyaccount.php", formData);
+
+        yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.data);
+            MenuManager.instance.OpenMenu("main");
+            
         }
     }
 
