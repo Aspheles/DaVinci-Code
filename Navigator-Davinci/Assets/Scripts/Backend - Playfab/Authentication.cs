@@ -39,7 +39,17 @@ public class Authentication : MonoBehaviour
             FormValidation.instance.message.color = Color.green;
             FormValidation.instance.message.text = "User " + result.Username + " Created";
             StartCoroutine(RegisterToDatabase(email, username, password));
-           
+
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+            {
+                new MultipartFormDataSection("email", email),
+                new MultipartFormDataSection("username", username),
+                new MultipartFormDataSection("password", password)
+            };
+
+            StartCoroutine(Post(formData, "http://localhost/sqlconnect/register.php"));
+            StartCoroutine(Get("http://localhost/sqlconnect/register.php"));
+
         }, 
         error => {
             Debug.Log(error.GenerateErrorReport());
@@ -48,6 +58,52 @@ public class Authentication : MonoBehaviour
         });
 
        
+    }
+
+    IEnumerator Post(List<IMultipartFormSection> formData, string target)
+    {
+        UnityWebRequest www = UnityWebRequest.Post(target, formData);
+
+        yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+
+            Debug.Log(www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.data);
+            byte[] Data = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(Data);
+
+            yield return Result;
+        }
+    }
+
+    IEnumerator Get(string target)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(target);
+
+        yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.data);
+            byte[] Data = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(Data);
+
+            yield return Result;
+        }
     }
 
     IEnumerator RegisterToDatabase(string email, string username, string password)
