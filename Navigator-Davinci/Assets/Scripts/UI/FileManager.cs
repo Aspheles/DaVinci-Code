@@ -9,11 +9,15 @@ public class FileManager : MonoBehaviour
 
     string Path;
     public RawImage img;
+    public GameObject largeImage;
+    public GameObject zoomBtn;
+    public GameObject cover;
 
     void Start()
     {
         
-       img.texture = Resources.Load<Texture>("images/defaultimg");
+        img.texture = Resources.Load<Texture>("images/defaultimg");
+        zoomBtn.SetActive(false);
         
     }
     public void OpenExplorer()
@@ -26,7 +30,7 @@ public class FileManager : MonoBehaviour
     {
         if(Path != null && Path.Length > 0)
         {
-            UpdateImage();print(Path);
+            UpdateImage();
         }
 
     }
@@ -35,5 +39,20 @@ public class FileManager : MonoBehaviour
     {
         WWW www = new WWW("file:///" + Path);
         img.texture = www.texture;
+
+        largeImage.GetComponent<RawImage>().texture = www.texture;
+        zoomBtn.SetActive(true);
+    }
+
+    public void EnlargeImage()
+    {
+        largeImage.SetActive(true);
+        cover.SetActive(true);
+    }
+
+    public void CloseLargeImage()
+    {
+        largeImage.SetActive(false);
+        cover.SetActive(false);
     }
 }
