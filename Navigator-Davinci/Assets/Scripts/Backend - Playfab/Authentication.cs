@@ -27,40 +27,45 @@ public class Authentication : MonoBehaviour
             FormValidation.instance.message.text = "Email and password do not match";
         });
 
+        StartCoroutine(Post(new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("password", password),               
+        }, "http://localhost/sqlconnect/login.php"));
+
     }
 
-    public void Register(string username, string email, string password)
+    public void Register(string username, string email, string password, string classCode)
     {
-        var request = new RegisterPlayFabUserRequest { Username = username, Email = email, Password = password };
-        PlayFabClientAPI.RegisterPlayFabUser(request, 
-        result => {
-            FormValidation.instance.ClearData();
-            Debug.Log("User " + result.Username + " Created");
-            FormValidation.instance.message.color = Color.green;
-            FormValidation.instance.message.text = "User " + result.Username + " Created";
-            StartCoroutine(RegisterToDatabase(email, username, password));
-
-            List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-            {
-                new MultipartFormDataSection("email", email),
-                new MultipartFormDataSection("username", username),
-                new MultipartFormDataSection("password", password)
-            };
-
-            StartCoroutine(Post(formData, "http://localhost/sqlconnect/register.php"));
-            StartCoroutine(Get("http://localhost/sqlconnect/register.php"));
-
-        }, 
-        error => {
-            Debug.Log(error.GenerateErrorReport());
-            FormValidation.instance.message.color = Color.red;
-            FormValidation.instance.message.text = error.GenerateErrorReport();
-        });
-
        
+        StartCoroutine(Post(new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("username", username),
+            new MultipartFormDataSection("password", password),
+            new MultipartFormDataSection("classcode", classCode)
+        }, "http://localhost/sqlconnect/register.php"));
+
+
+
+        if (VerificationManager.instance.testData == "success")
+        {
+            Debug.Log("Registartion was succesfull");
+            Debug.Log("User " + username + " Created");
+            FormValidation.instance.message.color = Color.green;
+            FormValidation.instance.message.text = "User " + username + " Created";
+            FormValidation.instance.ClearData();
+        }
+        else
+        {
+            Debug.Log(VerificationManager.instance.testData);
+            FormValidation.instance.message.color = Color.red;
+            FormValidation.instance.message.text = VerificationManager.instance.testData;
+        }
+
     }
 
-    IEnumerator Post(List<IMultipartFormSection> formData, string target)
+    public IEnumerator Post(List<IMultipartFormSection> formData, string target)
     {
         UnityWebRequest www = UnityWebRequest.Post(target, formData);
 
@@ -80,11 +85,11 @@ public class Authentication : MonoBehaviour
             byte[] Data = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(Data);
 
-            yield return Result;
+            VerificationManager.instance.testData = Result;
         }
     }
 
-    IEnumerator Get(string target)
+    public IEnumerator Get(string target)
     {
         UnityWebRequest www = UnityWebRequest.Get(target);
 
@@ -102,39 +107,7 @@ public class Authentication : MonoBehaviour
             byte[] Data = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(Data);
 
-            yield return Result;
-        }
-    }
-
-    IEnumerator RegisterToDatabase(string email, string username, string password)
-    {
-        //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("email", email),
-            new MultipartFormDataSection("username", username),
-            new MultipartFormDataSection("password", password)
-        };
-        //formData.Add(new MultipartFormFileSection(email, "my file data"));
-
-        //Sending the data 
-        //UnityWebRequest www = UnityWebRequest.Post("https://davincicodeproject.000webhostapp.com/register.php", formData);
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
-
-
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.text);
-            StartCoroutine(VerificationManager.instance.GetToken(email));
+            VerificationManager.instance.testData = Result;
         }
     }
 

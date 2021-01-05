@@ -11,6 +11,7 @@ public class FormValidation : MonoBehaviour
     [SerializeField] InputField username;
     [SerializeField] InputField password;
     [SerializeField] InputField email;
+    [SerializeField] TMP_Dropdown classCode;
     public Text message;
     EventSystem system;
     public static FormValidation instance;
@@ -88,7 +89,7 @@ public class FormValidation : MonoBehaviour
 
     public void Register()
     {
-        Authentication.instance.Register(username.text, email.text, password.text);
+        Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text);
         message.color = Color.green;
         
         
