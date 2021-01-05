@@ -31,8 +31,8 @@ public class QuestionOverview : MonoBehaviour
 
         Questions = new List<Question>
         {
-            new Question("wat denk jij vandaag? vieze bruine vieze bruine vieze bruine", Answers),
-            new Question("hoe praat jij tegen vrouwen?", Answers),
+            new Question("wat denk jij vandaag?", Answers),
+            new Question("hoe praat jij tegen mensen?", Answers),
             new Question("Wat is het weer vandaag?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
