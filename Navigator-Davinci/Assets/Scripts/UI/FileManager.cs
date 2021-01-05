@@ -24,10 +24,11 @@ public class FileManager : MonoBehaviour
 
     public void GetImage()
     {
-        if(Path != null)
+        if(Path != null && Path.Length > 0)
         {
-            UpdateImage();
+            UpdateImage();print(Path);
         }
+
     }
 
     public void UpdateImage()
