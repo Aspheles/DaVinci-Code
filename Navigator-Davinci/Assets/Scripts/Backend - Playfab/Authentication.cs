@@ -9,89 +9,63 @@ using UnityEngine.Networking;
 public class Authentication : MonoBehaviour
 {
     public static Authentication instance;
+    public string message;
 
     private void Start()
     {
         instance = this;
     }
-    public void Login(string email, string password)
+    public IEnumerator Login(string email, string password)
     {
-        var request = new LoginWithEmailAddressRequest { Email = email, Password = password };
-        PlayFabClientAPI.LoginWithEmailAddress(request, result => {
-            Debug.Log("User " + request.Email + " has logged in");
-            StartCoroutine(VerificationManager.instance.GetToken(email));
-        
-        }, error => {
-            Debug.Log(error.GenerateErrorReport());
-            FormValidation.instance.message.color = Color.red;
-            FormValidation.instance.message.text = "Email and password do not match";
-        });
-
-        StartCoroutine(Post(new List<IMultipartFormSection>
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
-            new MultipartFormDataSection("email", email),
-            new MultipartFormDataSection("password", password),               
-        }, "http://localhost/sqlconnect/login.php"));
+            new MultipartFormDataSection("email", email),           
+            new MultipartFormDataSection("password", password)         
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
+
+        yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.data);
+            byte[] Data = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(Data);
+
+            if(Result == "Success")
+            {
+                FormValidation.instance.message.color = Color.green;
+                FormValidation.instance.message.text = Result;
+            }
+            else
+            {
+                FormValidation.instance.message.text = Result;
+                Debug.Log("Username/Password is incorrect");
+            }
+        }
+
 
     }
 
-    public void Register(string username, string email, string password, string classCode)
+    public IEnumerator Register(string username, string email, string password, string classCode)
     {
-       
-        StartCoroutine(Post(new List<IMultipartFormSection>
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("email", email),
             new MultipartFormDataSection("username", username),
             new MultipartFormDataSection("password", password),
             new MultipartFormDataSection("classcode", classCode)
-        }, "http://localhost/sqlconnect/register.php"));
+        };
 
-
-
-        if (VerificationManager.instance.testData == "success")
-        {
-            Debug.Log("Registartion was succesfull");
-            Debug.Log("User " + username + " Created");
-            FormValidation.instance.message.color = Color.green;
-            FormValidation.instance.message.text = "User " + username + " Created";
-            FormValidation.instance.ClearData();
-        }
-        else
-        {
-            Debug.Log(VerificationManager.instance.testData);
-            FormValidation.instance.message.color = Color.red;
-            FormValidation.instance.message.text = VerificationManager.instance.testData;
-        }
-
-    }
-
-    public IEnumerator Post(List<IMultipartFormSection> formData, string target)
-    {
-        UnityWebRequest www = UnityWebRequest.Post(target, formData);
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.text);
-
-            Debug.Log(www.downloadHandler.text);
-            Debug.Log(www.downloadHandler.data);
-            byte[] Data = www.downloadHandler.data;
-            string Result = System.Text.Encoding.Default.GetString(Data);
-
-            VerificationManager.instance.testData = Result;
-        }
-    }
-
-    public IEnumerator Get(string target)
-    {
-        UnityWebRequest www = UnityWebRequest.Get(target);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", form);
 
         yield return www.SendWebRequest();
 
@@ -107,7 +81,17 @@ public class Authentication : MonoBehaviour
             byte[] Data = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(Data);
 
-            VerificationManager.instance.testData = Result;
+            if (Result == "Success")
+            {
+                FormValidation.instance.message.text = "Registration has been succesfull";
+            }
+            else
+            {
+                //Check what the issue is from the backend
+                if(Result == "Error") FormValidation.instance.message.text = "Email is already in use";
+                //FormValidation.instance.message.text = "Username/Password is incorrect";
+                //Debug.Log("Username/Password is incorrect");
+            }
         }
     }
 

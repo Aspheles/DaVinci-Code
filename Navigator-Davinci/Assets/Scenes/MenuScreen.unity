@@ -1956,6 +1956,9 @@ MonoBehaviour:
   email: {fileID: 387789167}
   classCode: {fileID: 0}
   message: {fileID: 1226167682}
+  usernameCheck: 0
+  emailCheck: 0
+  passwordCheck: 0
 --- !u!114 &392450629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2907,6 +2910,9 @@ MonoBehaviour:
   email: {fileID: 195363066}
   classCode: {fileID: 247214481}
   message: {fileID: 1958501012}
+  usernameCheck: 0
+  emailCheck: 0
+  passwordCheck: 0
 --- !u!1001 &601477765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5717,6 +5723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895fdd4804e001e4696ba23e5d16a64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  message: 
 --- !u!1 &1023995906
 GameObject:
   m_ObjectHideFlags: 0
@@ -9323,7 +9330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Register
+      value: OnRegisterButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -10231,7 +10238,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Login
+      value: OnLoginButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
