@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuName: questionoverview
-  open: 0
+  open: 1
 --- !u!114 &271508535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4538,15 +4538,14 @@ PrefabInstance:
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11500000, guid: 52dcb96240d9c0a458c90c1c5503a194,
-        type: 3}
+      objectReference: {fileID: 1018991692}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OpenPuzzleQuestionCreatorMenu
       objectReference: {fileID: 0}
     - target: {fileID: 11434868, guid: 751f7137cfffd4a16b1a4c191e687d64, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5699,6 +5698,7 @@ MonoBehaviour:
   - {fileID: 1941065117}
   - {fileID: 68332415}
   - {fileID: 984448724}
+  - {fileID: 271508534}
 --- !u!114 &1018991692
 MonoBehaviour:
   m_ObjectHideFlags: 0

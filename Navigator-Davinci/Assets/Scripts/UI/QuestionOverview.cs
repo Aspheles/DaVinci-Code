@@ -10,15 +10,18 @@ public class QuestionOverview : MonoBehaviour
 {
     public Transform QuestionPositions;
     public GameObject QuestionInput;
+    public List<Question> Questions;
+    public static QuestionOverview instance;
 
 
     public void Start()
     {
+        instance = this;
         LoadQuestions();
     }
     public void LoadQuestions()
     {
-        List<Question> Questions;
+        
         List<Answer> Answers;
         Answers = new List<Answer>
         {
@@ -48,7 +51,9 @@ public class QuestionOverview : MonoBehaviour
 
             GameObject QuestionClone = Instantiate(QuestionInput, QuestionPositions.position, Quaternion.identity);
             QuestionClone.transform.SetParent(QuestionPositions);
-            QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+            //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+            QuestionClone.GetComponent<QuestionManager>().questionTitle.text = question.question;
+
             QuestionCount++;
         } 
 

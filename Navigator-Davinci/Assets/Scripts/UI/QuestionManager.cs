@@ -14,4 +14,21 @@ public class QuestionManager : MonoBehaviour
     {
         instance = this;
     }
+
+    public void EditQuestion()
+    {
+        Question Question = QuestionOverview.instance.Questions.Find((x) => x.question == questionTitle.text);
+        Debug.Log(Question.question);
+        if(Question != null)
+        {
+            QuestionSession.instance.question = Question;
+            Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+        }
+        
+    }
+
+    public void DeleteQuestion()
+    {
+        Destroy(this.gameObject);
+    }
 }
