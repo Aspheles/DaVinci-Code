@@ -28,6 +28,10 @@ public class QuestionCreator : MonoBehaviour
         instance = this;
         Debug.Log(puzzleNameInput.text);
         Debug.Log(puzzleDifficultyInput.options[puzzleDifficultyInput.value].text);
+
+        
+
+        if (QuestionSession.instance.question != null) LoadAnswers(QuestionSession.instance.question.question, QuestionSession.instance.question.answer);
     }
 
     private void Update()
@@ -45,6 +49,23 @@ public class QuestionCreator : MonoBehaviour
             closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 200, 0);
         }
         
+    }
+
+    public void LoadAnswers(string title, List<Answer> answers)
+    {
+        questionInput.text = title;
+
+        foreach (Answer answer in answers)
+        {
+
+            GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
+            QuestionClone.transform.SetParent(answerOptionsPos);
+            //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+            QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
+            QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
+
+
+        }
     }
 
     public void CreateAnswerOptions()
