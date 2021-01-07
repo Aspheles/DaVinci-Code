@@ -36,13 +36,32 @@ public class Authentication : MonoBehaviour
         {
             Debug.Log(www.downloadHandler.text);
             Debug.Log(www.downloadHandler.data);
-            byte[] Data = www.downloadHandler.data;
-            string Result = System.Text.Encoding.Default.GetString(Data);
+            byte[] dbData = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(dbData);
+            
 
-            if(Result == "Success")
+            if(Result.IndexOf("Success") <= 0)
             {
                 FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = Result;
+                FormValidation.instance.message.text = "Logged in";
+
+                string[] Data = Result.Split("b"[0]);
+
+               
+                if(int.Parse(Data[3]) == 0)
+                {
+                    VerificationManager.instance.email = email;
+                    VerificationManager.instance.username = Data[1];
+                    VerificationManager.instance.token = Data[2];
+                    VerificationManager.instance.verified = int.Parse(Data[3]);
+                    VerificationManager.instance.expiredate = Data[4];
+                    Launcher.instance.OpenVerificationMenu();
+                }
+                else
+                {
+                    Launcher.instance.OpenLoggedInMenu();
+                }
+                    
             }
             else
             {
@@ -78,12 +97,31 @@ public class Authentication : MonoBehaviour
         {
             Debug.Log(www.downloadHandler.text);
             Debug.Log(www.downloadHandler.data);
-            byte[] Data = www.downloadHandler.data;
-            string Result = System.Text.Encoding.Default.GetString(Data);
+            byte[] dbData = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(dbData);
 
-            if (Result == "Success")
+            if (Result.IndexOf("Success") <= 0)
             {
-                FormValidation.instance.message.text = "Registration has been succesfull";
+                FormValidation.instance.message.color = Color.green;
+                FormValidation.instance.message.text = "Logged in";
+
+                string[] Data = Result.Split("b"[0]);
+
+
+                if (int.Parse(Data[3]) == 0)
+                {
+                    VerificationManager.instance.email = email;
+                    VerificationManager.instance.username = Data[1];
+                    VerificationManager.instance.token = Data[2];
+                    VerificationManager.instance.verified = int.Parse(Data[3]);
+                    VerificationManager.instance.expiredate = Data[4];
+                    Launcher.instance.OpenVerificationMenu();
+                }
+                else
+                {
+                    Launcher.instance.OpenLoggedInMenu();
+                }
+
             }
             else
             {

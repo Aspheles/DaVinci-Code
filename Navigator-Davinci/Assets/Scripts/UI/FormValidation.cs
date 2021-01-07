@@ -43,7 +43,7 @@ public class FormValidation : MonoBehaviour
 
     public void UsernameValidator()
     {
-        if(username.text.Length < 6)
+        if(username.text.Length < 5)
         {
             message.color = Color.red;
             message.text = "Your username needs to be bigger than 5 character";
@@ -118,7 +118,11 @@ public class FormValidation : MonoBehaviour
             message.color = Color.red;
             message.text = "Email or Password can't be empty";
         }
-        else StartCoroutine(Authentication.instance.Login(email.text, password.text));
+        else
+        {
+            StartCoroutine(Authentication.instance.Login(email.text, password.text));
+            ClearData();
+        }
 
 
     }

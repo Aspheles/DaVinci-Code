@@ -56,9 +56,9 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("question");
     }
 
-    public void OpenPuzzleQuestionsMenuOverview()
+    public void OpenVerificationMenu()
     {
-        MenuManager.instance.OpenMenu("questionoverview");
+        MenuManager.instance.OpenMenu("verification");
     }
 
     public void CheckValues()
