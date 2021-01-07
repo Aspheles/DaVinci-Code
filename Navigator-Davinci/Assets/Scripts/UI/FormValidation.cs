@@ -11,9 +11,14 @@ public class FormValidation : MonoBehaviour
     [SerializeField] InputField username;
     [SerializeField] InputField password;
     [SerializeField] InputField email;
+    [SerializeField] TMP_Dropdown classCode;
     public Text message;
     EventSystem system;
     public static FormValidation instance;
+    public bool usernameCheck;
+    public bool emailCheck;
+    public bool passwordCheck;
+
     private void Start()
     {
         system = EventSystem.current;
@@ -43,10 +48,12 @@ public class FormValidation : MonoBehaviour
             message.color = Color.red;
             message.text = "Your username needs to be bigger than 5 character";
             username.Select();
+            usernameCheck = false;
         }
         else
         {
             message.text = "";
+            usernameCheck = true;
         }
     }
 
@@ -57,10 +64,12 @@ public class FormValidation : MonoBehaviour
             message.color = Color.red;
             message.text = "Email needs to be valid";
             email.Select();
+            emailCheck = false;
         }
         else
         {
             message.text = "";
+            emailCheck = true;
         }
     }
 
@@ -71,10 +80,12 @@ public class FormValidation : MonoBehaviour
             message.color = Color.red;
             message.text = "Your password needs to be bigger than 5 character";
             password.Select();
+            passwordCheck = false;
         }
         else
         {
             message.text = "";
+            passwordCheck = true;
         }
     }
 
@@ -84,18 +95,31 @@ public class FormValidation : MonoBehaviour
         password.text = string.Empty;
         email.text = string.Empty;
         message.text = string.Empty;
+        usernameCheck = false;
+        passwordCheck = false;
+        emailCheck = false;
     }
 
-    public void Register()
+    public void OnRegisterButtonClicked()
     {
-        Authentication.instance.Register(username.text, email.text, password.text);
-        message.color = Color.green;
-        
+        if (usernameCheck && passwordCheck && emailCheck)
+        {
+            StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
+            ClearData();
+        }
+       
+       
     }
    
-    public void Login()
+    public void OnLoginButtonClicked()
     {
-        Authentication.instance.Login(email.text, password.text);
+        if (email.text.Length <= 0 && password.text.Length <= 0)
+        {
+            message.color = Color.red;
+            message.text = "Email or Password can't be empty";
+        }
+        else StartCoroutine(Authentication.instance.Login(email.text, password.text));
+
 
     }
 }
