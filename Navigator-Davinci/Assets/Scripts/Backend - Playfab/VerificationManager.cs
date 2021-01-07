@@ -3,21 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System;
+using UnityEngine.UI;
 
 public class VerificationManager : MonoBehaviour
 {
-
-    public string token;
-    public byte[] results;
     public static VerificationManager instance;
+    public string email;
+    public string username;
+    public string token;
+    public int verified;
+    public string expiredate;
+
+    public byte[] results;
+    
     public string testData;
     public string[] Data;
+    
 
    
 
     private void Start()
     {
         instance = this;
+    }
+
+    private void Update()
+    {
+        if(GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
+        {
+            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
+        }
     }
 
     public IEnumerator GetToken(string email)
@@ -91,7 +106,8 @@ public class VerificationManager : MonoBehaviour
 
             testData = System.Text.Encoding.Default.GetString(results);
             Data = testData.Split("b"[0]);
-            MenuManager.instance.OpenMenu("verification");
+
+            //MenuManager.instance.OpenMenu("verification");
         }
     }
 
