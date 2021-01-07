@@ -46,19 +46,15 @@ public class Authentication : MonoBehaviour
                 FormValidation.instance.message.text = "Logged in";
 
                 string[] Data = Result.Split("b"[0]);
+                SaveData(Data);
 
-               
-                if(int.Parse(Data[3]) == 0)
+                if (int.Parse(Data[4]) == 0)
                 {
-                    VerificationManager.instance.email = email;
-                    VerificationManager.instance.username = Data[1];
-                    VerificationManager.instance.token = Data[2];
-                    VerificationManager.instance.verified = int.Parse(Data[3]);
-                    VerificationManager.instance.expiredate = Data[4];
                     Launcher.instance.OpenVerificationMenu();
                 }
                 else
                 {
+                   
                     Launcher.instance.OpenLoggedInMenu();
                 }
                     
@@ -106,15 +102,11 @@ public class Authentication : MonoBehaviour
                 FormValidation.instance.message.text = "Logged in";
 
                 string[] Data = Result.Split("b"[0]);
-
+                SaveData(Data);
 
                 if (int.Parse(Data[3]) == 0)
                 {
-                    VerificationManager.instance.email = email;
-                    VerificationManager.instance.username = Data[1];
-                    VerificationManager.instance.token = Data[2];
-                    VerificationManager.instance.verified = int.Parse(Data[3]);
-                    VerificationManager.instance.expiredate = Data[4];
+                   
                     Launcher.instance.OpenVerificationMenu();
                 }
                 else
@@ -139,6 +131,16 @@ public class Authentication : MonoBehaviour
     {
         PlayFabClientAPI.ForgetAllCredentials();
         MenuManager.instance.OpenMenu("main");
+    }
+
+
+    public void SaveData(string[] Data)
+    {
+        VerificationManager.instance.username = Data[1];
+        VerificationManager.instance.email = Data[2];
+        VerificationManager.instance.token = Data[3];
+        VerificationManager.instance.verified = int.Parse(Data[4]);
+        VerificationManager.instance.expiredate = Data[5];
     }
 
 }
