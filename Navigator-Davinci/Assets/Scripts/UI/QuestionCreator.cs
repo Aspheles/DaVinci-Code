@@ -12,6 +12,12 @@ public class QuestionCreator : MonoBehaviour
     [SerializeField] Transform answerOptionsPos;
     [SerializeField] InputField puzzleNameInput;
     [SerializeField] TMP_Dropdown puzzleDifficultyInput;
+    [SerializeField] GameObject questionsScrollView;
+    [SerializeField] GameObject answersScrollView;
+    [SerializeField] GameObject addButton;
+    [SerializeField] GameObject finishButton;
+    [SerializeField] GameObject closeButton;
+
 
     public List<Question> question;
     public static QuestionCreator instance;
@@ -27,11 +33,30 @@ public class QuestionCreator : MonoBehaviour
     private void Update()
     {
         
+        if (GameObject.FindGameObjectsWithTag("answer").Length <= 0)
+        {
+            
+            answersScrollView.SetActive(false);
+            finishButton.SetActive(false);
+
+            questionsScrollView.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            addButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(2, -210, 0);
+            finishButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(99, -210, 0);
+            closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 200, 0);
+        }
+        
     }
 
     public void CreateAnswerOptions()
     {
-        
+        questionsScrollView.GetComponent<RectTransform>().anchoredPosition = new Vector3(-182, 0, 0);
+        addButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(104, -210, 0);
+        finishButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(289, -210, 0);
+        closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(390, 200, 0);
+
+        answersScrollView.SetActive(true);
+        finishButton.SetActive(true);
+
         GameObject answerClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
         answerClone.transform.SetParent(answerOptionsPos);
         //Answer item = new Answer(answerClone.GetComponent<AnswerManager>().answerField.text, answerClone.GetComponent<AnswerManager>().correctToggle.isOn);
@@ -45,7 +70,7 @@ public class QuestionCreator : MonoBehaviour
         List<Answer> answers = new List<Answer>();
         GameObject[] item = GameObject.FindGameObjectsWithTag("answer");
 
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("answer").Length; i++)
+        for (int i = 0; i < item.Length; i++)
         {
             answers.Add(new Answer(item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
         }
