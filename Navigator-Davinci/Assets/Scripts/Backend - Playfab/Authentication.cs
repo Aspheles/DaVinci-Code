@@ -4,7 +4,7 @@ using UnityEngine;
 using PlayFab.ClientModels;
 using PlayFab;
 using UnityEngine.Networking;
-
+using System;
 
 public class Authentication : MonoBehaviour
 {
@@ -39,24 +39,16 @@ public class Authentication : MonoBehaviour
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
 
-            Debug.Log(Result);
-
-            if(Result.IndexOf("Success") <= 0)
+       
+            if(Result.Contains("Success"))
             {
-                FormValidation.instance.message.color = Color.red;
-                FormValidation.instance.message.text = Result;
-                Debug.Log("Username/Password is incorrect");
-
-            }
-            else
-            {
-                FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = Result;
+                
 
                 string[] Data = Result.Split("b"[0]);
                 SaveData(Data);
 
-                if (VerificationManager.instance.verified == 0)
+                //Checking if account isn't verified
+                if (int.Parse(Data[3]) == 0)
                 {
                     Launcher.instance.OpenVerificationMenu();
                 }
@@ -65,6 +57,15 @@ public class Authentication : MonoBehaviour
 
                     Launcher.instance.OpenLoggedInMenu();
                 }
+
+            }
+            else
+            {
+                FormValidation.instance.message.color = Color.red;
+                FormValidation.instance.message.text = Result;
+                Debug.Log("Username/Password is incorrect");
+
+                
             }
         }
 
@@ -98,24 +99,26 @@ public class Authentication : MonoBehaviour
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
 
-            if (Result.IndexOf("Success") <= 0)
+            if (Result.Contains("Success"))
             {
-                //Check what the issue is from the backend
-                if (Result == "Error") FormValidation.instance.message.text = "Email is already in use";
-                //FormValidation.instance.message.text = "Username/Password is incorrect";
-                //Debug.Log("Username/Password is incorrect");
+               
+
+                FormValidation.instance.message.color = Color.green;
+                FormValidation.instance.message.text = "Account has been created";
+               
+                string[] Data = Result.Split("b"[0]);
+                SaveData(Data);
+
+                Launcher.instance.OpenVerificationMenu();
 
             }
             else
             {
 
-                FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = "Registartion completed";
-                Debug.Log(Result);
-                string[] Data = Result.Split("b"[0]);
-                SaveData(Data);
-
-                Launcher.instance.OpenVerificationMenu();
+                //Check what the issue is from the backend
+                if (Result == "Error") FormValidation.instance.message.text = "Email is already in use";
+                //FormValidation.instance.message.text = "Username/Password is incorrect";
+                //Debug.Log("Username/Password is incorrect");
             }
         }
     }
@@ -124,8 +127,7 @@ public class Authentication : MonoBehaviour
 
     public void Logout()
     {
-        PlayFabClientAPI.ForgetAllCredentials();
-        MenuManager.instance.OpenMenu("main");
+        Launcher.instance.OpenMainMenu();
     }
 
 
@@ -133,9 +135,12 @@ public class Authentication : MonoBehaviour
     {
         VerificationManager.instance.username = Data[1];
         VerificationManager.instance.email = Data[2];
-        VerificationManager.instance.token = Data[3];
-        VerificationManager.instance.verified = int.Parse(Data[4]);
-        VerificationManager.instance.expiredate = Data[5];
+    }
+
+    public void ResetData()
+    {
+        VerificationManager.instance.username = string.Empty;
+        VerificationManager.instance.email = string.Empty;
     }
 
 }

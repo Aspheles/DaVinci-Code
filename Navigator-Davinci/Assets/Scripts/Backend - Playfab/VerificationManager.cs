@@ -10,18 +10,12 @@ public class VerificationManager : MonoBehaviour
     public static VerificationManager instance;
     public string email;
     public string username;
-    public string token;
-    public int verified;
-    public string expiredate;
+    //public string token;
+    //public int verified;
+    //public string expiredate;
 
-    public byte[] results;
-    
-    public string testData;
-    public string[] Data;
-    
 
    
-
     private void Start()
     {
         instance = this;
@@ -35,43 +29,7 @@ public class VerificationManager : MonoBehaviour
         }
     }
 
-    public IEnumerator GetToken(string email)
-    {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("email", email)
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verification.php", formData);
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.data);
-            results = www.downloadHandler.data;
-
-         
-            testData = System.Text.Encoding.Default.GetString(results);
-            Data = testData.Split("b" [0]);
-            
-            if(int.Parse(Data[2]) == 1)
-            {
-                Debug.Log("Account is activated");
-                MenuManager.instance.OpenMenu("loggedin");
-            }
-            else
-            {
-                MenuManager.instance.OpenMenu("verification");
-            }
-        }
-    }
-
+    
     public void RequestNewCode()
     {
         StartCoroutine(ResendCode(Verification.instance.emailInput.text));
@@ -101,12 +59,7 @@ public class VerificationManager : MonoBehaviour
         else
         {
             Debug.Log(www.downloadHandler.data);
-            results = www.downloadHandler.data;
-
-
-            testData = System.Text.Encoding.Default.GetString(results);
-            Data = testData.Split("b"[0]);
-            Authentication.instance.SaveData(Data);
+            
             //MenuManager.instance.OpenMenu("verification");
         }
     }
@@ -115,10 +68,11 @@ public class VerificationManager : MonoBehaviour
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
         {
-            new MultipartFormDataSection("email", email)
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("code", Verification.instance.codeInput.text)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verifyaccount.php", formData);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verification.php", formData);
 
         yield return www.SendWebRequest();
 
@@ -129,8 +83,19 @@ public class VerificationManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Account has been activated");
-            MenuManager.instance.OpenMenu("loggedin");
+            Debug.Log(www.downloadHandler.text);
+
+            if (www.downloadHandler.text.Contains("Success"))
+            {
+                Verification.instance.message.color = Color.green;
+                Verification.instance.message.text = "Account activated";
+                Launcher.instance.OpenLoggedInMenu();
+            }
+            else
+            {
+                Verification.instance.message.color = Color.red;
+                Verification.instance.message.text = www.downloadHandler.text;
+            }
             
         }
     }
