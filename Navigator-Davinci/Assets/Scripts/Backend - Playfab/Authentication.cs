@@ -38,31 +38,33 @@ public class Authentication : MonoBehaviour
             Debug.Log(www.downloadHandler.data);
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
-            
+
+            Debug.Log(Result);
 
             if(Result.IndexOf("Success") <= 0)
             {
+                FormValidation.instance.message.color = Color.red;
+                FormValidation.instance.message.text = Result;
+                Debug.Log("Username/Password is incorrect");
+
+            }
+            else
+            {
                 FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = "Logged in";
+                FormValidation.instance.message.text = Result;
 
                 string[] Data = Result.Split("b"[0]);
                 SaveData(Data);
 
-                if (int.Parse(Data[4]) == 0)
+                if (VerificationManager.instance.verified == 0)
                 {
                     Launcher.instance.OpenVerificationMenu();
                 }
                 else
                 {
-                   
+
                     Launcher.instance.OpenLoggedInMenu();
                 }
-                    
-            }
-            else
-            {
-                FormValidation.instance.message.text = Result;
-                Debug.Log("Username/Password is incorrect");
             }
         }
 
@@ -98,21 +100,22 @@ public class Authentication : MonoBehaviour
 
             if (Result.IndexOf("Success") <= 0)
             {
+                //Check what the issue is from the backend
+                if (Result == "Error") FormValidation.instance.message.text = "Email is already in use";
+                //FormValidation.instance.message.text = "Username/Password is incorrect";
+                //Debug.Log("Username/Password is incorrect");
+
+            }
+            else
+            {
+
                 FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = "Logged in";
+                FormValidation.instance.message.text = "Registartion completed";
                 Debug.Log(Result);
                 string[] Data = Result.Split("b"[0]);
                 SaveData(Data);
 
                 Launcher.instance.OpenVerificationMenu();
-
-            }
-            else
-            {
-                //Check what the issue is from the backend
-                if(Result == "Error") FormValidation.instance.message.text = "Email is already in use";
-                //FormValidation.instance.message.text = "Username/Password is incorrect";
-                //Debug.Log("Username/Password is incorrect");
             }
         }
     }

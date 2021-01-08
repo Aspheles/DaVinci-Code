@@ -91,7 +91,7 @@ public class FormValidation : MonoBehaviour
 
     public void ClearData()
     {
-        username.text = string.Empty;
+        //username.text = string.Empty;
         password.text = string.Empty;
         email.text = string.Empty;
         message.text = string.Empty;
@@ -106,6 +106,7 @@ public class FormValidation : MonoBehaviour
         {
             StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
             ClearData();
+            username.text = string.Empty;
         }
        
        
