@@ -23,7 +23,7 @@ public class Authentication : MonoBehaviour
             new MultipartFormDataSection("password", password)         
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/login.php", form);
 
         yield return www.SendWebRequest();
 
@@ -80,7 +80,7 @@ public class Authentication : MonoBehaviour
             new MultipartFormDataSection("classcode", classCode)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/register.php", form);
 
         yield return www.SendWebRequest();
 
@@ -100,19 +100,11 @@ public class Authentication : MonoBehaviour
             {
                 FormValidation.instance.message.color = Color.green;
                 FormValidation.instance.message.text = "Logged in";
-
+                Debug.Log(Result);
                 string[] Data = Result.Split("b"[0]);
                 SaveData(Data);
 
-                if (int.Parse(Data[3]) == 0)
-                {
-                   
-                    Launcher.instance.OpenVerificationMenu();
-                }
-                else
-                {
-                    Launcher.instance.OpenLoggedInMenu();
-                }
+                Launcher.instance.OpenVerificationMenu();
 
             }
             else

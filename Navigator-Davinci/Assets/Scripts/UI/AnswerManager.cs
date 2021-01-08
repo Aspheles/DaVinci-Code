@@ -26,6 +26,7 @@ public class AnswerManager : MonoBehaviour
 
     public void DeleteAnswerOption()
     {
+        QuestionCreator.instance.RemoveAnswer(answerField.text);
         Destroy(this.gameObject);
     }
 }

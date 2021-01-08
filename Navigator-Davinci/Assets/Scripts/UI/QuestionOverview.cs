@@ -32,6 +32,9 @@ public class QuestionOverview : MonoBehaviour
             new Answer("Ik weiger", true)
         };
 
+        List<Answer> newAnswers = new List<Answer>();
+        
+
         Questions = new List<Question>
         {
             new Question("wat denk jij vandaag?", Answers),
@@ -42,7 +45,7 @@ public class QuestionOverview : MonoBehaviour
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", Answers)
+            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", newAnswers)
         };
 
         int QuestionCount = 1;
@@ -59,5 +62,11 @@ public class QuestionOverview : MonoBehaviour
 
 
 
+    }
+
+    public void CreateNewQuestion()
+    {
+        QuestionSession.instance.question = null;
+        Launcher.instance.OpenPuzzleQuestionCreatorMenu();
     }
 }

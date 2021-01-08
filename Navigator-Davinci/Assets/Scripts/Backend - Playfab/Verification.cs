@@ -19,7 +19,8 @@ public class Verification : MonoBehaviour
     }
     public void Verify()
     {
-        
+        Debug.Log(DateTime.Now);
+
         if (VerificationManager.instance.verified == 0) // Checking if account isn't verified yet
         {
             if (codeInput.text == VerificationManager.instance.token && DateTime.Now <= DateTime.Parse(VerificationManager.instance.expiredate))

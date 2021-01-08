@@ -6,6 +6,7 @@ public class QuestionSession : MonoBehaviour
 {
 
     public Question question;
+    public List<Question> allQuestions;
     public static QuestionSession instance;
 
 

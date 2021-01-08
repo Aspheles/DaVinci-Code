@@ -18,7 +18,7 @@ public class QuestionManager : MonoBehaviour
     public void EditQuestion()
     {
         Question Question = QuestionOverview.instance.Questions.Find((x) => x.question == questionTitle.text);
-        Debug.Log(Question.question);
+        //Debug.Log(Question.question);
         if(Question != null)
         {
             QuestionSession.instance.question = Question;
@@ -29,6 +29,7 @@ public class QuestionManager : MonoBehaviour
 
     public void DeleteQuestion()
     {
+        QuestionCreator.instance.RemoveAnswer(questionTitle.text);
         Destroy(this.gameObject);
     }
 }

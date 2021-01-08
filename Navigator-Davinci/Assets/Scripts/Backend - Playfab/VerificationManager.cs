@@ -42,7 +42,7 @@ public class VerificationManager : MonoBehaviour
             new MultipartFormDataSection("email", email)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/verification.php", formData);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verification.php", formData);
 
         yield return www.SendWebRequest();
 
@@ -89,7 +89,7 @@ public class VerificationManager : MonoBehaviour
             new MultipartFormDataSection("email", email)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/resendcode.php", formData);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/resendcode.php", formData);
 
         yield return www.SendWebRequest();
 
@@ -106,7 +106,7 @@ public class VerificationManager : MonoBehaviour
 
             testData = System.Text.Encoding.Default.GetString(results);
             Data = testData.Split("b"[0]);
-
+            Authentication.instance.SaveData(Data);
             //MenuManager.instance.OpenMenu("verification");
         }
     }
@@ -118,7 +118,7 @@ public class VerificationManager : MonoBehaviour
             new MultipartFormDataSection("email", email)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/verifyaccount.php", formData);
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verifyaccount.php", formData);
 
         yield return www.SendWebRequest();
 
