@@ -39,16 +39,22 @@ public class QuestionCreator : MonoBehaviour
         
         
 
-        if (QuestionSession.instance.question != null)
+        if (QuestionSession.instance.question != null && !loaded)
         {
             
             GameObject.Find("title").GetComponent<Text>().text = "Edit your question";
             questionInput.text = QuestionSession.instance.question.question;
             LoadAnswers(QuestionSession.instance.question.answer);
+            loaded = true;
             //QuestionSession.instance.question = null;
 
         }
-        else if(QuestionSession.instance.question == null)
+        
+        if(GameObject.FindGameObjectsWithTag("answer").Length > 0)
+        {
+            MoveAnswerRect();
+        }
+        else
         {
             ResetAnswerRect();
         }
@@ -94,8 +100,10 @@ public class QuestionCreator : MonoBehaviour
           }
         }*/
 
-        Answer item = QuestionSession.instance.question.answer.Find((x) => x.answer == answer);
-        if (item != null) QuestionSession.instance.question.answer.Remove(item);
+        //Answer item = QuestionSession.instance.question.answer.Find((x) => x.answer == answer);
+        //if (item != null) QuestionSession.instance.question.answer.Remove(item);
+
+        //Destroy(this.gameObject);
     }
 
     public void CreateAnswerOptions()
@@ -141,6 +149,8 @@ public class QuestionCreator : MonoBehaviour
         {
             answers.Add(new Answer(item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
         }
+        loaded = false;
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
         /*
         if(answers.Count > 0)
@@ -159,6 +169,12 @@ public class QuestionCreator : MonoBehaviour
         */
         
         //questiontest.Add(new Question(question.text, ))
+    }
+
+    public void CancelChanges()
+    {
+        loaded = false;
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
     IEnumerator CreatePuzzle()

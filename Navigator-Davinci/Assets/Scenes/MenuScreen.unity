@@ -386,6 +386,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1175646366 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 690905971971015360, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5409060210645539719}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ed5d104c216244cb6e146886ac1ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1640166073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -620,10 +632,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 690905971848045959, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 690905971971015365, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 690905973188206772, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1175646366}
+    - target: {fileID: 690905973188206772, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CancelChanges
       objectReference: {fileID: 0}
     - target: {fileID: 690905973323877513, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
@@ -673,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 5409060208988902194, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
       propertyPath: open
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5409060208988902196, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
@@ -878,6 +905,11 @@ PrefabInstance:
     - target: {fileID: 6600992795465348042, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6600992795465348047, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+        type: 3}
+      propertyPath: open
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6600992795524269914, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
