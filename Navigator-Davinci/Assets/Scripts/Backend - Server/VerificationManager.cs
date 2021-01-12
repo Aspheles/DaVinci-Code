@@ -10,6 +10,7 @@ public class VerificationManager : MonoBehaviour
     public static VerificationManager instance;
     public string email;
     public string username;
+    public bool isadmin = false;
     //public string token;
     //public int verified;
     //public string expiredate;
@@ -26,7 +27,12 @@ public class VerificationManager : MonoBehaviour
         if(GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
         {
             GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
+
         }
+
+        if(GameObject.Find("Admin") == isActiveAndEnabled)
+        GameObject.Find("Admin").SetActive(VerificationManager.instance.isadmin);
+
     }
 
     

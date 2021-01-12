@@ -135,12 +135,17 @@ public class Authentication : MonoBehaviour
     {
         VerificationManager.instance.username = Data[1];
         VerificationManager.instance.email = Data[2];
+        if(int.Parse(Data[4]) == 0)
+            VerificationManager.instance.isadmin = false;
+        else
+        VerificationManager.instance.isadmin = true; 
     }
 
     public void ResetData()
     {
         VerificationManager.instance.username = string.Empty;
         VerificationManager.instance.email = string.Empty;
+        VerificationManager.instance.isadmin = false;
     }
 
 }
