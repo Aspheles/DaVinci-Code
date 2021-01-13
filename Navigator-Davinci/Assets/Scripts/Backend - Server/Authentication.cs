@@ -15,6 +15,18 @@ public class Authentication : MonoBehaviour
     {
         instance = this;
     }
+
+    /// <summary>
+    /// Sends a login request to the backend, with the credentials.
+    /// Checks if the a connection with the server is established.
+    /// Checks if the user is verified, if so user will be logged in, if not user can verify himself.
+    /// If requests fails error will be displayed on the UI
+    /// </summary>
+    /// <param name="email">Inputfield for the mail</param>
+    /// <param name="password">Inputfield for the password</param>
+    /// <returns>
+    /// Sends back the status code for the request.
+    /// </returns>
     public IEnumerator Login(string email, string password)
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
@@ -72,6 +84,20 @@ public class Authentication : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// Sends a register request to the backend, with the credentials.
+    /// Checks if the a connection with the server is established.
+    /// Checks if the user is verified, if so user will be registered, if not user can verify himself.
+    /// If requests fails error will be displayed on the UI
+    /// </summary>
+    /// <param name="email">Inputfield for the mail</param>
+    /// <param name="password">Inputfield for the password</param>
+    /// <param name="username">Inputfield for the username</param>
+    /// <param name="classCode">Inputfield for the class</param>
+    /// <returns>
+    /// Sends back the status code for the request.
+    /// </returns>
     public IEnumerator Register(string username, string email, string password, string classCode)
     {
 
@@ -124,13 +150,18 @@ public class Authentication : MonoBehaviour
     }
 
     
-
+    /// <summary>
+    /// Logged out the user
+    /// </summary>
     public void Logout()
     {
         Launcher.instance.OpenMainMenu();
     }
 
-
+    /// <summary>
+    /// Sends data to the Verification class.
+    /// </summary>
+    /// <param name="Data"></param>
     public void SaveData(string[] Data)
     {
         VerificationManager.instance.username = Data[1];
@@ -141,6 +172,9 @@ public class Authentication : MonoBehaviour
         VerificationManager.instance.isadmin = true; 
     }
 
+    /// <summary>
+    /// Empties the verification in the manager from a certain user.
+    /// </summary>
     public void ResetData()
     {
         VerificationManager.instance.username = string.Empty;

@@ -41,6 +41,10 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
+
     public void UsernameValidator()
     {
         if(username.text.Length < 5)
@@ -57,6 +61,9 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
     public void EmailValidator()
     {
         if(email.text.IndexOf("@mydavinci.nl") <= 0)
@@ -73,6 +80,9 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
     public void PasswordValidator()
     {
         if (password.text.Length < 6)
@@ -89,6 +99,9 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clears all the input fields.
+    /// </summary>
     public void ClearData()
     {
         //username.text = string.Empty;
@@ -100,6 +113,11 @@ public class FormValidation : MonoBehaviour
         emailCheck = false;
     }
 
+    /// <summary>
+    /// Registers a user when the button is clicked.
+    /// Checks if the validation is correct, if so.
+    /// Executes the registration function.
+    /// </summary>
     public void OnRegisterButtonClicked()
     {
         if (usernameCheck && passwordCheck && emailCheck)
@@ -111,7 +129,13 @@ public class FormValidation : MonoBehaviour
        
        
     }
-   
+
+
+    /// <summary>
+    /// Logs in a user when the button is clicked.
+    /// Checks if the imput is correct, if so-
+    /// login function will be executed.
+    /// </summary>
     public void OnLoginButtonClicked()
     {
         if (email.text.Length <= 0 && password.text.Length <= 0)

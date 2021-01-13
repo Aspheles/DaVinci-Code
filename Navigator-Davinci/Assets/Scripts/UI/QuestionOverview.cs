@@ -19,6 +19,10 @@ public class QuestionOverview : MonoBehaviour
         instance = this;
         LoadQuestions();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public void LoadQuestions()
     {
         
@@ -63,7 +67,9 @@ public class QuestionOverview : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Add new question.
+    /// </summary>
     public void CreateNewQuestion()
     {
         QuestionSession.instance.question = null;

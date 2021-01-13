@@ -38,7 +38,7 @@ public class QuestionCreator : MonoBehaviour
     {
         
         
-
+        // Checks if question is being edited so the values can be updated
         if (QuestionSession.instance.question != null && !loaded)
         {
             
@@ -61,6 +61,9 @@ public class QuestionCreator : MonoBehaviour
       
     }
 
+    /// <summary>
+    /// Removing old answers if there are any, afterwards loads in answers from current question.
+    /// </summary>
     public void LoadAnswers(List<Answer> answers)
     {
 
@@ -72,6 +75,7 @@ public class QuestionCreator : MonoBehaviour
         if(answers.Count > 0)
         {
             MoveAnswerRect();
+
             foreach (Answer answer in answers)
             {
                 GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
@@ -88,6 +92,10 @@ public class QuestionCreator : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Removes a answer from a question.
+    /// </summary>
+    /// <param name="answer"></param>
     public void RemoveAnswer(string answer)
     {
         /*
@@ -106,6 +114,9 @@ public class QuestionCreator : MonoBehaviour
         //Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// Creates new answer.
+    /// </summary>
     public void CreateAnswerOptions()
     {
 
@@ -116,6 +127,9 @@ public class QuestionCreator : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Moves containers to their own position, sets the answers container to active.
+    /// </summary>
     void MoveAnswerRect()
     {
         answersScrollView.SetActive(true);
@@ -127,6 +141,10 @@ public class QuestionCreator : MonoBehaviour
         closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(390, 200, 0);
     }
 
+
+    /// <summary>
+    /// Sets the answers container to false.
+    /// </summary>
     void ResetAnswerRect()
     {
         answersScrollView.SetActive(false);
@@ -138,6 +156,9 @@ public class QuestionCreator : MonoBehaviour
         closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 200, 0);
     }
 
+    /// <summary>
+    /// Edits or creates new questions with answers, and saves question to database.
+    /// </summary>
     public void FinishQuestions()
     {
         question = new List<Question>();
@@ -171,15 +192,23 @@ public class QuestionCreator : MonoBehaviour
         //questiontest.Add(new Question(question.text, ))
     }
 
+    /// <summary>
+    /// Cancels the question creation and returns to the overwiew.
+    /// </summary>
+
     public void CancelChanges()
     {
         loaded = false;
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
+    /// <summary>
+    /// Sends puzzle info to the backend.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CreatePuzzle()
     {
-        //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
+        //Creates a list for the data so it can be sent to the PHP file can get it through $_POST
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("puzzlename", puzzleNameInput.text),
@@ -195,6 +224,18 @@ public class QuestionCreator : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Creates a list for the data so it can be sent to the database, with the given values.
+    /// </summary>
+    /// <param name="answerTitle">
+    /// This is the answer title.
+    /// </param>
+    /// <param name="answerValue">
+    /// This is the answer value.
+    /// </param>
+    /// <returns>
+    /// Sends back the status code for the request.
+    /// </returns>
     IEnumerator CreateQuestion(string answerTitle, bool answerValue)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>

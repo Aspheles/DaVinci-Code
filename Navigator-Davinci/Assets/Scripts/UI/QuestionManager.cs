@@ -15,6 +15,11 @@ public class QuestionManager : MonoBehaviour
         instance = this;
     }
 
+    /// <summary>
+    /// Finds the question in the question overview and sets questionTitle to its text.
+    /// If the value is not null, sends the data to the question session with the given values.
+    /// Launcher will open the next page.
+    /// </summary>
     public void EditQuestion()
     {
         Question Question = QuestionOverview.instance.Questions.Find((x) => x.question == questionTitle.text);
@@ -27,9 +32,13 @@ public class QuestionManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Question will be deleted.
+    /// </summary>
     public void DeleteQuestion()
     {
-        QuestionCreator.instance.RemoveAnswer(questionTitle.text);
+        //QuestionCreator.instance.RemoveAnswer(questionTitle.text);
+        //print(instance);
         Destroy(this.gameObject);
     }
 }

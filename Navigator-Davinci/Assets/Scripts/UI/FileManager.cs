@@ -72,28 +72,10 @@ public class FileManager : MonoBehaviour
 
     }
 
-    public void WriteResult(string[] paths)
-    {
-        if (paths.Length == 0)
-        {
-            return;
-        }
 
-        _path = "";
-        foreach (var p in paths)
-        {
-            _path += p + "\n";
-        }
-        UpdateImage();
-    }
-
-    public void WriteResult(string path)
-    {
-        _path = path;
-        
-    }
-
-
+    /// <summary>
+    /// Gets the image in the path, and sets the gameobject texture to the image texture from the path.
+    /// </summary>
     public void UpdateImage()
     {
         WWW www = new WWW(_path);
@@ -103,12 +85,19 @@ public class FileManager : MonoBehaviour
         zoomBtn.SetActive(true);
     }
 
+    /// <summary>
+    /// Activates the Large Image game object.
+    /// </summary>
+
     public void EnlargeImage()
     {
         largeImage.SetActive(true);
         cover.SetActive(true);
     }
 
+    /// <summary>
+    /// Deactivates the Large Image game object.
+    /// </summary>
     public void CloseLargeImage()
     {
         largeImage.SetActive(false);
@@ -116,7 +105,10 @@ public class FileManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Opens the file explorer to choose your image.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ShowLoadDialogCoroutine()
     {
         // Show a load file dialog and wait for a response from user

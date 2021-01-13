@@ -22,6 +22,7 @@ public class VerificationManager : MonoBehaviour
         instance = this;
     }
 
+
     private void Update()
     {
         if(GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
@@ -35,17 +36,28 @@ public class VerificationManager : MonoBehaviour
 
     }
 
-    
+    /// <summary>
+    /// Creates new verification code for the user.
+    /// </summary>
     public void RequestNewCode()
     {
         StartCoroutine(ResendCode(Verification.instance.emailInput.text));
     }
 
+    /// <summary>
+    /// Verifies the user account.
+    /// </summary>
+    /// <param name="email"></param>
     public void VerifyAccount(string email)
     {
         StartCoroutine(Verify(email));
     }
 
+    /// <summary>
+    /// Executes the backend code to resend the verification code.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
     public IEnumerator ResendCode(string email)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
@@ -70,6 +82,15 @@ public class VerificationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the verification code is correct.
+    /// Sends verification request to the backed.
+    /// If the verification code is correct, user will be sent to the logged in page.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns>
+    /// Sends back the status code for the request.
+    /// </returns>
     public IEnumerator Verify(string email)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
