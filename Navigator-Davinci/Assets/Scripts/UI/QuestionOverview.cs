@@ -12,47 +12,36 @@ public class QuestionOverview : MonoBehaviour
     public GameObject QuestionInput;
     public List<Question> Questions;
     public static QuestionOverview instance;
-
+    public string[] idData;
+    public string[] QuestionData;
 
     public void Start()
     {
         instance = this;
-        LoadQuestions();
+        StartCoroutine(FetchQuestionsData());
+        //LoadQuestions();
+
+        //if(QuestionSession.instance.allQuestions.Count > 0)
     }
 
     /// <summary>
     /// 
     /// </summary>
-    public void LoadQuestions()
+    public void LoadQuestions(string[] questions)
     {
-        
-        List<Answer> Answers;
-        Answers = new List<Answer>
-        {
-            new Answer("name", false),
-            new Answer("yolo", true),
-            new Answer("ding", false),
-            new Answer("mah", false),
-            new Answer("Ik weiger", true)
-        };
 
-        List<Answer> newAnswers = new List<Answer>();
+        List<Answer> Answers = new List<Answer>();
+
+        Questions = new List<Question>();
+
+       
+
+       
         
 
-        Questions = new List<Question>
-        {
-            new Question("wat denk jij vandaag?", Answers),
-            new Question("hoe praat jij tegen mensen?", Answers),
-            new Question("Wat is het weer vandaag?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", newAnswers)
-        };
+       
 
-        int QuestionCount = 1;
+        
         foreach (Question question in Questions)
         {
 
@@ -61,7 +50,7 @@ public class QuestionOverview : MonoBehaviour
             //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
             QuestionClone.GetComponent<QuestionManager>().questionTitle.text = question.question;
 
-            QuestionCount++;
+            
         } 
 
 
@@ -74,5 +63,43 @@ public class QuestionOverview : MonoBehaviour
     {
         QuestionSession.instance.question = null;
         Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+    }
+
+
+    public IEnumerator FetchQuestionsData()
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            //QuestionSession.instance.puzzle.id.ToString()
+            new MultipartFormDataSection("puzzle_id", 19.ToString()),
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchquestions.php", form);
+
+        yield return www.SendWebRequest();
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+           
+            byte[] dbData = www.downloadHandler.data;
+            string Result = System.Text.Encoding.Default.GetString(dbData);
+            string[] Data = Result.Split("b"[0]);
+            string[] id = Result.Split("id:"[0]);
+            string[] title = Result.Split("title:"[0]);
+
+            idData = Data;
+
+            LoadQuestions(Data);
+
+
+            //Questions.Add(new Question())
+
+            
+        }
     }
 }

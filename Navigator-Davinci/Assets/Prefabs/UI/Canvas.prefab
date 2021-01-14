@@ -213,6 +213,31 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5409060210315005899}
+    - target: {fileID: 4836779547553182866, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836779547559998442, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 177.19684
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836779547559998442, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 35.757416
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836779547559998442, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.4016
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836779547559998442, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 118
+      objectReference: {fileID: 0}
     - target: {fileID: 4836779547657622309, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
         type: 3}
       propertyPath: m_Name
@@ -221,7 +246,7 @@ PrefabInstance:
     - target: {fileID: 4836779547657622309, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4836779547657622310, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
         type: 3}
@@ -328,18 +353,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4836779547657622311, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+        type: 3}
+      propertyPath: open
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4836779548329427749, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5409060210315005899}
+      objectReference: {fileID: 4439291057483740428}
     - target: {fileID: 4836779548329427749, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenPuzzleQuestionsOverviewMenu
+      value: OnNextClicked
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed703d519c2ab904dbc01bccbcd6a2ea, type: 3}
+--- !u!114 &4439291057483740428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3860958683404670675, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 580795873905697759}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee32110088cfff48be9fb2ca16d936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5409060210711507192 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4836779547657622311, guid: ed703d519c2ab904dbc01bccbcd6a2ea,
@@ -958,12 +1000,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55ca485c92da2064e8f378733f4ba87f, type: 3}
---- !u!224 &5409060209358820893 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7346154248826861713, guid: 55ca485c92da2064e8f378733f4ba87f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3378297598112001676}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5409060209358820890 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7346154248826861718, guid: 55ca485c92da2064e8f378733f4ba87f,
@@ -976,6 +1012,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20143fad767a75e44a0cd9acfc3812d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5409060209358820893 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7346154248826861713, guid: 55ca485c92da2064e8f378733f4ba87f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3378297598112001676}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3476555800418471790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1133,7 +1175,7 @@ PrefabInstance:
     - target: {fileID: 4793590081682894665, guid: b0c2a1500a57540479e004e2b64c5b7f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4793590081682894669, guid: b0c2a1500a57540479e004e2b64c5b7f,
         type: 3}
@@ -1258,7 +1300,7 @@ PrefabInstance:
     - target: {fileID: 4793590081795311627, guid: b0c2a1500a57540479e004e2b64c5b7f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4793590082048645066, guid: b0c2a1500a57540479e004e2b64c5b7f,
         type: 3}
@@ -1285,7 +1327,8 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenPuzzleQuestionsOverviewMenu
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4793590082048645069, guid: b0c2a1500a57540479e004e2b64c5b7f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b0c2a1500a57540479e004e2b64c5b7f, type: 3}
 --- !u!224 &690905971971015364 stripped
 RectTransform:

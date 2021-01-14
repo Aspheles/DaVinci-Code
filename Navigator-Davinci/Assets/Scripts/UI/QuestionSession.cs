@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestionSession : MonoBehaviour
 {
-
+    public Puzzle puzzle;
     public Question question;
     public List<Question> allQuestions;
     public static QuestionSession instance;

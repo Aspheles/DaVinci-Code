@@ -67,13 +67,13 @@ public class QuestionCreator : MonoBehaviour
     public void LoadAnswers(List<Answer> answers)
     {
 
-        foreach (Transform child in answerOptionsPos)
+        if(answers != null && answers.Count > 0)
         {
-            Destroy(child.gameObject);
-        }
+            foreach (Transform child in answerOptionsPos)
+            {
+                Destroy(child.gameObject);
+            }
 
-        if(answers.Count > 0)
-        {
             MoveAnswerRect();
 
             foreach (Answer answer in answers)
@@ -168,26 +168,17 @@ public class QuestionCreator : MonoBehaviour
 
         for (int i = 0; i < item.Length; i++)
         {
-            answers.Add(new Answer(item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
+            //QuestionSession.instance.allQuestions.Add(new Question() ,new Answer(i,item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
         }
+
+
+
         loaded = false;
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
-        /*
-        if(answers.Count > 0)
-        {
-            question.Add(new Question(questionInput.text, answers));
-            StartCoroutine(CreatePuzzle());
-            foreach(Question q in question)
-            {
-                for(int i = 0; i< q.answer.Count; i++)
-                {
-                    StartCoroutine(CreateQuestion(q.answer[i].answer, q.answer[i].isCorrect));
-                }
-                
-            }
-        }
-        */
+        
+       
+        
         
         //questiontest.Add(new Question(question.text, ))
     }
@@ -202,27 +193,7 @@ public class QuestionCreator : MonoBehaviour
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
-    /// <summary>
-    /// Sends puzzle info to the backend.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator CreatePuzzle()
-    {
-        //Creates a list for the data so it can be sent to the PHP file can get it through $_POST
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("puzzlename", puzzleNameInput.text),
-            new MultipartFormDataSection("puzzledifficulty", puzzleDifficultyInput.options[puzzleDifficultyInput.value].text),
-           
-        };
-        //formData.Add(new MultipartFormFileSection(email, "my file data"));
-
-        //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
-
-        yield return www.SendWebRequest();
-
-    }
+    
 
     /// <summary>
     /// Creates a list for the data so it can be sent to the database, with the given values.
@@ -236,14 +207,16 @@ public class QuestionCreator : MonoBehaviour
     /// <returns>
     /// Sends back the status code for the request.
     /// </returns>
-    IEnumerator CreateQuestion(string answerTitle, bool answerValue)
+    IEnumerator CreateAnswers(string answerTitle, bool answerValue)
     {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>
         {
             //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
 
-            new MultipartFormDataSection("answertitle", answerTitle),
-            new MultipartFormDataSection("answervalue", answerValue.ToString())
+            new MultipartFormDataSection("title", answerTitle),
+            new MultipartFormDataSection("value", answerValue.ToString()), 
+            
+
         };
 
 
