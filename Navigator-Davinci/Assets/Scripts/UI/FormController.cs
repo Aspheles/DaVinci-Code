@@ -39,3 +39,19 @@ public class Answer
     }
 
 }
+
+public class Puzzle
+{
+    public int id;
+    public string name;
+    public List<Question> questions;
+    public string difficulty;
+
+    public Puzzle(int id, string name, List<Question> questions, string difficulty)
+    {
+        this.id = id;
+        this.name = name;
+        this.questions = questions;
+        this.difficulty = difficulty;
+    }
+}
