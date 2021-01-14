@@ -67,6 +67,11 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("verification");
     }
 
+    public void OpenAdminPuzzleOverviewMenu()
+    {
+        MenuManager.instance.OpenMenu("adminpuzzleoverview");
+    }
+
     public void CheckValues()
     {
         Debug.Log("Value changed");
