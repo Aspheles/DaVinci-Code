@@ -29,6 +29,11 @@ public class QuestionManager : MonoBehaviour
             QuestionSession.instance.question = Question;
             Launcher.instance.OpenPuzzleQuestionCreatorMenu();
         }
+        else
+        {
+            Debug.Log("No answers in this question found");
+            Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+        }
         
     }
 

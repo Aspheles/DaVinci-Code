@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using SimpleJSON;
 
 
 public class QuestionOverview : MonoBehaviour
@@ -27,7 +28,7 @@ public class QuestionOverview : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void LoadQuestions(string[] questions)
+    public void LoadQuestions(List<Question> questions)
     {
 
         List<Answer> Answers = new List<Answer>();
@@ -37,12 +38,7 @@ public class QuestionOverview : MonoBehaviour
        
 
        
-        
-
-       
-
-        
-        foreach (Question question in Questions)
+        foreach (Question question in questions)
         {
 
             GameObject QuestionClone = Instantiate(QuestionInput, QuestionPositions.position, Quaternion.identity);
@@ -88,14 +84,28 @@ public class QuestionOverview : MonoBehaviour
            
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
-            string[] Data = Result.Split("b"[0]);
-            string[] id = Result.Split("id:"[0]);
-            string[] title = Result.Split("title:"[0]);
+            
+            JSONArray jsonData = JSON.Parse(Result) as JSONArray;
 
-            idData = Data;
+            for (int i = 0; i < jsonData.Count; i++)
+            {
+                //Local variables
+                bool isDone;
+                string questionId = jsonData[i].AsObject["id"];
+                string questionTitle = jsonData[i].AsObject["title"];
+                string questionDescription = jsonData[i].AsObject["description"];
+                string questionImage = jsonData[i].AsObject["image"];
 
-            LoadQuestions(Data);
+                Question a = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null);
+                Questions.Add(a);
 
+            }
+
+            if(Questions.Count > 0)
+            {
+                LoadQuestions(Questions);
+            }
+           
 
             //Questions.Add(new Question())
 

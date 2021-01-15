@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PlayFab.ClientModels;
-using PlayFab;
 using UnityEngine.Networking;
-using System;
+using SimpleJSON;
 
 public class Authentication : MonoBehaviour
 {
@@ -46,30 +44,29 @@ public class Authentication : MonoBehaviour
         }
         else
         {
-            Debug.Log(www.downloadHandler.text);
-            Debug.Log(www.downloadHandler.data);
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
 
-       
-            if(Result.Contains("Success"))
+            if (!Result.Contains("Error"))
             {
+               
                 
 
-                string[] Data = Result.Split("b"[0]);
-                SaveData(Data);
+                JSONArray jsonData = JSON.Parse(Result) as JSONArray;
 
-                //Checking if account isn't verified
-                if (int.Parse(Data[3]) == 0)
+                for (int i = 0; i < jsonData.Count; i++)
                 {
-                    Launcher.instance.OpenVerificationMenu();
-                }
-                else
-                {
-
-                    Launcher.instance.OpenLoggedInMenu();
+                    //Debug.Log(jsonData[i].AsObject["id"]);
+                    //SaveData(jsonData[i]);
+                    UserInfo.instance.GetData(jsonData[i]);
                 }
 
+                //Debug.Log(jsonData.AsObject["username"]);
+                //SaveData(jsonData);
+
+               
+              
+                
             }
             else
             {
@@ -77,8 +74,12 @@ public class Authentication : MonoBehaviour
                 FormValidation.instance.message.text = Result;
                 Debug.Log("Username/Password is incorrect");
 
-                
+
             }
+
+
+
+
         }
 
 
@@ -131,9 +132,9 @@ public class Authentication : MonoBehaviour
 
                 FormValidation.instance.message.color = Color.green;
                 FormValidation.instance.message.text = "Account has been created";
-               
-                string[] Data = Result.Split("b"[0]);
-                SaveData(Data);
+
+                JSONArray jsonData = JSON.Parse(Result) as JSONArray;
+                SaveData(jsonData);
 
                 Launcher.instance.OpenVerificationMenu();
 
@@ -162,14 +163,18 @@ public class Authentication : MonoBehaviour
     /// Sends data to the Verification class.
     /// </summary>
     /// <param name="Data"></param>
-    public void SaveData(string[] Data)
+    public void SaveData(JSONNode Data)
     {
-        VerificationManager.instance.username = Data[1];
-        VerificationManager.instance.email = Data[2];
-        if(int.Parse(Data[4]) == 0)
+        Debug.Log(Data);
+        VerificationManager.instance.id = Data.AsObject["id"];
+        VerificationManager.instance.username = Data.AsObject["username"];
+        VerificationManager.instance.email = Data.AsObject["email"];
+        VerificationManager.instance.class_code = Data.AsObject["class"];
+        if (int.Parse(Data.AsObject["isadmin"]) == 0)
             VerificationManager.instance.isadmin = false;
         else
-        VerificationManager.instance.isadmin = true; 
+            VerificationManager.instance.isadmin = true;
+
     }
 
     /// <summary>
@@ -177,9 +182,11 @@ public class Authentication : MonoBehaviour
     /// </summary>
     public void ResetData()
     {
+        VerificationManager.instance.id = string.Empty;
         VerificationManager.instance.username = string.Empty;
         VerificationManager.instance.email = string.Empty;
         VerificationManager.instance.isadmin = false;
+        VerificationManager.instance.class_code = string.Empty;
     }
 
 }

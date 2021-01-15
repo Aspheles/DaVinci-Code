@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class VerificationManager : MonoBehaviour
 {
     public static VerificationManager instance;
+    public string id;
     public string email;
     public string username;
+    public string class_code;
     public bool isadmin = false;
-    //public string token;
-    //public int verified;
-    //public string expiredate;
+
 
 
    
