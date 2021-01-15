@@ -8,6 +8,9 @@ public class PuzzleData : MonoBehaviour
 
     public TextMeshProUGUI name;
     List<Question> questions;
+    public string difficulty;
+    public string creator;
+    public string description;
 
     public void Edit()
     {
@@ -17,5 +20,11 @@ public class PuzzleData : MonoBehaviour
     public void Delete()
     {
 
+    }
+
+
+    public void OnInfoButtonClicked()
+    {
+        PuzzleOverview.instance.OpenInfo(this);
     }
 }
