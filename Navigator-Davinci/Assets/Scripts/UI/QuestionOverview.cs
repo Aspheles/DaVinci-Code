@@ -49,7 +49,11 @@ public class QuestionOverview : MonoBehaviour
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
             new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", newAnswers)
+            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", newAnswers),
+            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
+            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
+            new Question("willen wij meer of minder vakantie hebben in Nederland? Ik ben namelijk van mening dat het veel en veel meer moet zijn", Answers),
+            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", Answers)
         };
 
         int QuestionCount = 1;
