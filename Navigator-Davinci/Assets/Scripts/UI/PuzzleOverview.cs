@@ -38,9 +38,10 @@ public class PuzzleOverview : MonoBehaviour
         print("open");
     }
 
-    public void Delete()
+    public void Delete(GameObject puzzle)
     {
-        print("delete");
+        //puzzles.Remove();
+        Destroy(puzzle);
     }
 
     public void OpenInfo(PuzzleData puzzleinfo)
@@ -48,10 +49,10 @@ public class PuzzleOverview : MonoBehaviour
         if(cover.activeSelf != true)
         {
             cover.SetActive(true);
-            cover.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
-            cover.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
-            cover.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
-            cover.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
+            cover.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
+            cover.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
+            cover.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
+            cover.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
         }
         else if(cover.activeSelf != false)
         {
