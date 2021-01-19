@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using SimpleJSON;
 
 public class UserInfo : MonoBehaviour
@@ -9,6 +10,7 @@ public class UserInfo : MonoBehaviour
     public string email;
     public string username;
     public string class_code;
+    public bool isverified = false;
     public bool isadmin = false;
     public static UserInfo instance;
 
@@ -17,12 +19,30 @@ public class UserInfo : MonoBehaviour
         instance = this;
     }
 
-    public void GetData(JSONNode Data)
+    private void Update()
+    {
+        if (GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
+        {
+            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
+
+        }
+
+        if (GameObject.Find("Admin") == isActiveAndEnabled)
+            GameObject.Find("Admin").SetActive(isadmin);
+    }
+
+    public void AssignUserData(JSONNode Data)
     {
         id = Data.AsObject["id"];
         username = Data.AsObject["username"];
         email = Data.AsObject["email"];
         class_code = Data.AsObject["class"];
+
+        if (int.Parse(Data.AsObject["verified"]) == 0)
+            isverified = false;
+        else
+            isverified = true;
+
         if (int.Parse(Data.AsObject["isadmin"]) == 0)
             isadmin = false;
         else

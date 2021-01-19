@@ -16,7 +16,7 @@ public class Verification : MonoBehaviour
     {
         instance = this;
 
-        if (VerificationManager.instance.email != null) emailInput.text = VerificationManager.instance.email;
+        if (UserInfo.instance.email != null) emailInput.text = UserInfo.instance.email;
     }
 
 

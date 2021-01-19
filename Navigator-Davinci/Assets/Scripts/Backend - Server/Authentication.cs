@@ -50,23 +50,25 @@ public class Authentication : MonoBehaviour
             if (!Result.Contains("Error"))
             {
                
-                
-
                 JSONArray jsonData = JSON.Parse(Result) as JSONArray;
 
                 for (int i = 0; i < jsonData.Count; i++)
                 {
                     //Debug.Log(jsonData[i].AsObject["id"]);
                     //SaveData(jsonData[i]);
-                    UserInfo.instance.GetData(jsonData[i]);
+                    UserInfo.instance.AssignUserData(jsonData[i]);
                 }
 
-                //Debug.Log(jsonData.AsObject["username"]);
-                //SaveData(jsonData);
+                if (UserInfo.instance.isverified)
+                {
+                    Launcher.instance.OpenLoggedInMenu();
+                }
+                else
+                {
+                    Launcher.instance.OpenVerificationMenu();
+                }
 
-               
               
-                
             }
             else
             {
@@ -76,15 +78,8 @@ public class Authentication : MonoBehaviour
 
 
             }
-
-
-
-
         }
-
-
     }
-
 
     /// <summary>
     /// Sends a register request to the backend, with the credentials.
@@ -121,21 +116,24 @@ public class Authentication : MonoBehaviour
         }
         else
         {
-            Debug.Log(www.downloadHandler.text);
-            Debug.Log(www.downloadHandler.data);
+           
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
 
-            if (Result.Contains("Success"))
+            if (!Result.Contains("Error"))
             {
-               
+
+                JSONArray jsonData = JSON.Parse(Result) as JSONArray;
+
+                for (int i = 0; i < jsonData.Count; i++)
+                {
+                    //Debug.Log(jsonData[i].AsObject["id"]);
+                    //SaveData(jsonData[i]);
+                    UserInfo.instance.AssignUserData(jsonData[i]);
+                }
 
                 FormValidation.instance.message.color = Color.green;
                 FormValidation.instance.message.text = "Account has been created";
-
-                JSONArray jsonData = JSON.Parse(Result) as JSONArray;
-                SaveData(jsonData);
-
                 Launcher.instance.OpenVerificationMenu();
 
             }
@@ -156,37 +154,21 @@ public class Authentication : MonoBehaviour
     /// </summary>
     public void Logout()
     {
+        ResetData();
         Launcher.instance.OpenMainMenu();
     }
 
-    /// <summary>
-    /// Sends data to the Verification class.
-    /// </summary>
-    /// <param name="Data"></param>
-    public void SaveData(JSONNode Data)
-    {
-        Debug.Log(Data);
-        VerificationManager.instance.id = Data.AsObject["id"];
-        VerificationManager.instance.username = Data.AsObject["username"];
-        VerificationManager.instance.email = Data.AsObject["email"];
-        VerificationManager.instance.class_code = Data.AsObject["class"];
-        if (int.Parse(Data.AsObject["isadmin"]) == 0)
-            VerificationManager.instance.isadmin = false;
-        else
-            VerificationManager.instance.isadmin = true;
-
-    }
 
     /// <summary>
     /// Empties the verification in the manager from a certain user.
     /// </summary>
     public void ResetData()
     {
-        VerificationManager.instance.id = string.Empty;
-        VerificationManager.instance.username = string.Empty;
-        VerificationManager.instance.email = string.Empty;
-        VerificationManager.instance.isadmin = false;
-        VerificationManager.instance.class_code = string.Empty;
+        UserInfo.instance.id = string.Empty;
+        UserInfo.instance.username = string.Empty;
+        UserInfo.instance.email = string.Empty;
+        UserInfo.instance.isadmin = false;
+        UserInfo.instance.class_code = string.Empty;
+        UserInfo.instance.isverified = false;
     }
-
 }

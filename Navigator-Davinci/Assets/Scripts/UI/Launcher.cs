@@ -23,7 +23,7 @@ public class Launcher : MonoBehaviour
 
     public void OpenMainMenu()
     {
-        Authentication.instance.ResetData();
+        //Authentication.instance.ResetData();
         MenuManager.instance.OpenMenu("main");
     }
 

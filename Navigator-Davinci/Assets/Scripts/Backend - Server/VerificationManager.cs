@@ -8,11 +8,7 @@ using UnityEngine.UI;
 public class VerificationManager : MonoBehaviour
 {
     public static VerificationManager instance;
-    public string id;
-    public string email;
-    public string username;
-    public string class_code;
-    public bool isadmin = false;
+
 
 
 
@@ -25,14 +21,7 @@ public class VerificationManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
-        {
-            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
-
-        }
-
-        if(GameObject.Find("Admin") == isActiveAndEnabled)
-        GameObject.Find("Admin").SetActive(VerificationManager.instance.isadmin);
+        
 
     }
 
