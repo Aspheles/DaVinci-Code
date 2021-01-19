@@ -15,14 +15,24 @@ public class QuestionOverview : MonoBehaviour
     public static QuestionOverview instance;
     public string[] idData;
     public string[] QuestionData;
+    public Scrollbar scrollbar;
 
     public void Start()
     {
         instance = this;
         StartCoroutine(FetchQuestionsData());
+        StartCoroutine(changeScrollValue());
         //LoadQuestions();
 
         //if(QuestionSession.instance.allQuestions.Count > 0)
+    }
+
+    IEnumerator changeScrollValue()
+    {
+        Debug.Log("Now its called");
+        yield return new WaitForSeconds(0.1f);
+        scrollbar.value = 1;
+        Debug.Log("Now its setted");
     }
 
     /// <summary>
