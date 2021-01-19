@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PuzzleData : MonoBehaviour
+public class Puzzle : MonoBehaviour
 {
     public GameObject puzzleObject;
-    int id;
+    public int id;
     public TextMeshProUGUI name;
     List<Question> questions;
     public string difficulty;
@@ -20,7 +20,7 @@ public class PuzzleData : MonoBehaviour
 
     public void Delete()
     {
-        PuzzleOverview.instance.Delete(puzzleObject);
+        PuzzleOverview.instance.Delete(this);
     }
 
 

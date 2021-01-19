@@ -40,7 +40,7 @@ public class Answer
 
 }
 
-public class Puzzle
+public class PuzzleData
 {
     public int id;
     public string name;
@@ -48,8 +48,9 @@ public class Puzzle
     public string difficulty;
     public string creator;
     public string description;
+    public static PuzzleData instance;
 
-    public Puzzle(int id, string name, List<Question> questions, string difficulty, string creator, string description)
+    public PuzzleData(int id, string name, List<Question> questions, string difficulty, string creator, string description)
     {
         this.id = id;
         this.name = name;

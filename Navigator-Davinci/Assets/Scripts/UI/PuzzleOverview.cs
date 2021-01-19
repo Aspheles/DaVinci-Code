@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PuzzleOverview : MonoBehaviour
 { 
-    public Transform container;
-    public GameObject puzzleObject;
-    public GameObject cover;
+    [SerializeField] private Transform container;
+    [SerializeField] private GameObject puzzleObject;
+    [SerializeField] private GameObject cover;
     public static PuzzleOverview instance;
-    private List<Puzzle> puzzles = new List<Puzzle> { new Puzzle(0, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new Puzzle(1, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new Puzzle(3, "Puzzle 3", null, "hard", "Sander", "this is the description"), new Puzzle(0, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new Puzzle(1, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new Puzzle(3, "Puzzle 3", null, "hard", "Sander", "this is the description") };
+    private List<PuzzleData> puzzles = new List<PuzzleData> { new PuzzleData(0, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new PuzzleData(1, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new PuzzleData(2, "Puzzle 3", null, "hard", "Sander", "this is the description"), new PuzzleData(3, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new PuzzleData(4, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new PuzzleData(5, "Puzzle 3", null, "hard", "Sander", "this is the description") };
    
     private void Start()
     {
@@ -18,33 +18,44 @@ public class PuzzleOverview : MonoBehaviour
         LoadPuzzles();
     }
 
+    /// <summary>
+    /// Loads all the puzzles.
+    /// </summary>
     public void LoadPuzzles()
     {
         if(puzzles.Count > 0 && puzzles != null)
         {
-            foreach(Puzzle puzzle in puzzles)
+            foreach(PuzzleData puzzle in puzzles)
             {
                 GameObject puzzleCopyObject = Instantiate(puzzleObject, container.position, Quaternion.identity);
                 puzzleCopyObject.transform.SetParent(container);
-                puzzleCopyObject.GetComponent<PuzzleData>().name.text = puzzle.name;
-                puzzleCopyObject.GetComponent<PuzzleData>().description = puzzle.description;
-                puzzleCopyObject.GetComponent<PuzzleData>().difficulty = puzzle.difficulty;
-                puzzleCopyObject.GetComponent<PuzzleData>().creator = puzzle.creator;
+                puzzleCopyObject.GetComponent<Puzzle>().id = puzzle.id;
+                puzzleCopyObject.GetComponent<Puzzle>().name.text = puzzle.name;
+                puzzleCopyObject.GetComponent<Puzzle>().description = puzzle.description;
+                puzzleCopyObject.GetComponent<Puzzle>().difficulty = puzzle.difficulty;
+                puzzleCopyObject.GetComponent<Puzzle>().creator = puzzle.creator;
             }
         }
     }
     public void Open()
     {
-        print("open");
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
-    public void Delete(GameObject puzzle)
+    /// <summary>
+    /// Deletes chosen puzzle.
+    /// </summary>
+    /// <param name="puzzle"></param>
+    public void Delete(Puzzle puzzle)
     {
-        //puzzles.Remove();
-        Destroy(puzzle);
+        Destroy(puzzle.puzzleObject);
     }
 
-    public void OpenInfo(PuzzleData puzzleinfo)
+    /// <summary>
+    /// Opens the info modal for the chosen puzzle.
+    /// </summary>
+    /// <param name="puzzleinfo"></param>
+    public void OpenInfo(Puzzle puzzleinfo)
     {
         if(cover.activeSelf != true)
         {
@@ -52,7 +63,7 @@ public class PuzzleOverview : MonoBehaviour
             cover.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
             cover.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
             cover.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
-            cover.transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
+            cover.transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
         }
         else if(cover.activeSelf != false)
         {
