@@ -1,2 +1,2 @@
-# Navigator
-Tour creatietool voor open dagen, makelaars, bedrijven enz..
+# Da Vinci Code
+recreatietool voor beginnende ICT leerlingen om begrippen spelende wijze te leren 
