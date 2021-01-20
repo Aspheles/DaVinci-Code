@@ -44,16 +44,18 @@ public class Question
     public string description;
     public string image;
     public List<Answer> answer;
+    public int puzzleid;
 
     
 
-    public Question(int id, string question, string description, string image ,List<Answer> answer)
+    public Question(int id, string question, string description, string image ,List<Answer> answer, int puzzleid)
     {
         this.id = id;
         this.question = question;
         this.description = description;
         this.image = image;
         this.answer = answer;
+        this.puzzleid = puzzleid;
     }
 } 
 

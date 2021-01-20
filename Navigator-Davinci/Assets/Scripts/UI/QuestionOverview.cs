@@ -13,8 +13,6 @@ public class QuestionOverview : MonoBehaviour
     public GameObject QuestionInput;
     public List<Question> Questions;
     public static QuestionOverview instance;
-    public string[] idData;
-    public string[] QuestionData;
     public Scrollbar scrollbar;
 
     public void Start()
@@ -41,13 +39,6 @@ public class QuestionOverview : MonoBehaviour
     public void LoadQuestions(List<Question> questions)
     {
 
-        List<Answer> Answers = new List<Answer>();
-
-        Questions = new List<Question>();
-
-       
-
-       
         foreach (Question question in questions)
         {
 
@@ -100,13 +91,13 @@ public class QuestionOverview : MonoBehaviour
             for (int i = 0; i < jsonData.Count; i++)
             {
                 //Local variables
-                bool isDone;
                 string questionId = jsonData[i].AsObject["id"];
                 string questionTitle = jsonData[i].AsObject["title"];
                 string questionDescription = jsonData[i].AsObject["description"];
                 string questionImage = jsonData[i].AsObject["image"];
+                int puzzleid = jsonData[i].AsObject["puzzle_id"];
 
-                Question a = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null);
+                Question a = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null, puzzleid);
                 Questions.Add(a);
 
             }
@@ -121,5 +112,28 @@ public class QuestionOverview : MonoBehaviour
 
             
         }
+    }
+
+
+    public IEnumerator SavePuzzleData(int puzzleid)
+    {
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+            {
+                new MultipartFormDataSection("puzzle_id", puzzleid.ToString())
+            };
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savepuzzledata.php", form);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+
+            print("Puzzle has been saved");
+        }
+
     }
 }

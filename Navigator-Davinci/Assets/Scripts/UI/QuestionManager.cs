@@ -27,10 +27,13 @@ public class QuestionManager : MonoBehaviour
         if(Question != null)
         {
             QuestionSession.instance.question = Question;
-            Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+            StartCoroutine(QuestionSession.instance.LoadAnswers());
+            
+
         }
         else
         {
+            
             Debug.Log("No answers in this question found");
             Launcher.instance.OpenPuzzleQuestionCreatorMenu();
         }

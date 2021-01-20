@@ -17,6 +17,7 @@ public class QuestionCreator : MonoBehaviour
     [SerializeField] GameObject addButton;
     [SerializeField] GameObject finishButton;
     [SerializeField] GameObject closeButton;
+    [SerializeField] TMP_InputField description;
 
 
     public List<Question> question;
@@ -44,6 +45,8 @@ public class QuestionCreator : MonoBehaviour
             
             GameObject.Find("title").GetComponent<Text>().text = "Edit your question";
             questionInput.text = QuestionSession.instance.question.question;
+            description.text = QuestionSession.instance.question.description;
+           
             LoadAnswers(QuestionSession.instance.question.answer);
             loaded = true;
             //QuestionSession.instance.question = null;
@@ -161,25 +164,43 @@ public class QuestionCreator : MonoBehaviour
     /// </summary>
     public void FinishQuestions()
     {
-        question = new List<Question>();
+        List<Answer> newAnswers = new List<Answer>();
+       // question = new List<Question>();
 
-        List<Answer> answers = new List<Answer>();
         GameObject[] item = GameObject.FindGameObjectsWithTag("answer");
 
-        for (int i = 0; i < item.Length; i++)
+        if (item.Length > 0)
         {
-            //QuestionSession.instance.allQuestions.Add(new Question() ,new Answer(i,item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
+            for (int i = 0; i < item.Length; i++)
+            {
+                if (string.IsNullOrEmpty(item[i].GetComponent<AnswerManager>().answerField.text))
+                {
+                    print("Answer can't be empty");
+                }
+                else
+                {
+
+                    Answer answer = new Answer(0, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
+                    newAnswers.Add(answer);
+
+                }
+            }
         }
+            
+
+        QuestionSession.instance.AddAnswer(newAnswers);
+        StartCoroutine(QuestionSession.instance.SaveAnswers());
 
 
 
-        loaded = false;
-        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
-
-        
+        //loaded = false;
+        //Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
        
-        
-        
+
+
+
+
+
         //questiontest.Add(new Question(question.text, ))
     }
 
@@ -189,52 +210,12 @@ public class QuestionCreator : MonoBehaviour
 
     public void CancelChanges()
     {
+        QuestionSession.instance.question = null;
         loaded = false;
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
     
 
-    /// <summary>
-    /// Creates a list for the data so it can be sent to the database, with the given values.
-    /// </summary>
-    /// <param name="answerTitle">
-    /// This is the answer title.
-    /// </param>
-    /// <param name="answerValue">
-    /// This is the answer value.
-    /// </param>
-    /// <returns>
-    /// Sends back the status code for the request.
-    /// </returns>
-    IEnumerator CreateAnswers(string answerTitle, bool answerValue)
-    {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
-
-            new MultipartFormDataSection("title", answerTitle),
-            new MultipartFormDataSection("value", answerValue.ToString()), 
-            
-
-        };
-
-
-
-        //formData.Add(new MultipartFormFileSection(email, "my file data"));
-
-        //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/answer.php", formData);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-        }
-    }
 
 }
