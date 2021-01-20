@@ -72,6 +72,11 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("adminpuzzleoverview");
     }
 
+    public void OpenPreRunMenu()
+    {
+        MenuManager.instance.OpenMenu("prerun");
+    }
+
     public void CheckValues()
     {
         Debug.Log("Value changed");
