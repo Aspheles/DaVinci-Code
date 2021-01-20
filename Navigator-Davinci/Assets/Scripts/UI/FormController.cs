@@ -44,18 +44,16 @@ public class Question
     public string description;
     public string image;
     public List<Answer> answer;
-    public int puzzleid;
 
     
 
-    public Question(int id, string question, string description, string image ,List<Answer> answer, int puzzleid)
+    public Question(int id, string question, string description, string image ,List<Answer> answer)
     {
         this.id = id;
         this.question = question;
         this.description = description;
         this.image = image;
         this.answer = answer;
-        this.puzzleid = puzzleid;
     }
 } 
 
@@ -63,11 +61,13 @@ public class Question
 [Serializable]
 public class Answer
 {
+    public int id;
     public string answer;
     public bool isCorrect;
 
-    public Answer(string answer, bool isCorrect)
+    public Answer(int id, string answer, bool isCorrect)
     {
+        this.id = id;
         this.answer = answer;
         this.isCorrect = isCorrect;
     }

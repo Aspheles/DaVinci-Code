@@ -161,35 +161,20 @@ public class QuestionCreator : MonoBehaviour
     /// </summary>
     public void FinishQuestions()
     {
-        List<Answer> newAnswers = new List<Answer>();
+        question = new List<Question>();
+
+        List<Answer> answers = new List<Answer>();
         GameObject[] item = GameObject.FindGameObjectsWithTag("answer");
 
-        if(item.Length > 0)
+        for (int i = 0; i < item.Length; i++)
         {
-            for (int i = 0; i < item.Length; i++)
-            {
-                if (string.IsNullOrEmpty(item[i].GetComponent<AnswerManager>().answerField.text))
-                {
-                    print("Answer can't be empty");
-                }
-                else
-                {
-                    
-                    Answer answer = new Answer(item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
-                    newAnswers.Add(answer);
-
-                }
-                //QuestionSession.instance.allQuestions.Add(new Question() ,new Answer(i,item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
-            }
+            //QuestionSession.instance.allQuestions.Add(new Question() ,new Answer(i,item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
         }
 
-        QuestionSession.instance.AddAnswer(newAnswers);
-        StartCoroutine(QuestionSession.instance.SaveAnswers());
 
 
-
-        //loaded = false;
-        //Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
+        loaded = false;
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
         
        
