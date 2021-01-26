@@ -42,6 +42,11 @@ public class PuzzleOverview : MonoBehaviour
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
+    public void New()
+    {
+        Launcher.instance.OpenPuzzleCreatorMenu();
+    }
+
     /// <summary>
     /// Deletes chosen puzzle.
     /// </summary>
