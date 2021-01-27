@@ -41,4 +41,9 @@ public class Puzzle : MonoBehaviour
     {
         PuzzleOverview.instance.OpenInfo(this);
     }
+
+    public void OnInfoEditButtonClicked()
+    {
+        PuzzleOverview.instance.OpenEditInfo(this);
+    }
 }

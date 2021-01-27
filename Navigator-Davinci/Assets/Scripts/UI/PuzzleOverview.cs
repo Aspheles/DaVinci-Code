@@ -86,19 +86,62 @@ public class PuzzleOverview : MonoBehaviour
     /// <param name="puzzleinfo"></param>
     public void OpenInfo(Puzzle puzzleinfo)
     {
-        if(cover.activeSelf != true)
+        GameObject editPage = cover.transform.Find("edit").gameObject;
+        GameObject detailPage = cover.transform.Find("details").gameObject;
+        print(editPage);
+        if (cover.activeSelf != true)
         {
             cover.SetActive(true);
-            cover.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
-            cover.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
-            cover.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
-            cover.transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
+            detailPage.SetActive(true);
+            editPage.SetActive(false);
+
+            detailPage.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
+            detailPage.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
+            detailPage.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
+            detailPage.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
         }
         else if(cover.activeSelf != false)
         {
             cover.SetActive(false);
         }
         
+    }
+
+    public void OpenEditInfo(Puzzle puzzleinfo)
+    {
+        GameObject editPage = cover.transform.Find("edit").gameObject;
+        GameObject detailPage = cover.transform.Find("details").gameObject;
+
+        if (editPage.activeSelf == false)
+        {
+            detailPage.SetActive(false);
+            editPage.SetActive(true);
+            
+            editPage.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
+           
+        }
+        else if (editPage.activeSelf == true)
+        {
+            editPage.SetActive(false);print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
+            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleinfo.name.text, puzzleinfo.description));
+
+        }
+
+    }
+
+    public IEnumerator EditPuzzle(int id, string title, string description)
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("id", id.ToString()),
+            new MultipartFormDataSection("title", title),
+            new MultipartFormDataSection("description", description)
+        };
+        
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/editpuzzle.php", form);
+        
+        yield return www.SendWebRequest();
+        Launcher.instance.OpenAdminPuzzleOverviewMenu();
     }
 
     /// <summary>
