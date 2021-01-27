@@ -18,7 +18,7 @@ public class PuzzleManager : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(name.text) && !string.IsNullOrEmpty(description.text))
         {
-            StartCoroutine(CreatePuzzle(name.text, difficulty.options[difficulty.value].text, description.text));
+            StartCoroutine(CreatePuzzle(name.text, difficulty.options[difficulty.value].text, description.text, UserInfo.instance.username));
         }
         else
         {
@@ -31,13 +31,14 @@ public class PuzzleManager : MonoBehaviour
     }
 
    
-    IEnumerator CreatePuzzle(string name, string difficulty, string description)
+    IEnumerator CreatePuzzle(string name, string difficulty, string description, string creator)
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("name", name),
             new MultipartFormDataSection("difficulty", difficulty),
-            new MultipartFormDataSection("description", description)
+            new MultipartFormDataSection("description", description),
+            new MultipartFormDataSection("creator", creator)
         };
 
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/createpuzzle.php", form);
@@ -65,7 +66,7 @@ public class PuzzleManager : MonoBehaviour
                 {
                     QuestionSession.instance.puzzle.id = Data[i].AsObject["id"];
                     QuestionSession.instance.puzzle.name = Data[i].AsObject["name"];
-                    SelectDifficulty(Data[i].AsObject["difficulty"]);
+                    //SelectDifficulty(Data[i].AsObject["difficulty"]);
 
                     message.text = "Puzzle: " + Data[i].AsObject["name"] + " Has been created";
 
@@ -89,6 +90,7 @@ public class PuzzleManager : MonoBehaviour
     {
         switch (difficulty)
         {
+            /*
             case "easy":
                 QuestionSession.instance.puzzle.difficulty = PuzzleDifficulty.easy;
                 break;
@@ -98,6 +100,7 @@ public class PuzzleManager : MonoBehaviour
             case "hard":
                 QuestionSession.instance.puzzle.difficulty = PuzzleDifficulty.hard;
                 break;
+            */
         }
     }
 }

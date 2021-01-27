@@ -24,12 +24,12 @@ public class PuzzleData
 
     public int id;
     public string name;
-    public PuzzleDifficulty difficulty;
+    public string difficulty;
     public string description;
     public string creator;
 
 
-    public PuzzleData(int id ,string name, PuzzleDifficulty difficulty, string description, string creator)
+    public PuzzleData(int id ,string name, string difficulty, string description, string creator)
     {
         this.id = id;
         this.name = name;
@@ -82,21 +82,3 @@ public class Answer
 
 }
 
-public class PuzzleData
-{
-    public int id;
-    public string name;
-    public string difficulty;
-    public string creator;
-    public string description;
-    public static PuzzleData instance;
-
-    public PuzzleData(int id, string name, string difficulty, string creator, string description)
-    {
-        this.id = id;
-        this.name = name;
-        this.difficulty = difficulty;
-        this.creator = creator;
-        this.description = description;
-    }
-}

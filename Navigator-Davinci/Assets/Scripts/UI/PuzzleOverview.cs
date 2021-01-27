@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
-using PlayFab.Json;
+
 
 public class PuzzleOverview : MonoBehaviour
 { 
@@ -12,12 +12,11 @@ public class PuzzleOverview : MonoBehaviour
     [SerializeField] private GameObject puzzleObject;
     [SerializeField] private GameObject cover;
     public static PuzzleOverview instance;
-    private List<PuzzleData> puzzles = new List<PuzzleData> { };
-    private void Start()
+    public List<PuzzleData> puzzles;
+    private void Awake()
     {
         instance = this;
         cover.SetActive(false);
-        StartCoroutine(FetchPuzzles());
     }
 
     /// <summary>
@@ -45,6 +44,7 @@ public class PuzzleOverview : MonoBehaviour
     }
     public void Open()
     {
+        
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
@@ -108,14 +108,9 @@ public class PuzzleOverview : MonoBehaviour
 
     public IEnumerator FetchPuzzles()
     {
-        puzzles.Clear();
+        puzzles = new List<PuzzleData>();
 
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("creator", "CodeerBeer")
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchpuzzles.php", form);
+        UnityWebRequest www = UnityWebRequest.Get("http://davinci-code.nl/fetchpuzzles.php");
 
         yield return www.SendWebRequest();
 
@@ -133,7 +128,7 @@ public class PuzzleOverview : MonoBehaviour
 
             for(int i = 0; i < jsonData.Count; i++)
             {
-                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i][0]), jsonData[i].AsObject["name"], jsonData[i].AsObject["difficulty"], "CodeerBeer", jsonData[i].AsObject["description"]);
+                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i].AsObject["id"]), jsonData[i].AsObject["name"], jsonData[i].AsObject["difficulty"], jsonData[i].AsObject["description"], jsonData[i].AsObject["creator"]);
                 puzzles.Add(newPuzzle);
             }
             

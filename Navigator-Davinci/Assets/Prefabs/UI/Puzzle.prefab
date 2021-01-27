@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleObject: {fileID: 1090420632719758490}
+  id: 0
   name: {fileID: 4548946104538888815}
   difficulty: 
   creator: 
@@ -628,9 +629,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9011715248754134318, guid: 3df772554d6c92f448234504822a462e,
-          type: 3}
-        m_MethodName: Open
+      - m_Target: {fileID: 2003994984853886886}
+        m_MethodName: Edit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

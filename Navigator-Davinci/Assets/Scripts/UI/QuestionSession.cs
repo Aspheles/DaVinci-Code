@@ -6,25 +6,19 @@ using SimpleJSON;
 
 public class QuestionSession : MonoBehaviour
 {
-    public Puzzle puzzle;
+    public PuzzleData puzzle;
     public Question question;
-    public List<Question> allQuestions;
     public static QuestionSession instance;
-
-    public string lastid;
-
 
     void Start()
     {
-        instance = this;
-
-       
+        instance = this;     
     }
 
 
     public void AddAnswer(List<Answer> answers)
     {
-        question = new Question(question.id, question.question, question.description, question.image, answers, puzzle.id);
+        question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
         StartCoroutine(SaveQuestion());
     }
 

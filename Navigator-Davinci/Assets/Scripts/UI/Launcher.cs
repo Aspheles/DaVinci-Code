@@ -71,6 +71,7 @@ public class Launcher : MonoBehaviour
     public void OpenAdminPuzzleOverviewMenu()
     {
         MenuManager.instance.OpenMenu("adminpuzzleoverview");
+        StartCoroutine(PuzzleOverview.instance.FetchPuzzles());
     }
 
     public void CheckValues()
