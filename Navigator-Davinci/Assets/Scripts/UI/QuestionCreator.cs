@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class QuestionCreator : MonoBehaviour
 {
-    [SerializeField] InputField questionInput;
+    public InputField questionInput;
     [SerializeField] GameObject answerInput;
     [SerializeField] Transform answerOptionsPos;
     [SerializeField] InputField puzzleNameInput;
@@ -17,12 +17,12 @@ public class QuestionCreator : MonoBehaviour
     [SerializeField] GameObject addButton;
     [SerializeField] GameObject finishButton;
     [SerializeField] GameObject closeButton;
-    [SerializeField] TMP_InputField description;
+    public TMP_InputField description;
 
 
     public List<Question> question;
     public static QuestionCreator instance;
-    bool loaded;
+    public bool loaded;
 
     private void Start()
     {
@@ -34,7 +34,19 @@ public class QuestionCreator : MonoBehaviour
       
     }
 
-   
+
+    public void ResetData()
+    {
+        questionInput.text = "";
+        description.text = "";
+
+        foreach(Transform child in answerOptionsPos)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+
     private void Update()
     {
         
@@ -52,6 +64,7 @@ public class QuestionCreator : MonoBehaviour
             //QuestionSession.instance.question = null;
 
         }
+        
         
         if(GameObject.FindGameObjectsWithTag("answer").Length > 0)
         {
@@ -84,6 +97,7 @@ public class QuestionCreator : MonoBehaviour
                 GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
                 QuestionClone.transform.SetParent(answerOptionsPos);
                 //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+                QuestionClone.GetComponent<AnswerManager>().id = answer.id;
                 QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
                 QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
             }
@@ -180,7 +194,21 @@ public class QuestionCreator : MonoBehaviour
                 else
                 {
 
-                    Answer answer = new Answer(0, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
+                    int id = 0;
+
+                    if(QuestionSession.instance.question != null && QuestionSession.instance.question.answer != null)
+                    {
+                        Answer foundAnswer = QuestionSession.instance.question.answer.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
+
+                        if (foundAnswer != null)
+                        {
+                            id = foundAnswer.id;
+                        }
+                    }
+                    
+                   
+                    
+                    Answer answer = new Answer(id, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
                     newAnswers.Add(answer);
 
                 }
@@ -189,18 +217,11 @@ public class QuestionCreator : MonoBehaviour
             
 
         QuestionSession.instance.AddAnswer(newAnswers);
-        StartCoroutine(QuestionSession.instance.SaveAnswers());
+        
+        //StartCoroutine(QuestionSession.instance.SaveAnswers());
 
 
-
-        //loaded = false;
-        //Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
        
-
-
-
-
-
         //questiontest.Add(new Question(question.text, ))
     }
 
@@ -212,6 +233,7 @@ public class QuestionCreator : MonoBehaviour
     {
         QuestionSession.instance.question = null;
         loaded = false;
+        ResetData();
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 

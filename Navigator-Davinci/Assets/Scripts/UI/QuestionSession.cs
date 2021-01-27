@@ -11,6 +11,7 @@ public class QuestionSession : MonoBehaviour
     public List<Question> allQuestions;
     public static QuestionSession instance;
 
+    public string lastid;
 
 
     void Start()
@@ -24,10 +25,10 @@ public class QuestionSession : MonoBehaviour
     public void AddAnswer(List<Answer> answers)
     {
         question = new Question(question.id, question.question, question.description, question.image, answers, puzzle.id);
-
+        StartCoroutine(SaveQuestion());
     }
 
-
+ 
     public IEnumerator LoadAnswers()
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
@@ -74,6 +75,7 @@ public class QuestionSession : MonoBehaviour
             else
             {
                 Debug.Log("Question doesn't have answers");
+                QuestionCreator.instance.ResetData();
                 question.answer = new List<Answer>();
                 Launcher.instance.OpenPuzzleQuestionCreatorMenu();
             }
@@ -82,18 +84,49 @@ public class QuestionSession : MonoBehaviour
         }
     }
 
+    public IEnumerator SaveQuestion()
+    {
+        //Questions
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("question_id", question.id.ToString()),
+            new MultipartFormDataSection("question_title", QuestionCreator.instance.questionInput.text),
+            new MultipartFormDataSection("question_description",  QuestionCreator.instance.description.text),
+            new MultipartFormDataSection("question_image", "test"),
+            new MultipartFormDataSection("puzzle_id", puzzle.id.ToString()),
+        };
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savequestion.php", form);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            if(!string.IsNullOrEmpty(www.downloadHandler.text)) question.id = int.Parse(www.downloadHandler.text);
+            print("Success");
+            StartCoroutine(SaveAnswers());
+           
+        }
+    }
+
+
     public IEnumerator SaveAnswers()
     {
+        
+        //Answers
         foreach (Answer answer in question.answer)
         {
             List<IMultipartFormSection> form = new List<IMultipartFormSection>
             {
                 new MultipartFormDataSection("question_id", question.id.ToString()),
-                new MultipartFormDataSection("id", answer.id.ToString()),
+                new MultipartFormDataSection("answer_id", answer.id.ToString()),
                 new MultipartFormDataSection("title", answer.answer),
-                new MultipartFormDataSection("value", answer.isCorrect.ToString())
-
+                new MultipartFormDataSection("value", answer.isCorrect.ToString()),
             };
+            
             UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savepuzzledata.php", form);
             yield return www.SendWebRequest();
 
@@ -107,6 +140,9 @@ public class QuestionSession : MonoBehaviour
                 print("Success");
             }
         }
+        QuestionCreator.instance.loaded = false;
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
+        QuestionCreator.instance.ResetData();
 
     }
 

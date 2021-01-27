@@ -48,7 +48,7 @@ public class Question
 
     
 
-    public Question(int id, string question, string description, string image ,List<Answer> answer, int puzzleid)
+    public Question(int id,string question, string description, string image ,List<Answer> answer, int puzzleid)
     {
         this.id = id;
         this.question = question;

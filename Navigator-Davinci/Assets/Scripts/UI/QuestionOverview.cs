@@ -15,10 +15,10 @@ public class QuestionOverview : MonoBehaviour
     public static QuestionOverview instance;
     public Scrollbar scrollbar;
 
-    public void Start()
+    public void Awake()
     {
         instance = this;
-        StartCoroutine(FetchQuestionsData());
+        //StartCoroutine(FetchQuestionsData());
         StartCoroutine(changeScrollValue());
         //LoadQuestions();
 
@@ -59,16 +59,23 @@ public class QuestionOverview : MonoBehaviour
     public void CreateNewQuestion()
     {
         QuestionSession.instance.question = null;
+        //QuestionCreator.instance.ResetData();
         Launcher.instance.OpenPuzzleQuestionCreatorMenu();
     }
 
 
     public IEnumerator FetchQuestionsData()
     {
+        foreach(Transform child in QuestionPositions)
+        {
+            Destroy(child.gameObject);
+        }
+
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             //QuestionSession.instance.puzzle.id.ToString()
-            new MultipartFormDataSection("puzzle_id", 19.ToString()),
+            new MultipartFormDataSection("puzzle_id", QuestionSession.instance.puzzle.id.ToString()),
+            //QuestionSession.instance.puzzle.id
         };
 
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchquestions.php", form);
@@ -82,7 +89,7 @@ public class QuestionOverview : MonoBehaviour
         }
         else
         {
-           
+            Questions = new List<Question>();
             byte[] dbData = www.downloadHandler.data;
             string Result = System.Text.Encoding.Default.GetString(dbData);
             
@@ -115,25 +122,4 @@ public class QuestionOverview : MonoBehaviour
     }
 
 
-    public IEnumerator SavePuzzleData(int puzzleid)
-    {
-
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-            {
-                new MultipartFormDataSection("puzzle_id", puzzleid.ToString())
-            };
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savepuzzledata.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-
-            print("Puzzle has been saved");
-        }
-
-    }
 }

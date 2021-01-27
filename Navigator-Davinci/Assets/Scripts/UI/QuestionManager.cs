@@ -8,11 +8,13 @@ public class QuestionManager : MonoBehaviour
 {
     public TMP_Text questionTitle;
     public static QuestionManager instance;
+    
 
 
     private void Start()
     {
         instance = this;
+        
     }
 
     /// <summary>
@@ -24,7 +26,7 @@ public class QuestionManager : MonoBehaviour
     {
         Question Question = QuestionOverview.instance.Questions.Find((x) => x.question == questionTitle.text);
         //Debug.Log(Question.question);
-        if(Question != null)
+        if (Question != null)
         {
             QuestionSession.instance.question = Question;
             StartCoroutine(QuestionSession.instance.LoadAnswers());
@@ -33,7 +35,7 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            
+            //QuestionCreator.instance.ResetData();
             Debug.Log("No answers in this question found");
             Launcher.instance.OpenPuzzleQuestionCreatorMenu();
         }
@@ -45,6 +47,7 @@ public class QuestionManager : MonoBehaviour
     /// </summary>
     public void DeleteQuestion()
     {
+        
         //QuestionCreator.instance.RemoveAnswer(questionTitle.text);
         //print(instance);
         Destroy(this.gameObject);

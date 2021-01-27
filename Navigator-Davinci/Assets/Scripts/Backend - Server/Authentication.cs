@@ -12,6 +12,8 @@ public class Authentication : MonoBehaviour
     private void Start()
     {
         instance = this;
+
+        
     }
 
     /// <summary>
@@ -33,7 +35,7 @@ public class Authentication : MonoBehaviour
             new MultipartFormDataSection("password", password)         
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/login.php", form);
+        UnityWebRequest www = UnityWebRequest.Post(Request.LOGIN, form);
 
         yield return www.SendWebRequest();
 
@@ -105,7 +107,7 @@ public class Authentication : MonoBehaviour
             new MultipartFormDataSection("classcode", classCode)
         };
 
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/register.php", form);
+        UnityWebRequest www = UnityWebRequest.Post(Request.REGISTER, form);
 
         yield return www.SendWebRequest();
 
