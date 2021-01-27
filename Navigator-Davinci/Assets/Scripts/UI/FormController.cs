@@ -18,18 +18,24 @@ public enum PuzzleDifficulty
 }
 
 [Serializable]
-public class Puzzle
+public class PuzzleData
 {
+    public static PuzzleData instance;
+
     public int id;
     public string name;
     public PuzzleDifficulty difficulty;
-   
-    
-    public Puzzle(int id ,string name, PuzzleDifficulty difficulty)
+    public string description;
+    public string creator;
+
+
+    public PuzzleData(int id ,string name, PuzzleDifficulty difficulty, string description, string creator)
     {
         this.id = id;
         this.name = name;
         this.difficulty = difficulty;
+        this.description = description;
+        this.creator = creator;
         
     }
 
