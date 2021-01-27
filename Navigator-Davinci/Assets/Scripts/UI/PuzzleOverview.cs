@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
+using SimpleJSON;
+using PlayFab.Json;
 
 public class PuzzleOverview : MonoBehaviour
 { 
@@ -9,13 +12,12 @@ public class PuzzleOverview : MonoBehaviour
     [SerializeField] private GameObject puzzleObject;
     [SerializeField] private GameObject cover;
     public static PuzzleOverview instance;
-    private List<PuzzleData> puzzles = new List<PuzzleData> { new PuzzleData(0, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new PuzzleData(1, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new PuzzleData(2, "Puzzle 3", null, "hard", "Sander", "this is the description"), new PuzzleData(3, "Puzzle 1", null, "easy", "Khizer", "this is the description"), new PuzzleData(4, "Puzzle 2", null, "medium", "Yavuz", "this is the description"), new PuzzleData(5, "Puzzle 3", null, "hard", "Sander", "this is the description") };
-   
+    private List<PuzzleData> puzzles = new List<PuzzleData> { };
     private void Start()
     {
         instance = this;
         cover.SetActive(false);
-        LoadPuzzles();
+        StartCoroutine(FetchPuzzles());
     }
 
     /// <summary>
@@ -77,4 +79,44 @@ public class PuzzleOverview : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Fetches all the puzzles from the database.
+    /// </summary>
+    /// <returns></returns>
+
+    public IEnumerator FetchPuzzles()
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("creator", "CodeerBeer")
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchpuzzles.php", form);
+
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+
+        else
+        {
+            byte[] puzzleInfo = www.downloadHandler.data;
+            string result = System.Text.Encoding.Default.GetString(puzzleInfo);
+
+            JSONArray jsonData = JSON.Parse(result) as JSONArray;
+
+            for(int i = 0; i < jsonData.Count; i++)
+            {
+                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i][0]), jsonData[i][1], jsonData[i][3], jsonData[i][2], jsonData[i][4]);
+                puzzles.Add(newPuzzle);
+            }
+            
+            if(puzzles.Count > 0)
+            {
+                LoadPuzzles();
+            }
+        }
+    }
 }

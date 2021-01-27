@@ -44,17 +44,15 @@ public class PuzzleData
 {
     public int id;
     public string name;
-    public List<Question> questions;
     public string difficulty;
     public string creator;
     public string description;
     public static PuzzleData instance;
 
-    public PuzzleData(int id, string name, List<Question> questions, string difficulty, string creator, string description)
+    public PuzzleData(int id, string name, string difficulty, string creator, string description)
     {
         this.id = id;
         this.name = name;
-        this.questions = questions;
         this.difficulty = difficulty;
         this.creator = creator;
         this.description = description;
