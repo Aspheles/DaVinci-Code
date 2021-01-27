@@ -25,7 +25,11 @@ public class PuzzleOverview : MonoBehaviour
     /// </summary>
     public void LoadPuzzles()
     {
-        if(puzzles.Count > 0 && puzzles != null)
+        for (int o = 0; o < container.childCount; o++)
+        {
+            Destroy(container.GetChild(o).gameObject);
+        }
+        if (puzzles.Count > 0 && puzzles != null)
         {
             foreach(PuzzleData puzzle in puzzles)
             {
@@ -53,9 +57,27 @@ public class PuzzleOverview : MonoBehaviour
     /// Deletes chosen puzzle.
     /// </summary>
     /// <param name="puzzle"></param>
-    public void Delete(Puzzle puzzle)
+    public IEnumerator Delete(Puzzle puzzle)
     {
-        Destroy(puzzle.puzzleObject);
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("id", puzzle.id.ToString())
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/deletepuzzle.php", form);
+        
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+
+        else
+        {
+            Destroy(puzzle.puzzleObject);
+            print(www.downloadHandler.text);
+        }
     }
 
     /// <summary>
@@ -86,6 +108,8 @@ public class PuzzleOverview : MonoBehaviour
 
     public IEnumerator FetchPuzzles()
     {
+        puzzles.Clear();
+
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("creator", "CodeerBeer")
@@ -109,7 +133,7 @@ public class PuzzleOverview : MonoBehaviour
 
             for(int i = 0; i < jsonData.Count; i++)
             {
-                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i][0]), jsonData[i][1], jsonData[i][3], jsonData[i][2], jsonData[i][4]);
+                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i][0]), jsonData[i].AsObject["name"], jsonData[i].AsObject["difficulty"], "CodeerBeer", jsonData[i].AsObject["description"]);
                 puzzles.Add(newPuzzle);
             }
             

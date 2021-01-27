@@ -20,7 +20,7 @@ public class Puzzle : MonoBehaviour
 
     public void Delete()
     {
-        PuzzleOverview.instance.Delete(this);
+        StartCoroutine(PuzzleOverview.instance.Delete(this));
     }
 
 
