@@ -81,3 +81,22 @@ public class Answer
     }
 
 }
+
+public class PuzzleData
+{
+    public int id;
+    public string name;
+    public string difficulty;
+    public string creator;
+    public string description;
+    public static PuzzleData instance;
+
+    public PuzzleData(int id, string name, string difficulty, string creator, string description)
+    {
+        this.id = id;
+        this.name = name;
+        this.difficulty = difficulty;
+        this.creator = creator;
+        this.description = description;
+    }
+}
