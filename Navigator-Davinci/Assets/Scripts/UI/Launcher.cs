@@ -74,6 +74,11 @@ public class Launcher : MonoBehaviour
         StartCoroutine(PuzzleOverview.instance.FetchPuzzles());
     }
 
+    public void OpenPreRunMenu()
+    {
+        MenuManager.instance.OpenMenu("prerun");
+    }
+
     public void CheckValues()
     {
         Debug.Log("Value changed");
