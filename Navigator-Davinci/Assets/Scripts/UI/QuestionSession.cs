@@ -24,9 +24,13 @@ public class QuestionSession : MonoBehaviour
         {
             if(question == null)
             {
-                question.id = 0;
+                questionid = 0;
             }
-            question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
+            else
+            {
+                questionid = question.id;
+            }
+            question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
             StartCoroutine(SaveQuestion());
         }
        
