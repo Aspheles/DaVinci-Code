@@ -19,6 +19,9 @@ public class PuzzleManager : MonoBehaviour
         if(!string.IsNullOrEmpty(name.text) && !string.IsNullOrEmpty(description.text))
         {
             StartCoroutine(CreatePuzzle(name.text, difficulty.options[difficulty.value].text, description.text, UserInfo.instance.username));
+            name.text = "";
+            description.text = "";
+            message.text = "";
         }
         else
         {
@@ -66,12 +69,16 @@ public class PuzzleManager : MonoBehaviour
                 {
                     QuestionSession.instance.puzzle.id = Data[i].AsObject["id"];
                     QuestionSession.instance.puzzle.name = Data[i].AsObject["name"];
+                    QuestionSession.instance.puzzle.description = Data[i].AsObject["difficulty"];
+                    QuestionSession.instance.puzzle.description = Data[i].AsObject["description"];
+                    QuestionSession.instance.puzzle.creator = Data[i].AsObject["creator"];
                     //SelectDifficulty(Data[i].AsObject["difficulty"]);
 
                     message.text = "Puzzle: " + Data[i].AsObject["name"] + " Has been created";
+                    
 
                 }
-
+                
                 Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
             }

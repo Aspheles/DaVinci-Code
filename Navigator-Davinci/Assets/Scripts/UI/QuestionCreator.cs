@@ -24,7 +24,7 @@ public class QuestionCreator : MonoBehaviour
     public static QuestionCreator instance;
     public bool loaded;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
         //Debug.Log(puzzleNameInput.text);

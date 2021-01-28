@@ -19,6 +19,8 @@ public class QuestionSession : MonoBehaviour
     public void AddAnswer(List<Answer> answers)
     {
         question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
+        print(question.id);
+        print(question.question);
         StartCoroutine(SaveQuestion());
     }
 
