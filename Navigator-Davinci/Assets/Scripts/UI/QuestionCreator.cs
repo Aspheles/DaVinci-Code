@@ -196,7 +196,7 @@ public class QuestionCreator : MonoBehaviour
 
                     int id = 0;
 
-                    if(QuestionSession.instance.question != null && QuestionSession.instance.question.answer != null)
+                    if(QuestionSession.instance.question.id != 0 && QuestionSession.instance.question.answer != null)
                     {
                         Answer foundAnswer = QuestionSession.instance.question.answer.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
 
