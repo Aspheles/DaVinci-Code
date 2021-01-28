@@ -13,6 +13,20 @@ public class PuzzleOverview : MonoBehaviour
     [SerializeField] private GameObject cover;
     public static PuzzleOverview instance;
     public List<PuzzleData> puzzles;
+    public Puzzle selectedPuzzle;
+
+    [Header("Detail page")]
+    [SerializeField] TMP_Text puzzleName;
+    [SerializeField] TMP_Text puzzleDescription;
+    [SerializeField] TMP_Text puzzleDifficulty;
+    [SerializeField] TMP_Text puzzleCreator;
+
+    [Header("Edit page")]
+    [SerializeField] TMP_Text puzzleEditName;
+    [SerializeField] TMP_Text puzzleEditDescription;
+    [SerializeField] TMP_Text puzzleEditDifficulty;
+
+
     private void Awake()
     {
         instance = this;
@@ -86,19 +100,64 @@ public class PuzzleOverview : MonoBehaviour
     /// <param name="puzzleinfo"></param>
     public void OpenInfo(Puzzle puzzleinfo)
     {
-        if(cover.activeSelf != true)
+        GameObject editPage = cover.transform.Find("edit").gameObject;
+        GameObject detailPage = cover.transform.Find("details").gameObject;
+        print(editPage);
+        if (cover.activeSelf != true)
         {
             cover.SetActive(true);
-            cover.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
-            cover.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
-            cover.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
-            cover.transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
+            detailPage.SetActive(true);
+            editPage.SetActive(false);
+
+            puzzleName.text = puzzleinfo.name.text;
+            puzzleDifficulty.text = "Difficulty: " + puzzleinfo.difficulty;
+            puzzleCreator.text = "Created by: " + puzzleinfo.creator;
+            puzzleDescription.text = puzzleinfo.description;
         }
         else if(cover.activeSelf != false)
         {
             cover.SetActive(false);
         }
         
+    }
+
+    public void OpenEditInfo(Puzzle puzzleinfo)
+    {
+        GameObject editPage = cover.transform.Find("edit").gameObject;
+        GameObject detailPage = cover.transform.Find("details").gameObject;
+
+        if (editPage.activeSelf == false)
+        {
+            detailPage.SetActive(false);
+            editPage.SetActive(true);
+
+            puzzleEditName.text = puzzleinfo.name.text;
+            puzzleEditDescription.text = puzzleinfo.description;
+
+        }
+        
+        else if (editPage.activeSelf == true)
+        {
+            editPage.SetActive(false);print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
+            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text));
+        }
+
+    }
+
+    public IEnumerator EditPuzzle(int id, string title, string description)
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("id", id.ToString()),
+            new MultipartFormDataSection("title", title),
+            new MultipartFormDataSection("description", description)
+        };
+        
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/editpuzzle.php", form);
+        
+        yield return www.SendWebRequest();
+        cover.SetActive(false);
+        Launcher.instance.OpenAdminPuzzleOverviewMenu();
     }
 
     /// <summary>
