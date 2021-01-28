@@ -8,6 +8,7 @@ public class QuestionSession : MonoBehaviour
 {
     public PuzzleData puzzle;
     public Question question;
+    public int questionid;
     public static QuestionSession instance;
 
     void Awake()
@@ -18,10 +19,19 @@ public class QuestionSession : MonoBehaviour
 
     public void AddAnswer(List<Answer> answers)
     {
-        question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
-        print(question.id);
-        print(question.question);
-        StartCoroutine(SaveQuestion());
+       
+        if (answers.Count > 0)
+        {
+            if(question == null)
+            {
+                question.id = 0;
+            }
+            question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
+            StartCoroutine(SaveQuestion());
+        }
+       
+       
+        
     }
 
  

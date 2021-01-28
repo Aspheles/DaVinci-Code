@@ -24,7 +24,7 @@ public class QuestionCreator : MonoBehaviour
     public static QuestionCreator instance;
     public bool loaded;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
         //Debug.Log(puzzleNameInput.text);
@@ -195,20 +195,42 @@ public class QuestionCreator : MonoBehaviour
                 {
 
                     int id = 0;
-
-                    if(QuestionSession.instance.question.id != 0 && QuestionSession.instance.question.answer != null)
+                    
+                    if(QuestionSession.instance != null)
                     {
-                        Answer foundAnswer = QuestionSession.instance.question.answer.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
-
-                        if (foundAnswer != null)
+                        if (QuestionSession.instance.question != null && QuestionSession.instance.question.id != 0)
                         {
-                            id = foundAnswer.id;
+                            Answer foundAnswer = QuestionSession.instance.question.answer.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
+
+                            if (foundAnswer != null)
+                            {
+                                id = foundAnswer.id;
+                            }
+                            else
+                            {
+                                print("Answer wasn't found");
+                            }
+                        }
+                        else
+                        {
+                            print("Question can't be found");
+                            id = 0;
                         }
                     }
+                    else
+                    {
+                        print("QuestionSession hasn't been instantiated yet");
+                    }
                     
-                   
+
                     
+
+
+
                     Answer answer = new Answer(id, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
+                    print(item[i].GetComponent<AnswerManager>().answerField.text);
+                    print(item[i].GetComponent<AnswerManager>().correctToggle.isOn);
+
                     newAnswers.Add(answer);
 
                 }
