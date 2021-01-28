@@ -13,6 +13,20 @@ public class PuzzleOverview : MonoBehaviour
     [SerializeField] private GameObject cover;
     public static PuzzleOverview instance;
     public List<PuzzleData> puzzles;
+    public Puzzle selectedPuzzle;
+
+    [Header("Detail page")]
+    [SerializeField] TMP_Text puzzleName;
+    [SerializeField] TMP_Text puzzleDescription;
+    [SerializeField] TMP_Text puzzleDifficulty;
+    [SerializeField] TMP_Text puzzleCreator;
+
+    [Header("Edit page")]
+    [SerializeField] TMP_Text puzzleEditName;
+    [SerializeField] TMP_Text puzzleEditDescription;
+    [SerializeField] TMP_Text puzzleEditDifficulty;
+
+
     private void Awake()
     {
         instance = this;
@@ -95,10 +109,10 @@ public class PuzzleOverview : MonoBehaviour
             detailPage.SetActive(true);
             editPage.SetActive(false);
 
-            detailPage.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = puzzleinfo.name.text;
-            detailPage.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
-            detailPage.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Created by: " + puzzleinfo.creator;
-            detailPage.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = puzzleinfo.description;
+            puzzleName.text = puzzleinfo.name.text;
+            puzzleDifficulty.text = "Difficulty: " + puzzleinfo.difficulty;
+            puzzleCreator.text = "Created by: " + puzzleinfo.creator;
+            puzzleDescription.text = puzzleinfo.description;
         }
         else if(cover.activeSelf != false)
         {
@@ -116,15 +130,16 @@ public class PuzzleOverview : MonoBehaviour
         {
             detailPage.SetActive(false);
             editPage.SetActive(true);
-            
-            editPage.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Difficulty: " + puzzleinfo.difficulty;
-           
+
+            puzzleEditName.text = puzzleinfo.name.text;
+            puzzleEditDescription.text = puzzleinfo.description;
+
         }
+        
         else if (editPage.activeSelf == true)
         {
             editPage.SetActive(false);print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
-            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleinfo.name.text, puzzleinfo.description));
-
+            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text));
         }
 
     }
@@ -141,6 +156,7 @@ public class PuzzleOverview : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/editpuzzle.php", form);
         
         yield return www.SendWebRequest();
+        cover.SetActive(false);
         Launcher.instance.OpenAdminPuzzleOverviewMenu();
     }
 

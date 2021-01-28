@@ -39,11 +39,14 @@ public class Puzzle : MonoBehaviour
 
     public void OnInfoButtonClicked()
     {
-        PuzzleOverview.instance.OpenInfo(this);
+        Puzzle data = PuzzleOverview.instance.selectedPuzzle = this;
+        PuzzleOverview.instance.OpenInfo(data);
     }
 
     public void OnInfoEditButtonClicked()
     {
-        PuzzleOverview.instance.OpenEditInfo(this);
+
+        Puzzle data = PuzzleOverview.instance.selectedPuzzle;
+        PuzzleOverview.instance.OpenEditInfo(data);
     }
 }

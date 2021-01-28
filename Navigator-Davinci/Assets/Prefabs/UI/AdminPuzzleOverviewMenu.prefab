@@ -1519,7 +1519,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4883295457973099960}
   m_HandleRect: {fileID: 8534040759928560475}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3180,6 +3180,14 @@ MonoBehaviour:
     type: 3}
   cover: {fileID: 7301092533572701556}
   puzzles: []
+  selectedPuzzle: {fileID: 0}
+  puzzleName: {fileID: 6949007877893376886}
+  puzzleDescription: {fileID: 2580534688457780307}
+  puzzleDifficulty: {fileID: 493785644581710309}
+  puzzleCreator: {fileID: 1404665362426078648}
+  puzzleEditName: {fileID: 2380341150808459617}
+  puzzleEditDescription: {fileID: 5130840769914641316}
+  puzzleEditDifficulty: {fileID: 0}
 --- !u!1 &6133538774457009957
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,7 +3258,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 263.9, y: 146.52293}
+  m_AnchoredPosition: {x: 263.9, y: 146.52202}
   m_SizeDelta: {x: 556.6743, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &8838167565999791919
