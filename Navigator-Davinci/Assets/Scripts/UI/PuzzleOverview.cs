@@ -24,7 +24,7 @@ public class PuzzleOverview : MonoBehaviour
     [Header("Edit page")]
     [SerializeField] TMP_Text puzzleEditName;
     [SerializeField] TMP_Text puzzleEditDescription;
-    [SerializeField] TMP_Text puzzleEditDifficulty;
+    [SerializeField] TMP_Dropdown puzzleEditDifficulty;
 
 
     private void Awake()
@@ -126,38 +126,53 @@ public class PuzzleOverview : MonoBehaviour
         GameObject editPage = cover.transform.Find("edit").gameObject;
         GameObject detailPage = cover.transform.Find("details").gameObject;
 
+       
+
         if (editPage.activeSelf == false)
         {
             detailPage.SetActive(false);
             editPage.SetActive(true);
 
-            puzzleEditName.text = puzzleinfo.name.text;
-            puzzleEditDescription.text = puzzleinfo.description;
+            puzzleEditName.text = selectedPuzzle.name.text;
+            puzzleEditDescription.text = selectedPuzzle.description;
+
 
         }
-        
         else if (editPage.activeSelf == true)
         {
-            editPage.SetActive(false);print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
-            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text));
+            editPage.SetActive(false);
+            print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
+            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text, puzzleEditDifficulty.options[puzzleEditDifficulty.value].text));
         }
 
     }
 
-    public IEnumerator EditPuzzle(int id, string title, string description)
+    public IEnumerator EditPuzzle(int id, string title, string description, string difficulty)
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("id", id.ToString()),
             new MultipartFormDataSection("title", title),
-            new MultipartFormDataSection("description", description)
+            new MultipartFormDataSection("description", description),
+            new MultipartFormDataSection("difficulty", difficulty)
+
         };
         
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/editpuzzle.php", form);
         
         yield return www.SendWebRequest();
-        cover.SetActive(false);
-        Launcher.instance.OpenAdminPuzzleOverviewMenu();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            cover.SetActive(false);
+            Launcher.instance.OpenAdminPuzzleOverviewMenu();
+        }
+
+       
     }
 
     /// <summary>

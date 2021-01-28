@@ -7,7 +7,7 @@ public class Puzzle : MonoBehaviour
 {
     public GameObject puzzleObject;
     public int id;
-    public TextMeshProUGUI name;
+    public TMP_Text name;
     public string difficulty;
     public string creator;
     public string description;
@@ -39,8 +39,8 @@ public class Puzzle : MonoBehaviour
 
     public void OnInfoButtonClicked()
     {
-        Puzzle data = PuzzleOverview.instance.selectedPuzzle = this;
-        PuzzleOverview.instance.OpenInfo(data);
+        PuzzleOverview.instance.selectedPuzzle = this;
+        PuzzleOverview.instance.OpenInfo(PuzzleOverview.instance.selectedPuzzle);
     }
 
     public void OnInfoEditButtonClicked()

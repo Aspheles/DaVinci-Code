@@ -10,7 +10,7 @@ public class QuestionSession : MonoBehaviour
     public Question question;
     public static QuestionSession instance;
 
-    void Start()
+    void Awake()
     {
         instance = this;     
     }
