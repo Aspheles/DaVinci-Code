@@ -11,6 +11,13 @@ public class Puzzle : MonoBehaviour
     public string difficulty;
     public string creator;
     public string description;
+    public static Puzzle instance;
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void Edit()
     {
@@ -18,7 +25,7 @@ public class Puzzle : MonoBehaviour
         //Debug.Log(Question.question);
         if (Puzzle != null)
         {
-            QuestionSession.instance.puzzle = Puzzle;
+            Session.instance.puzzle = Puzzle;
             Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
 
@@ -33,7 +40,10 @@ public class Puzzle : MonoBehaviour
 
     public void Delete()
     {
-        StartCoroutine(PuzzleOverview.instance.Delete(this));
+        //StartCoroutine(PuzzleOverview.instance.Delete(this));
+        PuzzleOverview.instance.selectedPuzzle = this;
+        Puzzles puzzle = new Puzzles();
+        puzzle.Delete();
     }
 
 

@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee32110088cfff48be9fb2ca16d936f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 4836779547420317993}
+  puzzleName: {fileID: 4836779547420317993}
   description: {fileID: 5040513521432910597}
   difficulty: {fileID: 4836779547685802309}
   message: {fileID: 4836779547553182866}

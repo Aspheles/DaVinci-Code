@@ -49,7 +49,7 @@ public class Question
     public string question;
     public string description;
     public string image;
-    public List<Answer> answer;
+    public List<Answer> answers;
     public int puzzleid;
 
     
@@ -60,7 +60,7 @@ public class Question
         this.question = question;
         this.description = description;
         this.image = image;
-        this.answer = answer;
+        this.answers = answers;
         this.puzzleid = puzzleid;
     }
 } 

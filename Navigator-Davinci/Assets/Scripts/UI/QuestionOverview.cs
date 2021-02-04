@@ -22,7 +22,7 @@ public class QuestionOverview : MonoBehaviour
         StartCoroutine(changeScrollValue());
         //LoadQuestions();
 
-        //if(QuestionSession.instance.allQuestions.Count > 0)
+        //if(Session.instance.allQuestions.Count > 0)
     }
 
     IEnumerator changeScrollValue()
@@ -58,7 +58,7 @@ public class QuestionOverview : MonoBehaviour
     /// </summary>
     public void CreateNewQuestion()
     {
-        QuestionSession.instance.question = null;
+        Session.instance.question = null;
         //QuestionCreator.instance.ResetData();
         Launcher.instance.OpenPuzzleQuestionCreatorMenu();
     }
@@ -73,9 +73,9 @@ public class QuestionOverview : MonoBehaviour
 
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
-            //QuestionSession.instance.puzzle.id.ToString()
-            new MultipartFormDataSection("puzzle_id", QuestionSession.instance.puzzle.id.ToString()),
-            //QuestionSession.instance.puzzle.id
+            //Session.instance.puzzle.id.ToString()
+            new MultipartFormDataSection("puzzle_id", Session.instance.puzzle.id.ToString()),
+            //Session.instance.puzzle.id
         };
 
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchquestions.php", form);

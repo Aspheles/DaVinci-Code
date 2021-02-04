@@ -10,7 +10,7 @@ public class PuzzleOverview : MonoBehaviour
 { 
     [SerializeField] private Transform container;
     [SerializeField] private GameObject puzzleObject;
-    [SerializeField] private GameObject cover;
+    [SerializeField] public GameObject cover;
     public static PuzzleOverview instance;
     public List<PuzzleData> puzzles;
     public Puzzle selectedPuzzle;
@@ -22,15 +22,16 @@ public class PuzzleOverview : MonoBehaviour
     [SerializeField] TMP_Text puzzleCreator;
 
     [Header("Edit page")]
-    [SerializeField] TMP_Text puzzleEditName;
-    [SerializeField] TMP_Text puzzleEditDescription;
-    [SerializeField] TMP_Dropdown puzzleEditDifficulty;
+    public TMP_Text puzzleEditName;
+    public TMP_Text puzzleEditDescription;
+    public TMP_Dropdown puzzleEditDifficulty;
 
 
     private void Awake()
     {
         instance = this;
         cover.SetActive(false);
+        LoadPuzzles();
     }
 
     /// <summary>
@@ -38,10 +39,13 @@ public class PuzzleOverview : MonoBehaviour
     /// </summary>
     public void LoadPuzzles()
     {
+        puzzles = new List<PuzzleData>();
+
         for (int o = 0; o < container.childCount; o++)
         {
             Destroy(container.GetChild(o).gameObject);
         }
+
         if (puzzles.Count > 0 && puzzles != null)
         {
             foreach(PuzzleData puzzle in puzzles)
@@ -67,32 +71,8 @@ public class PuzzleOverview : MonoBehaviour
         Launcher.instance.OpenPuzzleCreatorMenu();
     }
 
-    /// <summary>
-    /// Deletes chosen puzzle.
-    /// </summary>
-    /// <param name="puzzle"></param>
-    public IEnumerator Delete(Puzzle puzzle)
-    {
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("id", puzzle.id.ToString())
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/deletepuzzle.php", form);
-        
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-
-        else
-        {
-            Destroy(puzzle.puzzleObject);
-            print(www.downloadHandler.text);
-        }
-    }
+   
+   
 
     /// <summary>
     /// Opens the info modal for the chosen puzzle.
@@ -141,75 +121,15 @@ public class PuzzleOverview : MonoBehaviour
         else if (editPage.activeSelf == true)
         {
             editPage.SetActive(false);
-            print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
-            StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text, puzzleEditDifficulty.options[puzzleEditDifficulty.value].text));
+            //print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
+            //StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text, puzzleEditDifficulty.options[puzzleEditDifficulty.value].text));
+
+            new Puzzles().Edit();
         }
 
     }
 
-    public IEnumerator EditPuzzle(int id, string title, string description, string difficulty)
-    {
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("id", id.ToString()),
-            new MultipartFormDataSection("title", title),
-            new MultipartFormDataSection("description", description),
-            new MultipartFormDataSection("difficulty", difficulty)
+    
 
-        };
-        
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/editpuzzle.php", form);
-        
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            cover.SetActive(false);
-            Launcher.instance.OpenAdminPuzzleOverviewMenu();
-        }
-
-       
-    }
-
-    /// <summary>
-    /// Fetches all the puzzles from the database.
-    /// </summary>
-    /// <returns></returns>
-
-    public IEnumerator FetchPuzzles()
-    {
-        puzzles = new List<PuzzleData>();
-
-        UnityWebRequest www = UnityWebRequest.Get("http://davinci-code.nl/fetchpuzzles.php");
-
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-
-        else
-        {
-            byte[] puzzleInfo = www.downloadHandler.data;
-            string result = System.Text.Encoding.Default.GetString(puzzleInfo);
-
-            JSONArray jsonData = JSON.Parse(result) as JSONArray;
-
-            for(int i = 0; i < jsonData.Count; i++)
-            {
-                PuzzleData newPuzzle = new PuzzleData(int.Parse(jsonData[i].AsObject["id"]), jsonData[i].AsObject["name"], jsonData[i].AsObject["difficulty"], jsonData[i].AsObject["description"], jsonData[i].AsObject["creator"]);
-                puzzles.Add(newPuzzle);
-            }
-            
-            if(puzzles.Count > 0)
-            {
-                LoadPuzzles();
-            }
-        }
-    }
+   
 }

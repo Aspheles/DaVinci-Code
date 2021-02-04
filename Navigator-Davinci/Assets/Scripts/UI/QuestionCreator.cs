@@ -52,16 +52,16 @@ public class QuestionCreator : MonoBehaviour
         
         
         // Checks if question is being edited so the values can be updated
-        if (QuestionSession.instance.question != null && !loaded)
+        if (Session.instance.question != null && !loaded)
         {
             
             GameObject.Find("title").GetComponent<Text>().text = "Edit your question";
-            questionInput.text = QuestionSession.instance.question.question;
-            description.text = QuestionSession.instance.question.description;
+            questionInput.text = Session.instance.question.question;
+            description.text = Session.instance.question.description;
            
-            LoadAnswers(QuestionSession.instance.question.answer);
+            LoadAnswers(Session.instance.question.answers);
             loaded = true;
-            //QuestionSession.instance.question = null;
+            //Session.instance.question = null;
 
         }
         
@@ -125,8 +125,8 @@ public class QuestionCreator : MonoBehaviour
           }
         }*/
 
-        //Answer item = QuestionSession.instance.question.answer.Find((x) => x.answer == answer);
-        //if (item != null) QuestionSession.instance.question.answer.Remove(item);
+        //Answer item = Session.instance.question.answer.Find((x) => x.answer == answer);
+        //if (item != null) Session.instance.question.answer.Remove(item);
 
         //Destroy(this.gameObject);
     }
@@ -196,11 +196,11 @@ public class QuestionCreator : MonoBehaviour
 
                     int id = 0;
                     
-                    if(QuestionSession.instance != null)
+                    if(Session.instance != null)
                     {
-                        if (QuestionSession.instance.question != null && QuestionSession.instance.question.id != 0)
+                        if (Session.instance.question != null && Session.instance.question.id != 0)
                         {
-                            Answer foundAnswer = QuestionSession.instance.question.answer.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
+                            Answer foundAnswer = Session.instance.question.answers.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
 
                             if (foundAnswer != null)
                             {
@@ -219,7 +219,7 @@ public class QuestionCreator : MonoBehaviour
                     }
                     else
                     {
-                        print("QuestionSession hasn't been instantiated yet");
+                        print("Session hasn't been instantiated yet");
                     }
                     
 
@@ -238,9 +238,9 @@ public class QuestionCreator : MonoBehaviour
         }
             
 
-        QuestionSession.instance.AddAnswer(newAnswers);
+        Session.instance.AddAnswer(newAnswers);
         
-        //StartCoroutine(QuestionSession.instance.SaveAnswers());
+        //StartCoroutine(Session.instance.SaveAnswers());
 
 
        
@@ -253,7 +253,7 @@ public class QuestionCreator : MonoBehaviour
 
     public void CancelChanges()
     {
-        QuestionSession.instance.question = null;
+        Session.instance.question = null;
         loaded = false;
         ResetData();
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();

@@ -28,8 +28,8 @@ public class QuestionManager : MonoBehaviour
         //Debug.Log(Question.question);
         if (Question != null)
         {
-            QuestionSession.instance.question = Question;
-            StartCoroutine(QuestionSession.instance.LoadAnswers());
+            Session.instance.question = Question;
+            StartCoroutine(Session.instance.LoadAnswers());
             
 
         }

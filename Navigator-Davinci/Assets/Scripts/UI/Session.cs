@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
 
-public class QuestionSession : MonoBehaviour
+public class Session : MonoBehaviour
 {
     public PuzzleData puzzle;
     public Question question;
     public int questionid;
-    public static QuestionSession instance;
+    public static Session instance;
 
     void Awake()
     {
@@ -64,7 +64,7 @@ public class QuestionSession : MonoBehaviour
 
                 JSONArray jsonData = JSON.Parse(Result) as JSONArray;
                 //List<Answer> answers = new List<Answer>();
-                question.answer = new List<Answer>();
+                question.answers = new List<Answer>();
 
                 for (int i = 0; i < jsonData.Count; i++)
                 {
@@ -76,7 +76,7 @@ public class QuestionSession : MonoBehaviour
                     else answerbool = true;
 
 
-                    question.answer.Add(new Answer(int.Parse(answerid), answertitle, answerbool));
+                    question.answers.Add(new Answer(int.Parse(answerid), answertitle, answerbool));
 
                 }
                 Launcher.instance.OpenPuzzleQuestionCreatorMenu();
@@ -86,7 +86,7 @@ public class QuestionSession : MonoBehaviour
             {
                 Debug.Log("Question doesn't have answers");
                 QuestionCreator.instance.ResetData();
-                question.answer = new List<Answer>();
+                question.answers = new List<Answer>();
                 Launcher.instance.OpenPuzzleQuestionCreatorMenu();
             }
             
@@ -102,8 +102,8 @@ public class QuestionSession : MonoBehaviour
             new MultipartFormDataSection("question_id", question.id.ToString()),
             new MultipartFormDataSection("question_title", QuestionCreator.instance.questionInput.text),
             new MultipartFormDataSection("question_description",  QuestionCreator.instance.description.text),
-            new MultipartFormDataSection("question_image", "test"),
             new MultipartFormDataSection("puzzle_id", puzzle.id.ToString()),
+            new MultipartFormDataSection("image", question.image),
         };
         UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savequestion.php", form);
         yield return www.SendWebRequest();
@@ -127,7 +127,7 @@ public class QuestionSession : MonoBehaviour
     {
         
         //Answers
-        foreach (Answer answer in question.answer)
+        foreach (Answer answer in question.answers)
         {
             List<IMultipartFormSection> form = new List<IMultipartFormSection>
             {
@@ -155,6 +155,8 @@ public class QuestionSession : MonoBehaviour
         QuestionCreator.instance.ResetData();
 
     }
+
+  
 
 
 }

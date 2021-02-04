@@ -4,13 +4,15 @@ using UnityEngine;
 
 public static class Request
 {
+    public const string server = "http://davinci-code.nl";
 
     public const string
-         LOGIN = "http://davinci-code.nl/login.php",
-         REGISTER = "http://davinci-code.nl/register.php",
-         DELETEANSWER = "http://davinci-code.nl/deleteanswer.php";
-
-
-
-
+        LOGIN = server + "/login.php",
+        REGISTER = server + "/register.php",
+        DELETEANSWER = server + "/deleteanswer.php",
+        CREATEPUZZLE = server + "/createpuzzle.php",
+        EDITPUZZLE = server + "/editpuzzle.php",
+        DELETEPUZZLE = server + "/deletepuzzle.php",
+        FETCHPUZZLES = server + "/fetchpuzzles.php";
+    
 }

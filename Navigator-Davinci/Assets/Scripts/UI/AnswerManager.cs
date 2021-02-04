@@ -26,19 +26,19 @@ public class AnswerManager : MonoBehaviour
 
    
 
-    public void DeleteAnswerOption()
+    public void DeleteanswersOption()
     {
-       // QuestionCreator.instance.RemoveAnswer(answerField.text);
+       // QuestionCreator.instance.Removeanswers(answersField.text);
 
-        if(QuestionSession.instance.question.id != 0)
+        if(Session.instance.question.id != 0)
         {
-            Answer item = QuestionSession.instance.question.answer.Find((x) => x.answer == answerField.text);
+            Answer item = Session.instance.question.answers.Find((x) => x.answer == answerField.text);
 
             if (item != null && item.id != 0)
             {
-                StartCoroutine(DeleteAnswerFromDb(item.id.ToString()));
+                StartCoroutine(DeleteanswersFromDb(item.id.ToString()));
             }
-            QuestionSession.instance.question.answer.Remove(item);
+            Session.instance.question.answers.Remove(item);
         }
 
         
@@ -49,7 +49,8 @@ public class AnswerManager : MonoBehaviour
     }
 
 
-    private IEnumerator DeleteAnswerFromDb(string id)
+    //Backend
+    private IEnumerator DeleteanswersFromDb(string id)
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
