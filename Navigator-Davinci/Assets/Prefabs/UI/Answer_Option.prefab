@@ -51,8 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468b7be1f5638ce43ac34430f5e6e2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   answerField: {fileID: 3620536487362706755}
   correctToggle: {fileID: 3620536487825150932}
+  answerObject: {fileID: 3620536487071420902}
 --- !u!1001 &3620536487356317919
 PrefabInstance:
   m_ObjectHideFlags: 0

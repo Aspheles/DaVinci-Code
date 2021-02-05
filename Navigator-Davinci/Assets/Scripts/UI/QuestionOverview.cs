@@ -14,6 +14,7 @@ public class QuestionOverview : MonoBehaviour
     public List<Question> Questions;
     public static QuestionOverview instance;
     public Scrollbar scrollbar;
+    public GameObject questionObject;
 
     public void Awake()
     {
@@ -36,16 +37,18 @@ public class QuestionOverview : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void LoadQuestions(List<Question> questions)
+    public void LoadQuestions()
     {
+        
 
-        foreach (Question question in questions)
+        foreach (Question question in Questions)
         {
 
             GameObject QuestionClone = Instantiate(QuestionInput, QuestionPositions.position, Quaternion.identity);
             QuestionClone.transform.SetParent(QuestionPositions);
             //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
             QuestionClone.GetComponent<QuestionManager>().questionTitle.text = question.question;
+            QuestionClone.GetComponent<QuestionManager>().id = question.id;
 
             
         } 
@@ -64,62 +67,6 @@ public class QuestionOverview : MonoBehaviour
     }
 
 
-    public IEnumerator FetchQuestionsData()
-    {
-        foreach(Transform child in QuestionPositions)
-        {
-            Destroy(child.gameObject);
-        }
-
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            //Session.instance.puzzle.id.ToString()
-            new MultipartFormDataSection("puzzle_id", Session.instance.puzzle.id.ToString()),
-            //Session.instance.puzzle.id
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/fetchquestions.php", form);
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Questions = new List<Question>();
-            byte[] dbData = www.downloadHandler.data;
-            string Result = System.Text.Encoding.Default.GetString(dbData);
-            
-            JSONArray jsonData = JSON.Parse(Result) as JSONArray;
-
-            for (int i = 0; i < jsonData.Count; i++)
-            {
-                //Local variables
-                string questionId = jsonData[i].AsObject["id"];
-                string questionTitle = jsonData[i].AsObject["title"];
-                string questionDescription = jsonData[i].AsObject["description"];
-                string questionImage = jsonData[i].AsObject["image"];
-                int puzzleid = jsonData[i].AsObject["puzzle_id"];
-
-                Question a = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null, puzzleid);
-                Questions.Add(a);
-
-            }
-
-            if(Questions.Count > 0)
-            {
-                LoadQuestions(Questions);
-            }
-           
-
-            //Questions.Add(new Question())
-
-            
-        }
-    }
-
+  
 
 }

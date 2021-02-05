@@ -10,21 +10,13 @@ public class AnswerManager : MonoBehaviour
     public InputField answerField;
     public Toggle correctToggle;
     public static AnswerManager instance;
+    public GameObject answerObject;
 
 
     private void Start()
     {
         instance = this;
     }
-
-    private void Update()
-    {
-        
-
- 
-    }
-
-   
 
     public void DeleteanswersOption()
     {
@@ -36,7 +28,9 @@ public class AnswerManager : MonoBehaviour
 
             if (item != null && item.id != 0)
             {
-                StartCoroutine(DeleteanswersFromDb(item.id.ToString()));
+                //StartCoroutine(DeleteanswersFromDb(item.id.ToString()));
+                Session.instance.answerObject = answerObject;
+                new Answers().Delete(item.id);
             }
             Session.instance.question.answers.Remove(item);
         }
@@ -49,20 +43,4 @@ public class AnswerManager : MonoBehaviour
     }
 
 
-    //Backend
-    private IEnumerator DeleteanswersFromDb(string id)
-    {
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("id", id)
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post(Request.DELETEANSWER, form);
-
-
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError) Debug.LogError(www.error);
-        else Debug.Log($"item {id} has been deleted");
-    }
 }

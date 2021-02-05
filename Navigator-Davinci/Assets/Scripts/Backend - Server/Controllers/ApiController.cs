@@ -17,13 +17,16 @@ public class ApiController : MonoBehaviour
 
     public void CheckData(JSONNode Data, string type)
     {
+        //Clearing session data
+        Session.instance.message = "";
+
         switch (type)
         {
             case Request.CREATEPUZZLE:
                 SavePuzzle(Data);
                 break;
             case Request.EDITPUZZLE:
-                EditPuzzle();
+                EditPuzzle(Data);
                 break;
             case Request.DELETEPUZZLE:
                 DeletePuzzle();
@@ -31,56 +34,64 @@ public class ApiController : MonoBehaviour
             case Request.FETCHPUZZLES:
                 FetchPuzzles(Data);
                 break;
+            case Request.CREATEQUESTION:
+                SaveQuestion(Data);
+                break;
+            case Request.DELETEQUESTION:
+                DeleteQuestion();
+                break;
+            case Request.FETCHQUESTIONS:
+                FetchQuestions(Data);
+                break;
+            case Request.DELETEANSWER:
+                DeleteAnswer();
+                break;
 
-        }
-    }
-
-    public void CheckError(JSONNode Data, string type)
-    {
-        switch (type)
-        {
-            case Request.CREATEPUZZLE:
-                SavePuzzle(Data);
-                break;
-            case Request.EDITPUZZLE:
-                EditPuzzle();
-                break;
-            case Request.DELETEPUZZLE:
-                DeletePuzzle();
-                break;
-            case Request.FETCHPUZZLES:
-                FetchPuzzles(Data);
-                break;
 
         }
     }
 
     private void SavePuzzle(JSONNode Data)
     {
-        for (int i = 0; i < Data.Count; i++)
+        //Checking for error
+        if (Data[1].AsObject["status"] == "success")
         {
-            Session.instance.puzzle.id = Data[i].AsObject["id"];
-            Session.instance.puzzle.name = Data[i].AsObject["name"];
-            Session.instance.puzzle.difficulty = Data[i].AsObject["difficulty"];
-            Session.instance.puzzle.description = Data[i].AsObject["description"];
-            Session.instance.puzzle.creator = Data[i].AsObject["creator"];
+            Session.instance.puzzle.id = Data[0].AsObject["id"];
+            Session.instance.puzzle.name = Data[0].AsObject["name"];
+            Session.instance.puzzle.difficulty = Data[0].AsObject["difficulty"];
+            Session.instance.puzzle.description = Data[0].AsObject["description"];
+            Session.instance.puzzle.creator = Data[0].AsObject["creator"];
+
+            PuzzleManager.instance.ClearInputs();
+            Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+            print("Puzzle has been saved");
         }
-        print("Puzzle has been saved");
-        Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+        
     }
 
-    private void EditPuzzle()
+    private void EditPuzzle(JSONNode Data)
     {
-
-        PuzzleOverview.instance.cover.SetActive(false);
-        Launcher.instance.OpenAdminPuzzleOverviewMenu();
-
-        if (PuzzleOverview.instance.puzzles.Count > 0)
+        if(Data[1].AsObject["status"] == "success")
         {
-            PuzzleOverview.instance.LoadPuzzles();
-        }
+            PuzzleOverview.instance.cover.SetActive(false);
+            Launcher.instance.OpenAdminPuzzleOverviewMenu();
 
-        print("Puzzle has been edited");
+            if (PuzzleOverview.instance.puzzles.Count > 0)
+            {
+                PuzzleOverview.instance.LoadPuzzles();
+            }
+
+            print("Puzzle has been edited");
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+        
     }
 
     /// <summary>
@@ -94,7 +105,7 @@ public class ApiController : MonoBehaviour
 
     private void FetchPuzzles(JSONNode Data)
     {
-        //PuzzleOverview.instance.puzzles = new List<PuzzleData>();
+        PuzzleOverview.instance.puzzles = new List<PuzzleData>();
 
         for (int i = 0; i < Data.Count; i++)
         {
@@ -115,5 +126,63 @@ public class ApiController : MonoBehaviour
             PuzzleOverview.instance.LoadPuzzles();
         }
         
+    }
+
+    private void SaveQuestion(JSONNode Data)
+    {
+        print(Data);
+        if(Data[1].AsObject["status"] == "success")
+        {
+            if (!string.IsNullOrEmpty(Data)) Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
+            print("Question has been saved");
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+       
+       
+        //StartCoroutine(SaveAnswers());
+    }
+
+    private void DeleteQuestion()
+    {
+        Destroy(QuestionOverview.instance.questionObject);
+        print("Question Has been deleted");
+    }
+
+    private void FetchQuestions(JSONNode Data)
+    {
+        QuestionOverview.instance.Questions = new List<Question>();
+
+        for (int i = 0; i < Data.Count; i++)
+        {
+            //Local variables
+            string questionId = Data[i].AsObject["id"];
+            string questionTitle = Data[i].AsObject["title"];
+            string questionDescription = Data[i].AsObject["description"];
+            string questionImage = Data[i].AsObject["image"];
+            int puzzleid = Data[i].AsObject["puzzle_id"];
+
+            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null, puzzleid);
+            QuestionOverview.instance.Questions.Add(_question);
+
+        }
+
+        //Clear the list for duplicates
+        foreach (Transform child in QuestionOverview.instance.QuestionPositions)
+        {
+            Destroy(child.gameObject);
+        }
+
+        QuestionOverview.instance.LoadQuestions();
+        print("Questions have been loaded");
+        
+    }
+
+    private void DeleteAnswer()
+    {
+        Destroy(Session.instance.answerObject);
+        print("Answer has been deleted");
     }
 }

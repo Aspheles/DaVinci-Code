@@ -20,6 +20,8 @@ public enum PuzzleDifficulty
 [Serializable]
 public class PuzzleData
 {
+    public string errorMessage;
+
     public static PuzzleData instance;
 
     public int id;
@@ -51,10 +53,11 @@ public class Question
     public string image;
     public List<Answer> answers;
     public int puzzleid;
+    public string errorMessage;
 
-    
 
-    public Question(int id,string question, string description, string image ,List<Answer> answer, int puzzleid)
+
+    public Question(int id,string question, string description, string image ,List<Answer> answers, int puzzleid)
     {
         this.id = id;
         this.question = question;
@@ -72,6 +75,7 @@ public class Answer
     public int id;
     public string answer;
     public bool isCorrect;
+    public string errorMessage;
 
     public Answer(int id, string answer, bool isCorrect)
     {

@@ -60,7 +60,8 @@ public class Launcher : MonoBehaviour
     public void OpenPuzzleQuestionsOverviewMenu()
     {
         MenuManager.instance.OpenMenu("questionoverview");
-        StartCoroutine(QuestionOverview.instance.FetchQuestionsData());
+        //StartCoroutine(QuestionOverview.instance.FetchQuestionsData());
+        new Questions().Load();
     }
 
     public void OpenVerificationMenu()

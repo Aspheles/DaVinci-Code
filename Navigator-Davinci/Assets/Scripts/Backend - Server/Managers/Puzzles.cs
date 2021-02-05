@@ -5,10 +5,6 @@ using UnityEngine.Networking;
 
 public class Puzzles : IManager
 {
-    //Puzzle Creation
-    public string puzzleName;
-    public string puzzleDifficulty;
-    public string puzzleDescription;
     public List<IMultipartFormSection> form;
 
 
@@ -43,12 +39,12 @@ public class Puzzles : IManager
         ApiHandler.instance.CallApiRequest("post", form, Request.EDITPUZZLE);
     }
 
-    public void Delete()
+    public void Delete(int id)
     {
         //Delete Puzzle from list
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
-            new MultipartFormDataSection("id", PuzzleOverview.instance.selectedPuzzle.id.ToString())
+            new MultipartFormDataSection("id", id.ToString())
         };
 
         ApiHandler.instance.CallApiRequest("post", form, Request.DELETEPUZZLE);

@@ -43,7 +43,7 @@ public class Puzzle : MonoBehaviour
         //StartCoroutine(PuzzleOverview.instance.Delete(this));
         PuzzleOverview.instance.selectedPuzzle = this;
         Puzzles puzzle = new Puzzles();
-        puzzle.Delete();
+        puzzle.Delete(id);
     }
 
 

@@ -171,7 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a414fe0a559cb4646907c4580717a7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   questionTitle: {fileID: 8452550047202509471}
+  questionObject: {fileID: 8452550047202509466}
 --- !u!1001 &5305104665289623240
 PrefabInstance:
   m_ObjectHideFlags: 0

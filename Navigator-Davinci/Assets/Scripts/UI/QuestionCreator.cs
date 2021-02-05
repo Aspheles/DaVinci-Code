@@ -18,7 +18,7 @@ public class QuestionCreator : MonoBehaviour
     [SerializeField] GameObject finishButton;
     [SerializeField] GameObject closeButton;
     public TMP_InputField description;
-
+    public TMP_Text message;
 
     public List<Question> question;
     public static QuestionCreator instance;
@@ -29,9 +29,6 @@ public class QuestionCreator : MonoBehaviour
         instance = this;
         //Debug.Log(puzzleNameInput.text);
         //Debug.Log(puzzleDifficultyInput.options[puzzleDifficultyInput.value].text);
-        
-
-      
     }
 
 
@@ -50,6 +47,10 @@ public class QuestionCreator : MonoBehaviour
     private void Update()
     {
         
+        if(Session.instance.message != null)
+        {
+            message.text = Session.instance.ErrorHandling();
+        }
         
         // Checks if question is being edited so the values can be updated
         if (Session.instance.question != null && !loaded)
@@ -101,35 +102,10 @@ public class QuestionCreator : MonoBehaviour
                 QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
                 QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
             }
-        }
-        
-        
-        
-        
-        
+        }  
     }
 
-    /// <summary>
-    /// Removes a answer from a question.
-    /// </summary>
-    /// <param name="answer"></param>
-    public void RemoveAnswer(string answer)
-    {
-        /*
-        foreach(Question q in question)
-        {
-          Answer item = q.answer.Find((x) => x.answer == answer);
-          if(item != null)
-          {
-            q.answer.Remove(item);
-          }
-        }*/
-
-        //Answer item = Session.instance.question.answer.Find((x) => x.answer == answer);
-        //if (item != null) Session.instance.question.answer.Remove(item);
-
-        //Destroy(this.gameObject);
-    }
+    
 
     /// <summary>
     /// Creates new answer.
@@ -178,6 +154,7 @@ public class QuestionCreator : MonoBehaviour
     /// </summary>
     public void FinishQuestions()
     {
+        Session.instance.message = "";
         List<Answer> newAnswers = new List<Answer>();
        // question = new List<Question>();
 
@@ -193,15 +170,12 @@ public class QuestionCreator : MonoBehaviour
                 }
                 else
                 {
-
                     int id = 0;
-                    
                     if(Session.instance != null)
                     {
                         if (Session.instance.question != null && Session.instance.question.id != 0)
                         {
                             Answer foundAnswer = Session.instance.question.answers.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
-
                             if (foundAnswer != null)
                             {
                                 id = foundAnswer.id;
@@ -221,24 +195,26 @@ public class QuestionCreator : MonoBehaviour
                     {
                         print("Session hasn't been instantiated yet");
                     }
-                    
-
-                    
-
-
 
                     Answer answer = new Answer(id, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
-                    print(item[i].GetComponent<AnswerManager>().answerField.text);
-                    print(item[i].GetComponent<AnswerManager>().correctToggle.isOn);
-
                     newAnswers.Add(answer);
 
+                    
+                    
+               
                 }
             }
         }
-            
 
-        Session.instance.AddAnswer(newAnswers);
+        if (HasCorrectValue(newAnswers))
+        {
+            Session.instance.AddAnswer(newAnswers);
+        }
+        else
+        {
+            message.text = "You need to atleast have 1 correct answer";
+        }
+        
         
         //StartCoroutine(Session.instance.SaveAnswers());
 
@@ -259,7 +235,20 @@ public class QuestionCreator : MonoBehaviour
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
     }
 
-    
+    private bool HasCorrectValue(List<Answer> answers)
+    {
+        int amount = 0;
+        foreach(Answer answer in answers)
+        {
+            if (!answer.isCorrect)
+            {
+                amount++;
+            }
+        }
+
+        if (amount == answers.Count) return false;
+        else return true;
+    }
 
 
 }

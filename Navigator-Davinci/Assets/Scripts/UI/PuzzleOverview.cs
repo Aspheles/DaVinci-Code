@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
-using SimpleJSON;
+using UnityEngine.UI;
+
 
 
 public class PuzzleOverview : MonoBehaviour
@@ -25,6 +25,7 @@ public class PuzzleOverview : MonoBehaviour
     public TMP_Text puzzleEditName;
     public TMP_Text puzzleEditDescription;
     public TMP_Dropdown puzzleEditDifficulty;
+    public TMP_Text message;
 
 
     private void Awake()
@@ -34,12 +35,20 @@ public class PuzzleOverview : MonoBehaviour
         LoadPuzzles();
     }
 
+    private void Update()
+    {
+        if(Session.instance.message != null)
+        {
+            message.text = Session.instance.ErrorHandling();
+        }
+    }
+
     /// <summary>
     /// Loads all the puzzles.
     /// </summary>
     public void LoadPuzzles()
     {
-        puzzles = new List<PuzzleData>();
+        //puzzles = new List<PuzzleData>();
 
         for (int o = 0; o < container.childCount; o++)
         {
@@ -120,7 +129,7 @@ public class PuzzleOverview : MonoBehaviour
         }
         else if (editPage.activeSelf == true)
         {
-            editPage.SetActive(false);
+            //editPage.SetActive(false);
             //print(puzzleinfo.id + puzzleinfo.name.text + puzzleinfo.description);
             //StartCoroutine(EditPuzzle(puzzleinfo.id, puzzleEditName.text, puzzleEditDescription.text, puzzleEditDifficulty.options[puzzleEditDifficulty.value].text));
 

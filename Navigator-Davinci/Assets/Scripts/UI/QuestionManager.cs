@@ -6,8 +6,10 @@ using TMPro;
 
 public class QuestionManager : MonoBehaviour
 {
+    public int id;
     public TMP_Text questionTitle;
     public static QuestionManager instance;
+    public GameObject questionObject;
     
 
 
@@ -24,13 +26,14 @@ public class QuestionManager : MonoBehaviour
     /// </summary>
     public void EditQuestion()
     {
-        Question Question = QuestionOverview.instance.Questions.Find((x) => x.question == questionTitle.text);
+        Question Question = QuestionOverview.instance.Questions.Find((x) => x.id == id);
         //Debug.Log(Question.question);
         if (Question != null)
         {
             Session.instance.question = Question;
-            StartCoroutine(Session.instance.LoadAnswers());
-            
+            //StartCoroutine(Session.instance.LoadAnswers());
+            Launcher.instance.OpenPuzzleQuestionCreatorMenu();
+
 
         }
         else
@@ -47,9 +50,19 @@ public class QuestionManager : MonoBehaviour
     /// </summary>
     public void DeleteQuestion()
     {
-        
+
         //QuestionCreator.instance.RemoveAnswer(questionTitle.text);
         //print(instance);
-        Destroy(this.gameObject);
+        Question Question = QuestionOverview.instance.Questions.Find((x) => x.id == id);
+        //Debug.Log(Question.question);
+        if (Question != null)
+        {
+            
+            //questionObject = this;
+            QuestionOverview.instance.questionObject = questionObject;
+            new Questions().Delete(Question.id);
+            //StartCoroutine(Session.instance.LoadAnswers());
+        }
+       
     }
 }

@@ -17,9 +17,18 @@ public class PuzzleManager : MonoBehaviour
 
     private void Awake()
     {
+       
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Session.instance.message != null)
+        {
+            message.color = Color.red;
+            message.text = Session.instance.ErrorHandling();
+        }
+    }
 
     public void OnNextClicked()
     {
@@ -29,13 +38,25 @@ public class PuzzleManager : MonoBehaviour
             Puzzles puzzleData = new Puzzles();
             puzzleData.Create();
             
+            
+
         }
         else
         {
             message.color = Color.red;
             message.text = "Inputs can't be empty";
         }
+        
+       
             
+    }
+
+
+    public void ClearInputs()
+    {
+        puzzleName.text = "";
+        description.text = "";
+        message.text = "";
     }
 
 }

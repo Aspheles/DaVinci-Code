@@ -10,10 +10,26 @@ public class Session : MonoBehaviour
     public Question question;
     public int questionid;
     public static Session instance;
+    public GameObject answerObject;
+    public string message;
 
     void Awake()
     {
         instance = this;     
+    }
+
+    public string ErrorHandling()
+    {
+        switch (message)
+        {
+            case "errorduplicate":
+                return "Name is already in use";
+            case "erroruser":
+                return "Username or password is incorrect";
+            default:
+                return "";
+                
+        }
     }
 
 
@@ -31,11 +47,11 @@ public class Session : MonoBehaviour
                 questionid = question.id;
             }
             question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
-            StartCoroutine(SaveQuestion());
+            //StartCoroutine(SaveQuestion());
+
+            //Send backend request from api to save question
+            new Questions().Create();
         }
-       
-       
-        
     }
 
  
@@ -94,33 +110,6 @@ public class Session : MonoBehaviour
         }
     }
 
-    public IEnumerator SaveQuestion()
-    {
-        //Questions
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("question_id", question.id.ToString()),
-            new MultipartFormDataSection("question_title", QuestionCreator.instance.questionInput.text),
-            new MultipartFormDataSection("question_description",  QuestionCreator.instance.description.text),
-            new MultipartFormDataSection("puzzle_id", puzzle.id.ToString()),
-            new MultipartFormDataSection("image", question.image),
-        };
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/savequestion.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.text);
-            if(!string.IsNullOrEmpty(www.downloadHandler.text)) question.id = int.Parse(www.downloadHandler.text);
-            print("Success");
-            StartCoroutine(SaveAnswers());
-           
-        }
-    }
 
 
     public IEnumerator SaveAnswers()
