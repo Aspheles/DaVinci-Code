@@ -47,7 +47,7 @@ public class FileManager : MonoBehaviour
         // Name: Users
         // Path: C:\Users
         // Icon: default (folder icon)
-        FileBrowser.AddQuickLink("Users", "C:\\Pictures", null);
+        FileBrowser.AddQuickLink("Users", "C:\\Users/Pictures", null);
 
         // Show a save file dialog 
         // onSuccess event: not registered (which means this dialog is pretty useless)
@@ -129,7 +129,7 @@ public class FileManager : MonoBehaviour
             {
                 Debug.Log(FileBrowser.Result[i]);
                 _path = FileBrowser.Result[i];
-                Session.instance.question.image = FileBrowser.Result[i];
+                Session.instance.image = FileBrowser.Result[i];
             }
 
             UpdateImage();

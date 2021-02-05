@@ -154,73 +154,22 @@ public class QuestionCreator : MonoBehaviour
     /// </summary>
     public void FinishQuestions()
     {
-        Session.instance.message = "";
         List<Answer> newAnswers = new List<Answer>();
-       // question = new List<Question>();
-
-        GameObject[] item = GameObject.FindGameObjectsWithTag("answer");
-
-        if (item.Length > 0)
+        foreach (GameObject answer in GameObject.FindGameObjectsWithTag("answer"))
         {
-            for (int i = 0; i < item.Length; i++)
+            //Check if answer isn't empty
+            if (!string.IsNullOrEmpty(answer.GetComponent<AnswerManager>().answerField.text))
             {
-                if (string.IsNullOrEmpty(item[i].GetComponent<AnswerManager>().answerField.text))
-                {
-                    print("Answer can't be empty");
-                }
-                else
-                {
-                    int id = 0;
-                    if(Session.instance != null)
-                    {
-                        if (Session.instance.question != null && Session.instance.question.id != 0)
-                        {
-                            Answer foundAnswer = Session.instance.question.answers.Find((x) => x.id == item[i].GetComponent<AnswerManager>().id);
-                            if (foundAnswer != null)
-                            {
-                                id = foundAnswer.id;
-                            }
-                            else
-                            {
-                                print("Answer wasn't found");
-                            }
-                        }
-                        else
-                        {
-                            print("Question can't be found");
-                            id = 0;
-                        }
-                    }
-                    else
-                    {
-                        print("Session hasn't been instantiated yet");
-                    }
-
-                    Answer answer = new Answer(id, item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn);
-                    newAnswers.Add(answer);
-
-                    
-                    
-               
-                }
+                Answer _answer = new Answer(answer.GetComponent<AnswerManager>().id, answer.GetComponent<AnswerManager>().answerField.text, answer.GetComponent<AnswerManager>().correctToggle.isOn);
+                newAnswers.Add(_answer);
+            }
+            else
+            {
+                message.text = "Answer can't be empty";
             }
         }
 
-        if (HasCorrectValue(newAnswers))
-        {
-            Session.instance.AddAnswer(newAnswers);
-        }
-        else
-        {
-            message.text = "You need to atleast have 1 correct answer";
-        }
-        
-        
-        //StartCoroutine(Session.instance.SaveAnswers());
-
-
-       
-        //questiontest.Add(new Question(question.text, ))
+        Session.instance.AddAnswer(newAnswers);
     }
 
     /// <summary>

@@ -32,7 +32,7 @@ public class Questions : IManager
 
     public void Edit()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Load()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
+using UnityEngine.UI;
 
 public class Session : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Session : MonoBehaviour
     public static Session instance;
     public GameObject answerObject;
     public string message;
+    public string image;
 
     void Awake()
     {
@@ -46,7 +48,9 @@ public class Session : MonoBehaviour
             {
                 questionid = question.id;
             }
-            question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
+
+            if (image == null) image = "test";
+            question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, image, answers, puzzle.id);
             //StartCoroutine(SaveQuestion());
 
             //Send backend request from api to save question
