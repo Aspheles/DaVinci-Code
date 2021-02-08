@@ -27,11 +27,27 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
-      human bone 'LeftLowerLeg' not found\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Skeleton|Idle' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Bone.007.R.009' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'Bone.007.L.013' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Skeleton|Jumping' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'Bone.007.R.009'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Bone.007.L.013'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Bone.011'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Skeleton|Running' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'Bone'
+      has translation animation that will be discarded.\n\t'Bone.011' has translation
+      animation that will be discarded.\n\nClip 'Skeleton|Sprinting' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Bone' has translation animation
+      that will be discarded.\n\t'Bone.011' has translation animation that will be
+      discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0

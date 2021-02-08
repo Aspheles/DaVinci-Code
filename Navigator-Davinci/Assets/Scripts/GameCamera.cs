@@ -40,12 +40,12 @@ public class GameCamera : MonoBehaviour
     {
 
         Move();
-        if (Input.GetKey("-"))
+        if (Input.GetKey("="))
         {
             Zoom(-1);
         }
 
-        if (Input.GetKey("="))
+        if (Input.GetKey("-"))
         {
             Zoom(1);
         }
