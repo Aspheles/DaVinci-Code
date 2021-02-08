@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,70 +9,79 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject figure;
     [SerializeField] private GameCamera camera;
+    [SerializeField] private GameObject head;
+
+    private Rigidbody rb;
     private Animator animation;
+
+    private bool inAir;
+
 
     private void Start()
     {
+        rb = player.GetComponent<Rigidbody>();
         animation = figure.GetComponent<Animator>();
     }
     
-    public void Animate(bool status)
+    public void Animate(string name)
     {
-        if(status)
-        {
-            animation.SetBool("Idle", false);
-            animation.SetBool("Running", true);
-        }
-        else
-        {
-            animation.SetBool("Running", false);
-            animation.SetBool("Idle", true);
-        }
-        
+
     }
     public void Move(float speed)
     {
-        if(Input.GetKey(KeyCode.LeftControl))
+        // head.transform.eulerAngles = Vector3.RotateTowards(0, 1, 0);
+        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 3.5f);
+        //Mathf.Clamp(head.transform.rotation, head.transform.rotation * Quaternion.Euler(0,- 90, 0), 90);
+
+        if (Input.GetKey(KeyCode.LeftControl))
         {
             speed += 5;
         }
 
         if (Input.GetKey("w"))
         {
-            Animate(true);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w), 1);
             transform.position += new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * Time.deltaTime * speed;
-            transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, new Vector3(0, camera.transform.GetChild(0).eulerAngles.y, 0), 1, 2.5f);
         }
 
         if (Input.GetKey("d"))
         {
-            Animate(true);
-            transform.position += new Vector3(camera.transform.right.x, 0, camera.transform.right.z) * Time.deltaTime * speed;
-            transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, new Vector3(0, camera.transform.GetChild(0).eulerAngles.y + 90, 0), 1, 2.5f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, 90, 0), 1);
+            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
         }
 
         if (Input.GetKey("s"))
         {
-            Animate(true);
-            transform.position -= new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * Time.deltaTime * speed;
-            transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, new Vector3(0, camera.transform.GetChild(0).eulerAngles.y + 180 , 0), 1, 2.5f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, 180, 0), 1);
+            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
         }
 
         if (Input.GetKey("a"))
         {
-            Animate(true);
-            transform.position -= new Vector3(camera.transform.right.x, 0, camera.transform.right.z) * Time.deltaTime * speed;
-            transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles, new Vector3(0, camera.transform.GetChild(0).eulerAngles.y + -90, 0), 1, 2.5f);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, -90, 0), 1);
+            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+               rb.AddForce(new Vector3(0, 10, 0));  
         }
 
         else
         {
-            Animate(false);
+            //animation.SetBool("Idle", true);
         }
     }
 
     void Update()
     {
-        Move(7);
+        Move(5);
+       
+        //Animate();
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 }

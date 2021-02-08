@@ -19,20 +19,35 @@ public class GameCamera : MonoBehaviour
     {
         transform.GetChild(0).LookAt(target.transform);
 
-        scale.x = Input.GetAxis("Mouse ScrollWheel") * 2;
-        scale.y = Input.GetAxis("Mouse ScrollWheel") * 2;
-        scale.z = Input.GetAxis("Mouse ScrollWheel") * 2;
-
         rotation.y += Input.GetAxis("Mouse X") * 10;
         rotation.x -= Input.GetAxis("Mouse Y") * 10;
 
         transform.eulerAngles = rotation;
-        transform.localScale += scale;
+        
+    }
+
+    void Zoom(int value)
+    {
+
+        scale.x = value;
+        scale.y = value;
+        scale.z = value;
+            
+        transform.localScale = Vector3.MoveTowards(transform.localScale, transform.localScale + scale, Time.deltaTime * 3);
+  
     }
     void Update()
     {
 
         Move();
-        
+        if (Input.GetKey("-"))
+        {
+            Zoom(-1);
+        }
+
+        if (Input.GetKey("="))
+        {
+            Zoom(1);
+        }
     }
 }
