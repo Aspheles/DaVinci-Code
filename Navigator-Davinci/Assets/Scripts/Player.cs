@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Animator animation;
 
+    private bool idle;
+    private bool running;
     private bool sprinting;
     private bool inAir;
 
@@ -24,34 +26,52 @@ public class Player : MonoBehaviour
         animation = figure.GetComponent<Animator>();
     }
     
-    public void Animate(string name)
+    public void Animate()
     {
-        if(sprinting)
+        if (idle)
         {
-
+            animation.SetBool("Running", false);
+            animation.SetBool("Sprinting", false);
+            animation.SetBool("Idle", true);
         }
 
-        else
+        if (running)
         {
             animation.SetBool("Idle", false);
-            animation.SetBool(name, true);
+            animation.SetBool("Sprinting", false);
+            animation.SetBool("Running", true);
+        }
+
+        if (sprinting)
+        {
+            animation.SetBool("Idle", false);
+            animation.SetBool("Running", false);
+            animation.SetBool("Sprinting", true);
+        }
+
+        if(inAir)
+        {
+
         }
     }
     public void Move(float speed)
     {
         head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
-        //Mathf.Clamp(head.transform.rotation, head.transform.rotation * Quaternion.Euler(0,- 90, 0), 90);
+
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            speed += 5;
+            speed += 0.3f;
+            running = false;
             sprinting = true;
-
+            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
+            Animate();
         }
 
         if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
         {
+            running = true;
             transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
-            Animate("Running");
+            Animate();
         }
 
         if (Input.GetKey("w"))
@@ -79,10 +99,18 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector3(0, 10, 0));  
         }
 
+        else if(!Input.anyKey)
+        {
+            running = false;
+            sprinting = false;
+            idle = true;
+            Animate();
+        }
+
     }
 
     void Update()
     {
-        Move(5);
+        Move(3);
     }
 }
