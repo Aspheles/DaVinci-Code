@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private bool sprinting;
     private bool inAir;
 
+    float speed = 3;
+
 
     private void Start()
     {
@@ -54,23 +56,23 @@ public class Player : MonoBehaviour
 
         }
     }
-    public void Move(float speed)
+    public void Move()
     {
-        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
-
+        float boost = 0;
+        //head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            speed += 0.3f;
+            boost = 3;
             running = false;
             sprinting = true;
-            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
             Animate();
         }
 
         if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
         {
+            print(boost);
             running = true;
-            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * speed;
+            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * (speed + boost);
             Animate();
         }
 
@@ -107,10 +109,17 @@ public class Player : MonoBehaviour
             Animate();
         }
 
+        
+
     }
 
     void Update()
     {
-        Move(3);
+        Move();
+    }
+
+    private void LateUpdate()
+    {
+        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
     }
 }
