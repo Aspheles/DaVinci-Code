@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         if (sprinting)
         {
             animation.SetBool("Idle", false);
-            animation.SetBool("Running", false);
+            animation.SetBool("Running", true);
             animation.SetBool("Sprinting", true);
         }
 
@@ -63,14 +63,18 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))
         {
             boost = 3;
-            running = false;
             sprinting = true;
             Animate();
+        }
+        else
+        {
+            sprinting = false;
         }
 
         if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
         {
-            print(boost);
+            print("r"+running);
+            print("s" + sprinting);
             running = true;
             transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * (speed + boost);
             Animate();
