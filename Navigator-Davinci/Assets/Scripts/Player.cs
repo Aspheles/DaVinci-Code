@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector3(0, 10, 0));  
         }
 
-        else if(!Input.anyKey)
+        else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a"))
         {
             running = false;
             sprinting = false;
