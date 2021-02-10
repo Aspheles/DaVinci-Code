@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Animator animation;
 
+    private GameObject[] ground;
+
     private bool idle;
     private bool running;
     private bool sprinting;
@@ -26,12 +28,14 @@ public class Player : MonoBehaviour
     {
         rb = player.GetComponent<Rigidbody>();
         animation = figure.GetComponent<Animator>();
+        ground = GameObject.FindGameObjectsWithTag("Ground");
     }
     
     public void Animate()
     {
         if (idle)
         {
+            animation.SetBool("inAir", false);
             animation.SetBool("Running", false);
             animation.SetBool("Sprinting", false);
             animation.SetBool("Idle", true);
@@ -39,6 +43,7 @@ public class Player : MonoBehaviour
 
         if (running)
         {
+            animation.SetBool("inAir", false);
             animation.SetBool("Idle", false);
             animation.SetBool("Sprinting", false);
             animation.SetBool("Running", true);
@@ -46,6 +51,7 @@ public class Player : MonoBehaviour
 
         if (sprinting)
         {
+            animation.SetBool("inAir", false);
             animation.SetBool("Idle", false);
             animation.SetBool("Running", true);
             animation.SetBool("Sprinting", true);
@@ -53,18 +59,20 @@ public class Player : MonoBehaviour
 
         if(inAir)
         {
-
+            animation.SetBool("Idle", false);
+            animation.SetBool("Running", false);
+            animation.SetBool("Sprinting", false);
+            animation.SetBool("inAir", true);
         }
     }
     public void Move()
     {
         float boost = 0;
         //head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl) && running)
         {
             boost = 3;
             sprinting = true;
-            Animate();
         }
         else
         {
@@ -73,11 +81,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
         {
-            print("r"+running);
-            print("s" + sprinting);
             running = true;
             transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * (speed + boost);
-            Animate();
         }
 
         if (Input.GetKey("w"))
@@ -100,26 +105,48 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, -90, 0), 2 );
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && !inAir)
         {
-            rb.AddForce(new Vector3(0, 10, 0));  
+            rb.AddForce(new Vector3(0, 30, 0));  
         }
 
-        else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a"))
+        else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
         {
             running = false;
-            sprinting = false;
             idle = true;
-            Animate();
         }
 
-        
+        Animate();
+    }
 
+   private void OnCollisionEnter(Collision ground)
+    {
+        print("col");
+        if (ground.gameObject.tag == "Ground")
+        {
+            
+            inAir = false;
+            
+        }
+        Animate();
+    }
+
+    private void OnCollisionExit(Collision ground)
+    {
+        print("air");
+        if (ground.gameObject.tag == "Ground")
+        {
+
+            inAir = true;
+
+        }
+        Animate();
     }
 
     void Update()
     {
         Move();
+        print(inAir);
     }
 
     private void LateUpdate()
