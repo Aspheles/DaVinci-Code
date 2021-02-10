@@ -92,22 +92,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey("d"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 90, 0), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 90, 0), 5);
         }
 
         if (Input.GetKey("s"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 180, 0), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 180, 0), 5);
         }
 
         if (Input.GetKey("a"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 2 );
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 5);
         }
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
         {
-            rb.AddForce(new Vector3(0, 30, 0));  
+            rb.AddForce(new Vector3(0, 50, 0));  
         }
 
         else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
