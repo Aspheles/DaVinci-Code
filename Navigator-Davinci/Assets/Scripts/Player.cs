@@ -87,22 +87,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey("w"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w), 2);
         }
 
         if (Input.GetKey("d"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, 90, 0), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 90, 0), 2);
         }
 
         if (Input.GetKey("s"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, 180, 0), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 180, 0), 2);
         }
 
         if (Input.GetKey("a"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.GetChild(0).rotation.y, 0, camera.transform.GetChild(0).rotation.w) * Quaternion.Euler(0, -90, 0), 2 );
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 2 );
         }
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
@@ -121,7 +121,6 @@ public class Player : MonoBehaviour
 
    private void OnCollisionEnter(Collision ground)
     {
-        print("col");
         if (ground.gameObject.tag == "Ground")
         {
             
@@ -133,7 +132,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision ground)
     {
-        print("air");
         if (ground.gameObject.tag == "Ground")
         {
 
@@ -146,11 +144,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        print(inAir);
     }
 
     private void LateUpdate()
     {
-        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
+        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.rotation, 1);
     }
 }
