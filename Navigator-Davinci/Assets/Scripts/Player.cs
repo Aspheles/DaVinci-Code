@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey("w"))
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w), 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w), 5);
         }
 
         if (Input.GetKey("d"))
