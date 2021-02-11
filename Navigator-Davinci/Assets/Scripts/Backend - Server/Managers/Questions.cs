@@ -15,7 +15,7 @@ public class Questions : IManager
             new MultipartFormDataSection("question_title", QuestionCreator.instance.questionInput.text),
             new MultipartFormDataSection("question_description",  QuestionCreator.instance.description.text),
             new MultipartFormDataSection("puzzle_id", Session.instance.puzzle.id.ToString()),
-            new MultipartFormDataSection("image", Session.instance.question.image),
+            new MultipartFormDataSection("image", ""),
         };
         ApiHandler.instance.CallApiRequest("post", form, Request.CREATEQUESTION);
     }

@@ -16,6 +16,8 @@ public static class Request
         FETCHPUZZLES = server + "/fetchpuzzles.php",
         CREATEQUESTION = server + "/savequestion.php",
         DELETEQUESTION = server + "/deletequestion.php",
-        FETCHQUESTIONS = server + "/fetchquestions.php";
+        FETCHQUESTIONS = server + "/fetchquestions.php",
+        FETCHANSWERS = server + "/loadanswers.php",
+        CREATEANSWERS = server + "/savepuzzledata.php";
     
 }

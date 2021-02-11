@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
+using UnityEngine.UI;
 
 public class ApiController : MonoBehaviour
 {
@@ -45,6 +46,12 @@ public class ApiController : MonoBehaviour
                 break;
             case Request.DELETEANSWER:
                 DeleteAnswer();
+                break;
+            case Request.FETCHANSWERS:
+                FetchAnswers(Data);
+                break;
+            case Request.CREATEANSWERS:
+                SaveAnswers(Data);
                 break;
 
 
@@ -130,18 +137,18 @@ public class ApiController : MonoBehaviour
 
     private void SaveQuestion(JSONNode Data)
     {
-        print(Data);
         if(Data[1].AsObject["status"] == "success")
         {
-            if (!string.IsNullOrEmpty(Data)) Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
+            Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
             print("Question has been saved");
+            new Answers().Create();
         }
         else
         {
             Session.instance.message = Data[1].AsObject["status"];
         }
-       
-       
+
+        
         //StartCoroutine(SaveAnswers());
     }
 
@@ -161,10 +168,10 @@ public class ApiController : MonoBehaviour
             string questionId = Data[i].AsObject["id"];
             string questionTitle = Data[i].AsObject["title"];
             string questionDescription = Data[i].AsObject["description"];
-            string questionImage = Data[i].AsObject["image"];
+            //RawImage questionImage = Data[i].AsObject["image"] as RawImage;
             int puzzleid = Data[i].AsObject["puzzle_id"];
 
-            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, questionImage, null, puzzleid);
+            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, null, puzzleid);
             QuestionOverview.instance.Questions.Add(_question);
 
         }
@@ -184,5 +191,59 @@ public class ApiController : MonoBehaviour
     {
         Destroy(Session.instance.answerObject);
         print("Answer has been deleted");
+    }
+
+    private void FetchAnswers(JSONNode Data)
+    {
+        List<Answer> answers = new List<Answer>();
+        
+        if(Data != null)
+        {
+            for (int i = 0; i < Data.Count; i++)
+            {
+
+                int answerID = int.Parse(Data[i].AsObject["id"]);
+                string answerName = Data[i].AsObject["title"];
+                string answerValue = Data[i].AsObject["value"];
+                //string questionId = Data[i].AsObject["question_id"];
+                bool answerbool;
+
+                if (answerValue == "0") answerbool = false;
+                else answerbool = true;
+
+                answers.Add(new Answer(answerID, answerName, answerbool));
+
+            }
+
+            Session.instance.question.answers = answers;
+            print("Answers has been loaded");
+        }
+        else
+        {
+            print("There were no answers for this question");
+        }
+
+        QuestionCreator.instance.LoadAnswers(answers);
+
+    }
+
+
+    private void SaveAnswers(JSONNode Data)
+    {
+
+        if(Data[1].AsObject["status"] == "success" || Data[0].AsObject["status"] == "success")
+        {
+            QuestionCreator.instance.loaded = false;
+            print("Answers have been saved");
+            Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+        
+        
+       
+       
     }
 }

@@ -46,26 +46,10 @@ public class QuestionCreator : MonoBehaviour
 
     private void Update()
     {
-        
         if(Session.instance.message != null)
         {
             message.text = Session.instance.ErrorHandling();
         }
-        
-        // Checks if question is being edited so the values can be updated
-        if (Session.instance.question != null && !loaded)
-        {
-            
-            GameObject.Find("title").GetComponent<Text>().text = "Edit your question";
-            questionInput.text = Session.instance.question.question;
-            description.text = Session.instance.question.description;
-           
-            LoadAnswers(Session.instance.question.answers);
-            loaded = true;
-            //Session.instance.question = null;
-
-        }
-        
         
         if(GameObject.FindGameObjectsWithTag("answer").Length > 0)
         {
@@ -83,26 +67,26 @@ public class QuestionCreator : MonoBehaviour
     /// </summary>
     public void LoadAnswers(List<Answer> answers)
     {
+        questionInput.text = Session.instance.question.question;
+        description.text = Session.instance.question.description;
 
-        if(answers != null && answers.Count > 0)
+        foreach (Transform child in answerOptionsPos)
         {
-            foreach (Transform child in answerOptionsPos)
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(child.gameObject);
+        }
 
-            MoveAnswerRect();
+        MoveAnswerRect();
 
-            foreach (Answer answer in answers)
-            {
-                GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
-                QuestionClone.transform.SetParent(answerOptionsPos);
-                //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
-                QuestionClone.GetComponent<AnswerManager>().id = answer.id;
-                QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
-                QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
-            }
-        }  
+        foreach (Answer answer in answers)
+        {
+            GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
+            QuestionClone.transform.SetParent(answerOptionsPos);
+            //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+            QuestionClone.GetComponent<AnswerManager>().id = answer.id;
+            QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
+            QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
+        }
+        
     }
 
     

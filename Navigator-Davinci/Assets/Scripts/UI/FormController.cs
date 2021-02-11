@@ -50,14 +50,14 @@ public class Question
     public int id;
     public string question;
     public string description;
-    public string image;
+    public RawImage image;
     public List<Answer> answers;
     public int puzzleid;
     public string errorMessage;
 
 
 
-    public Question(int id,string question, string description, string image ,List<Answer> answers, int puzzleid)
+    public Question(int id,string question, string description, RawImage image ,List<Answer> answers, int puzzleid)
     {
         this.id = id;
         this.question = question;

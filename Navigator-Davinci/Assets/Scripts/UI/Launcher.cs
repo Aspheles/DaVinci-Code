@@ -55,6 +55,12 @@ public class Launcher : MonoBehaviour
     public void OpenPuzzleQuestionCreatorMenu()
     {
         MenuManager.instance.OpenMenu("question");
+        if(Session.instance.question != null)
+        {
+            new Answers().Load();
+        }
+        
+        
     }
 
     public void OpenPuzzleQuestionsOverviewMenu()
