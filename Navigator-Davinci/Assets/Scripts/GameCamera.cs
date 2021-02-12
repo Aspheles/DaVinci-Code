@@ -14,8 +14,9 @@ public class GameCamera : MonoBehaviour
 
     float minZoom;
     float maxZoom;
-    float distance;
+    public float distance;
     Vector3 dollyDir;
+    float maxDistance;
 
     bool zooming;
 
@@ -24,8 +25,10 @@ public class GameCamera : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         rotation = pivotPoint.transform.eulerAngles;
-        minZoom = -20f;
-        maxZoom = -70f;
+        minZoom = -15f;
+        maxZoom = -80f;
+
+        maxDistance = 50;
 
         position = transform.localPosition;
 
@@ -35,7 +38,7 @@ public class GameCamera : MonoBehaviour
 
     void Update()
     {
-  /*      if (Input.GetKey("="))
+        if (Input.GetKey("="))
         {
             Zoom(1);
         }
@@ -43,14 +46,14 @@ public class GameCamera : MonoBehaviour
         if (Input.GetKey("-"))
         {
             Zoom(-1);
-        }*/
+        }
 
 
         Move();
 
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         Collision();
     }
@@ -65,53 +68,27 @@ public class GameCamera : MonoBehaviour
         
             rotation.y += Input.GetAxis("Mouse X") * 10;
             rotation.x -= Input.GetAxis("Mouse Y") * 10;
-            rotation.x = Mathf.Clamp(rotation.x, -40, 85);
+            rotation.x = Mathf.Clamp(rotation.x, -45, 85);
             
             pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
     }
 
-    private void ClampCamera(float rotationx)
-    {
-
-        /*if (rotation.x < 20)
-        {
-            clamping = true;
-            scale.x = 0.05f * rotationx;
-            scale.y = 0.05f * rotationx;
-            scale.z = 0.05f * rotationx;
-
-            scale.x = Mathf.Clamp(scale.x, 0.5f, 5);
-            scale.y = Mathf.Clamp(scale.y, 0.5f, 5);
-            scale.z = Mathf.Clamp(scale.z, 0.5f, 5);
-
-            pivotPoint.transform.localScale = scale;
-
-        }
-        else
-        {
-            clamping = false;
-        }*/
-    }
-
     private void Collision()
     {
         RaycastHit hit;
-        Vector3 desPos = pivotPoint.transform.TransformPoint(dollyDir * distance);
-        Debug.DrawLine(pivotPoint.transform.position, desPos, Color.green);
-        if (Physics.Linecast(pivotPoint.transform.position, desPos, out hit))
+        Vector3 standardPosition = pivotPoint.transform.TransformPoint(dollyDir * position.magnitude);
+
+        if (Physics.Linecast(pivotPoint.transform.position, standardPosition, out hit))
         {
             if (hit.transform.tag == "Terrain")
             {
-                distance = Mathf.Clamp(hit.distance * 0.7f, 0.2f, 5);
-                print("sss");
+                distance = Mathf.Clamp(hit.distance * (position.magnitude * 0.4f), 0.5f, position.magnitude);
             }
-
         }
 
         else
         {
-            print("lll");
             distance = position.magnitude;
         }
 

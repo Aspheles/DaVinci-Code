@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
         {
-            rb.AddForce(new Vector3(0, 30, 0));  
+            rb.AddForce(new Vector3(0, 35, 0));  
         }
 
         else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
