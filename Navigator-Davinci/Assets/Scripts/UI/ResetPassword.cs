@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -122,6 +123,7 @@ public class ResetPassword : MonoBehaviour
     /// If that's the case it will check whether the two filled in passwords match
     /// If so, the function will be executed.
     /// If any of the steps fail, show corresponding error
+    /// ** Moet nog aangevuld worden met authenticatie met de reset code die vanaf de DB komt **
     /// </summary>
     public void OnResetButtonClicked()
     {
@@ -140,6 +142,7 @@ public class ResetPassword : MonoBehaviour
                     Debug.Log("succes");
                     //StartCoroutine(Authentication.instance.Reset(email.text, repeatpassword.text, newpassword.text));
                     //ClearData();
+                    Launcher.instance.OpenLoginMenu();
                 } 
                 else
                 {
@@ -159,5 +162,27 @@ public class ResetPassword : MonoBehaviour
         }
     }
 
+    public IEnumerator OnResendCodeButtonClicked(string email)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email)
+        };
+
+        UnityWebRequest www = UnityWebRequest.Post(" Iets.php ", formData);
+
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.data);
+
+            Launcher.instance.OpenResetPasswordMenu();
+        }
+    }
 
 }
