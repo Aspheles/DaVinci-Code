@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
 
    private void OnCollisionEnter(Collision ground)
     {
-        if (ground.gameObject.tag == "Ground")
+        if (ground.gameObject.tag == "Terrain")
         {
             
             inAir = false;
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision ground)
     {
-        if (ground.gameObject.tag == "Ground")
+        if (ground.gameObject.tag == "Terrain")
         {
 
             inAir = true;

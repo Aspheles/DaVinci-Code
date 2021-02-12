@@ -10,13 +10,14 @@ public class GameCamera : MonoBehaviour
     [SerializeField] private GameObject pivotPoint;
 
     Vector3 rotation;
-    float zAxis;
+    Vector3 position;
 
     float minZoom;
     float maxZoom;
+    float distance;
+    Vector3 dollyDir;
 
-    bool clamping;
-    bool isColliding;
+    bool zooming;
 
     void Start()
     {
@@ -26,8 +27,33 @@ public class GameCamera : MonoBehaviour
         minZoom = -20f;
         maxZoom = -70f;
 
-        zAxis = transform.localPosition.z;
-}
+        position = transform.localPosition;
+
+        distance = transform.localPosition.magnitude;
+        dollyDir = transform.localPosition.normalized;
+    }
+
+    void Update()
+    {
+  /*      if (Input.GetKey("="))
+        {
+            Zoom(1);
+        }
+
+        if (Input.GetKey("-"))
+        {
+            Zoom(-1);
+        }*/
+
+
+        Move();
+
+    }
+
+    private void LateUpdate()
+    {
+        Collision();
+    }
     void Move()
     {
 
@@ -39,7 +65,7 @@ public class GameCamera : MonoBehaviour
         
             rotation.y += Input.GetAxis("Mouse X") * 10;
             rotation.x -= Input.GetAxis("Mouse Y") * 10;
-            rotation.x = Mathf.Clamp(rotation.x, -20, 85);
+            rotation.x = Mathf.Clamp(rotation.x, -40, 85);
             
             pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
@@ -68,42 +94,43 @@ public class GameCamera : MonoBehaviour
         }*/
     }
 
+    private void Collision()
+    {
+        RaycastHit hit;
+        Vector3 desPos = pivotPoint.transform.TransformPoint(dollyDir * distance);
+        Debug.DrawLine(pivotPoint.transform.position, desPos, Color.green);
+        if (Physics.Linecast(pivotPoint.transform.position, desPos, out hit))
+        {
+            if (hit.transform.tag == "Terrain")
+            {
+                distance = Mathf.Clamp(hit.distance * 0.7f, 0.2f, 5);
+                print("sss");
+            }
+
+        }
+
+        else
+        {
+            print("lll");
+            distance = position.magnitude;
+        }
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * 15);
+    }
+
     private void Zoom(float value)
     {
+        zooming = true;
         if(transform.localPosition.z > maxZoom && transform.localPosition.z < minZoom)
         {
-            zAxis += value;
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zAxis);
+            position.z += value;
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, position.z);
         }
 
         if(transform.localPosition.z < maxZoom || transform.localPosition.z > minZoom)
         {
-            zAxis -= value;
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zAxis);
+            position.z -= value;
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, position.z);
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-
-    }
-
-    void Update()
-    {
-        if(Input.GetKey("-"))
-        {
-            Zoom(1);
-        }
-
-        if (Input.GetKey("="))
-        {
-            Zoom(-1);
-        }
-
-        Move();
     }
 }
