@@ -10,7 +10,10 @@ public class GameCamera : MonoBehaviour
     [SerializeField] private GameObject pivotPoint;
 
     Vector3 rotation;
-    Vector3 scale;
+    float zAxis;
+
+    float minZoom;
+    float maxZoom;
 
     bool clamping;
     bool isColliding;
@@ -20,7 +23,10 @@ public class GameCamera : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         rotation = pivotPoint.transform.eulerAngles;
-        scale = pivotPoint.transform.localScale;
+        minZoom = -20f;
+        maxZoom = -70f;
+
+        zAxis = transform.localPosition.z;
 }
     void Move()
     {
@@ -37,13 +43,12 @@ public class GameCamera : MonoBehaviour
             
             pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
-            ClampCamera(rotation.x);
     }
 
     private void ClampCamera(float rotationx)
     {
 
-        if(rotation.x < 20)
+        /*if (rotation.x < 20)
         {
             clamping = true;
             scale.x = 0.05f * rotationx;
@@ -60,32 +65,22 @@ public class GameCamera : MonoBehaviour
         else
         {
             clamping = false;
-        }
+        }*/
     }
 
-    private void Zoom(float value, float min, float max)
+    private void Zoom(float value)
     {
-        scale.x = value;
-        scale.y = value;
-        scale.z = value;
-        
-        if(value == 1)
+        if(transform.localPosition.z > maxZoom && transform.localPosition.z < minZoom)
         {
-            if(pivotPoint.transform.localScale.x < max && pivotPoint.transform.localScale.y < max && pivotPoint.transform.localScale.z < max)
-            {
-                pivotPoint.transform.localScale = Vector3.MoveTowards(pivotPoint.transform.localScale, pivotPoint.transform.localScale + scale, Time.deltaTime * 3);
-            }
+            zAxis += value;
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zAxis);
         }
 
-        if(value == -1)
+        if(transform.localPosition.z < maxZoom || transform.localPosition.z > minZoom)
         {
-            if (pivotPoint.transform.localScale.x > min && pivotPoint.transform.localScale.y > min && pivotPoint.transform.localScale.z > min)
-            {
-                pivotPoint.transform.localScale = Vector3.MoveTowards(pivotPoint.transform.localScale, pivotPoint.transform.localScale + scale, Time.deltaTime * 3);
-            }
+            zAxis -= value;
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, zAxis);
         }
-
-        
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -99,19 +94,16 @@ public class GameCamera : MonoBehaviour
 
     void Update()
     {
-        if(!clamping)
+        if(Input.GetKey("-"))
         {
-            if(Input.GetKey("-"))
-            {
-                Zoom(1, 0.5f, 4);
-            }
-
-            if (Input.GetKey("="))
-            {
-                Zoom(-1, 4, 4);
-            }
-
+            Zoom(1);
         }
+
+        if (Input.GetKey("="))
+        {
+            Zoom(-1);
+        }
+
         Move();
     }
 }
