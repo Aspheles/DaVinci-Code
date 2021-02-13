@@ -92,7 +92,7 @@ public class GameCamera : MonoBehaviour
             distance = position.magnitude;
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * 15);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * 20);
     }
 
     private void Zoom(float value)
