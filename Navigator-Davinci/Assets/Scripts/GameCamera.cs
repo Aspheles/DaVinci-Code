@@ -83,7 +83,7 @@ public class GameCamera : MonoBehaviour
         {
             if (hit.transform.tag == "Terrain")
             {
-                distance = Mathf.Clamp(hit.distance * (position.magnitude * 0.4f), 0.5f, position.magnitude);
+                distance = Mathf.Clamp(hit.distance * (position.magnitude * 0.3f), 0.5f, position.magnitude);
             }
         }
 
