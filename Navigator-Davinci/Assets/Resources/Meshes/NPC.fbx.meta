@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -2420248955592922456
-    second: Idle
+    second: Skeleton|Idle
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
+      name: Skeleton|Idle
       takeName: Skeleton|Idle
       internalID: 0
       firstFrame: 0

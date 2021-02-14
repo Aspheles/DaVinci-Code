@@ -25,10 +25,10 @@ public class GameCamera : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         rotation = pivotPoint.transform.eulerAngles;
-        minZoom = -15f;
-        maxZoom = -80f;
+        minZoom = -0.5f;
+        maxZoom = -3f;
 
-        maxDistance = 50;
+        maxDistance = 5;
 
         position = transform.localPosition;
 
@@ -40,12 +40,12 @@ public class GameCamera : MonoBehaviour
     {
         if (Input.GetKey("="))
         {
-            Zoom(1);
+            Zoom(0.05f);
         }
 
         if (Input.GetKey("-"))
         {
-            Zoom(-1);
+            Zoom(-0.05f);
         }
 
 
@@ -68,7 +68,7 @@ public class GameCamera : MonoBehaviour
         
             rotation.y += Input.GetAxis("Mouse X") * 10;
             rotation.x -= Input.GetAxis("Mouse Y") * 10;
-            rotation.x = Mathf.Clamp(rotation.x, -45, 85);
+            rotation.x = Mathf.Clamp(rotation.x, -40, 60);
             
             pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
