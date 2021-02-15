@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
         {
-            rb.AddForce(new Vector3(0, 40, 0));  
+            rb.AddForce(new Vector3(0, 50, 0));  
         }
 
         else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
 
    private void OnCollisionEnter(Collision ground)
     {
-        if (ground.gameObject.tag == "Terrain")
+        if (ground.gameObject.GetComponent<Ground>())
         {
             
             inAir = false;
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision ground)
     {
-        if (ground.gameObject.tag == "Terrain")
+        if (ground.gameObject.GetComponent<Ground>())
         {
 
             inAir = true;
