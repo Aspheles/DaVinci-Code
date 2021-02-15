@@ -50,13 +50,9 @@ public class GameCamera : MonoBehaviour
 
 
         Move();
-
-    }
-
-    private void FixedUpdate()
-    {
         Collision();
     }
+
     void Move()
     {
 

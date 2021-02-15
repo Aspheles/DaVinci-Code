@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject figure;
     [SerializeField] private GameCamera camera;
+    [SerializeField] private GameObject pivotPoint;
     [SerializeField] private GameObject head;
 
     private Rigidbody rb;
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour
     public void Move()
     {
         float boost = 0;
-        //head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.GetChild(0).rotation, 1);
+
         if (Input.GetKey(KeyCode.LeftControl) && running)
         {
             boost = 3;
@@ -146,8 +148,8 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, camera.transform.rotation, 1);
+        head.transform.rotation = pivotPoint.transform.rotation;
     }
 }

@@ -722,7 +722,8 @@ MonoBehaviour:
   player: {fileID: 1192401780}
   figure: {fileID: 6155769109476964066}
   camera: {fileID: 448839678}
-  head: {fileID: 1563647006}
+  pivotPoint: {fileID: 768456441}
+  head: {fileID: 8126778327892007980}
 --- !u!136 &1192401783
 CapsuleCollider:
   m_ObjectHideFlags: 0
