@@ -11,6 +11,7 @@ public class Portal_Wall : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        print("dd");
         if (collision.gameObject.GetComponent<Player>())
         {
             Player plr = collision.gameObject.GetComponent<Player>();
