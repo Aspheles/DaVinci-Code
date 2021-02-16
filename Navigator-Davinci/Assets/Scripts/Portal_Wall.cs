@@ -13,7 +13,9 @@ public class Portal_Wall : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Player>())
         {
+            Player plr = collision.gameObject.GetComponent<Player>();
             SceneManager.LoadScene(sceneName);
+            LobbySession.instance.DespawnPlayer(plr);
         }
     }
 }

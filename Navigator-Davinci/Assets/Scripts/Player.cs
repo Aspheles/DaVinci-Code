@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
 
     float speed = 3;
 
-
     private void Start()
     {
         rb = player.GetComponent<Rigidbody>();
@@ -109,7 +108,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
         {
-            rb.AddForce(new Vector3(0, 50, 0));  
+            rb.AddForce(new Vector3(0, 200, 0));  
         }
 
         else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
@@ -143,7 +142,7 @@ public class Player : MonoBehaviour
         Animate();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
