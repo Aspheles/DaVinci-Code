@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     private GameObject[] ground;
 
-    private bool idle;
+    public bool idle;
     private bool running;
     private bool sprinting;
     private bool inAir;

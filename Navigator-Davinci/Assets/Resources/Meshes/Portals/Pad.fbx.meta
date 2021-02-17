@@ -1,8 +1,14 @@
 fileFormatVersion: 2
-guid: 1c13c689f4b31084cb7abdab56ed9275
+guid: 3142952f5430883468542b5c39633ec6
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 1358262452650834379
+    second: Move
+  - first:
+      74: -7702452555054822535
+    second: Pad|Move
   externalObjects: {}
   materials:
     materialImportMode: 1
