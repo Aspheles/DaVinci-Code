@@ -105,7 +105,7 @@ public class FormValidation : MonoBehaviour
     /// </summary>
     public void ClearData()
     {
-        username.text = string.Empty;
+        //username.text = string.Empty;
         password.text = string.Empty;
         email.text = string.Empty;
         message.text = string.Empty;

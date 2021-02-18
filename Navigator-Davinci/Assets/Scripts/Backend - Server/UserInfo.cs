@@ -33,10 +33,11 @@ public class UserInfo : MonoBehaviour
 
     public void AssignUserData(JSONNode Data)
     {
+        print(Data.AsObject["username"]);
         id = Data.AsObject["id"];
         username = Data.AsObject["username"];
         email = Data.AsObject["email"];
-        class_code = Data.AsObject["class"];
+        class_code = Data.AsObject["classcode"];
 
         if (int.Parse(Data.AsObject["verified"]) == 0)
             isverified = false;

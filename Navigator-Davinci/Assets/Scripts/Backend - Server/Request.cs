@@ -19,6 +19,7 @@ public static class Request
         FETCHQUESTIONS = server + "/fetchquestions.php",
         FETCHANSWERS = server + "/loadanswers.php",
         CREATEANSWERS = server + "/savepuzzledata.php",
-        SAVEIMAGE = server + "/saveimage.php";
-    
+        SAVEIMAGE = server + "/saveimage.php",
+        RESETPASSWORD = server + "/updatepassword.php";
+
 }

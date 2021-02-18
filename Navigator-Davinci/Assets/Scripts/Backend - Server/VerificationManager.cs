@@ -117,4 +117,47 @@ public class VerificationManager : MonoBehaviour
     }
 
 
+    public IEnumerator ResetPassword(string email, string newpassword, string repeatpassword, string authcode)
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("password", newpassword),
+            new MultipartFormDataSection("newpassword", repeatpassword),
+            new MultipartFormDataSection("verificationcode", authcode)
+        };
+
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/updatepassword.php", formData);
+
+
+
+        yield return www.SendWebRequest();
+
+
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+
+
+
+            if (www.downloadHandler.text.Contains("Success"))
+            {
+                Launcher.instance.OpenLoginMenu();
+                PasswordValidation.instance.message.text = www.downloadHandler.text;
+            }
+            else
+            {
+                PasswordValidation.instance.message.color = Color.red;
+                PasswordValidation.instance.message.text = www.downloadHandler.text;
+            }
+        }
+    }
+
 }

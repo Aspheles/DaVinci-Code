@@ -15,6 +15,7 @@ public class Session : MonoBehaviour
     public string message;
     public string image;
     public List<Answer> fetchedAnswers;
+    public string email;
 
     void Awake()
     {
