@@ -806,9 +806,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 7600876434526634918}
-  nextPortal: {fileID: 0}
-  leave: {fileID: 4321407999604646998, guid: 3be2a624c6ba7b445844e69e48ab312a, type: 3}
-  enter: 
+  nextPortal: {fileID: 7073558198255604637, guid: f0fa73ea002d9184c906a92f920f5514,
+    type: 3}
+  leave: {fileID: 2681221981144757285, guid: 3be2a624c6ba7b445844e69e48ab312a, type: 3}
+  enter: {fileID: 3971529531750565280, guid: 18bf632e54d7bd745ae181a78431562f, type: 3}
+  confirm: {fileID: 0}
 --- !u!64 &4732296710586282084
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -5,10 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LobbySession : Environment
 {
-
     private void Start()
     {
-        //SpawnPlayer(spawnPoint);
+        SpawnPlayer(spawnPoint);
     }
 
 }

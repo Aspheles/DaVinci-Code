@@ -4440,8 +4440,9 @@ PrefabInstance:
     - target: {fileID: 8699583741487798969, guid: f0fa73ea002d9184c906a92f920f5514,
         type: 3}
       propertyPath: enter
-      value: Room
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 2681221981144757285, guid: 3be2a624c6ba7b445844e69e48ab312a,
+        type: 3}
     - target: {fileID: 8699583741487798969, guid: f0fa73ea002d9184c906a92f920f5514,
         type: 3}
       propertyPath: leave

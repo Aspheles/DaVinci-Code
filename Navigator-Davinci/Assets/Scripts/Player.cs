@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject figure;
-    [SerializeField] private GameCamera camera;
+    [SerializeField] public GameCamera camera;
     [SerializeField] private GameObject pivotPoint;
     [SerializeField] private GameObject head;
 

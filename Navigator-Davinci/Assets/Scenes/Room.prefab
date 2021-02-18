@@ -909,8 +909,9 @@ PrefabInstance:
     - target: {fileID: 973573823671655995, guid: 79934676f3adaf744abb44ef0b6097b6,
         type: 3}
       propertyPath: enter
-      value: Lobby
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 3971529531750565280, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
     - target: {fileID: 973573823671655995, guid: 79934676f3adaf744abb44ef0b6097b6,
         type: 3}
       propertyPath: leave

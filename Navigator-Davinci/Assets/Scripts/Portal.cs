@@ -10,21 +10,48 @@ public class Portal : MonoBehaviour
     [SerializeField] GameObject nextPortal;
 
     [SerializeField] Environment leave;
-    public string enter;
+    [SerializeField] Environment enter;
 
+    [SerializeField] public GameObject confirm;
+    Player player;
 
+    bool status;
+
+    private void Start()
+    {
+        confirm.SetActive(false);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            Player plr = collision.gameObject.GetComponent<Player>();
-            leave.DespawnPlayer(plr);
-            AsyncOperation loading = SceneManager.LoadSceneAsync(enter);
-            Environment enterEnv = GameObject.Find(enter).GetComponent<Environment>();
-            enterEnv.SpawnPlayer(enterEnv.spawnPoint);
-            StartCoroutine(LoadNextScene(loading, enterEnv));
+            player = collision.gameObject.GetComponent<Player>();
+            confirm.SetActive(true);
+
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         }
     }
+
+    public void CancelNow()
+    {
+        confirm.SetActive(false);
+        player.transform.position = spawnPoint.transform.position + new Vector3(0, 1.5f, 0);
+    }
+
+    public void LoadNow()
+    {
+        confirm.SetActive(false);
+
+        Player plr = player.gameObject.GetComponent<Player>();
+        //leave.DespawnPlayer(plr);
+        AsyncOperation loading = SceneManager.LoadSceneAsync(enter.name);
+        //enter.SpawnPlayer(enter.spawnPoint);
+        StartCoroutine(LoadNextScene(loading, enter));
+
+    }
+
+
 
     private IEnumerator LoadNextScene(AsyncOperation loading, Environment env)
     {
