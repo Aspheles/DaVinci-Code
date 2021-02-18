@@ -19,6 +19,7 @@ public class FormValidation : MonoBehaviour
     public bool emailCheck;
     public bool passwordCheck;
 
+
     private void Start()
     {
         system = EventSystem.current;
@@ -100,6 +101,7 @@ public class FormValidation : MonoBehaviour
     }
 
 
+
     /// <summary>
     /// Clears all the input fields.
     /// </summary>
@@ -112,6 +114,7 @@ public class FormValidation : MonoBehaviour
         usernameCheck = false;
         passwordCheck = false;
         emailCheck = false;
+
     }
 
     /// <summary>
@@ -148,7 +151,10 @@ public class FormValidation : MonoBehaviour
             ClearData();
         }
     }
-
+    /// <summary>
+    /// when clicked it opens the Submit menu
+    /// this is the place where you give up your emailadress for a new verification code
+    /// </summary>
     public void OnForgotPasswordButtonClicked()
     {
         Launcher.instance.OpenSubmitMenu();
