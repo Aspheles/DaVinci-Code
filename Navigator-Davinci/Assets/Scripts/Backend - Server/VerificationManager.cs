@@ -105,7 +105,7 @@ public class VerificationManager : MonoBehaviour
             {
                 Verification.instance.message.color = Color.green;
                 Verification.instance.message.text = "Account activated";
-                Launcher.instance.OpenLoggedInMenu();
+                Launcher.instance.OpenLoginMenu();
             }
             else
             {

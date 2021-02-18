@@ -99,12 +99,13 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Clears all the input fields.
     /// </summary>
     public void ClearData()
     {
-        //username.text = string.Empty;
+        username.text = string.Empty;
         password.text = string.Empty;
         email.text = string.Empty;
         message.text = string.Empty;
@@ -129,8 +130,6 @@ public class FormValidation : MonoBehaviour
        
        
     }
-
-
     /// <summary>
     /// Logs in a user when the button is clicked.
     /// Checks if the imput is correct, if so-
@@ -148,7 +147,11 @@ public class FormValidation : MonoBehaviour
             StartCoroutine(Authentication.instance.Login(email.text, password.text));
             ClearData();
         }
-
-
     }
+
+    public void OnForgotPasswordButtonClicked()
+    {
+        Launcher.instance.OpenSubmitMenu();
+    }
+
 }

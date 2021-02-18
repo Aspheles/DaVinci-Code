@@ -91,4 +91,14 @@ public class Launcher : MonoBehaviour
     {
         Debug.Log("Value changed");
     }
+
+    public void OpenResetPasswordMenu()
+    {
+        MenuManager.instance.OpenMenu("resetpassword");
+    }
+
+    public void OpenSubmitMenu() 
+    {
+        MenuManager.instance.OpenMenu("submit");    
+    }
 }
