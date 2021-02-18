@@ -81,9 +81,8 @@ public class FileManager : MonoBehaviour
         WWW www = new WWW(_path);
         img.texture = www.texture;
 
-        Session.instance.question.image = img;
-
-         
+        Session.instance.question.image = www.texture;
+        
         largeImage.GetComponent<RawImage>().texture = www.texture;
         zoomBtn.SetActive(true);
     }

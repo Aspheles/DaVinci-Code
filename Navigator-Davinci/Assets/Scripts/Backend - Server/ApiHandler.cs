@@ -47,9 +47,9 @@ public class ApiHandler : MonoBehaviour
             {
                 byte[] dbData = www.downloadHandler.data;
                 string Result = System.Text.Encoding.Default.GetString(dbData);
-                
-                JSONArray Data = JSON.Parse(Result) as JSONArray;
                 print(Result);
+                JSONArray Data = JSON.Parse(Result) as JSONArray;
+   
                 ApiController.instance.CheckData(Data, url);
             }
         }
@@ -72,6 +72,13 @@ public class ApiHandler : MonoBehaviour
 
                 ApiController.instance.CheckData(Data, url);
             }
+        }else if(type == "image")
+        {
+            UnityWebRequest www = UnityWebRequest.Post(url, form);
+
+            yield return www.SendWebRequest();
+
+
         }
         
     }

@@ -31,6 +31,12 @@ public class Session : MonoBehaviour
                 return "Username or password is incorrect";
             case "answerduplicate":
                 return "Duplicate answers found with same name";
+            case "erroranswervalue":
+                return "You need atleast 1 true answer";
+            case "erroranswerempty":
+                return "Answer can't be empty";
+
+
             default:
                 return "";
                 
@@ -52,12 +58,19 @@ public class Session : MonoBehaviour
                 questionid = question.id;
             }
 
-            if (image == null) image = "test";
-            question = new Question(question.id, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
-            //StartCoroutine(SaveQuestion());
+            if (image == null)
+            {
+                print("You need to select a image");
+            }
+            else
+            {
+                question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
+                //StartCoroutine(SaveQuestion());
 
-            //Send backend request from api to save question
-            new Questions().Create();
+                //Send backend request from api to save question
+                new Questions().Create();
+            }
+           
             
         }
     }

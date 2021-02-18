@@ -50,14 +50,14 @@ public class Question
     public int id;
     public string question;
     public string description;
-    public RawImage image;
+    public Texture2D image;
     public List<Answer> answers;
     public int puzzleid;
     public string errorMessage;
 
 
 
-    public Question(int id,string question, string description, RawImage image ,List<Answer> answers, int puzzleid)
+    public Question(int id,string question, string description, Texture2D image ,List<Answer> answers, int puzzleid)
     {
         this.id = id;
         this.question = question;

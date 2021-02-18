@@ -45,4 +45,17 @@ public class Questions : IManager
         };
         ApiHandler.instance.CallApiRequest("post", form, Request.FETCHQUESTIONS);
     }
+
+    public void SaveImage()
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            //Session.instance.puzzle.id.ToString()
+            //new MultipartFormDataSection("file", Session.instance.question.image.GetRawTextureData()),
+            new MultipartFormDataSection("file", Session.instance.question.image.EncodeToPNG()),
+            //Session.instance.puzzle.id
+        };
+        ApiHandler.instance.CallApiRequest("post", form, Request.SAVEIMAGE);
+
+    }
 }

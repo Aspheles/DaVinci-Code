@@ -53,9 +53,17 @@ public class ApiController : MonoBehaviour
             case Request.CREATEANSWERS:
                 SaveAnswers(Data);
                 break;
+            case Request.SAVEIMAGE:
+                SaveImage();
+                break;
 
 
         }
+    }
+
+    private void SaveImage()
+    {
+        print("Image has been saved");
     }
 
     private void SavePuzzle(JSONNode Data)
@@ -137,16 +145,23 @@ public class ApiController : MonoBehaviour
 
     private void SaveQuestion(JSONNode Data)
     {
-        if(Data[1].AsObject["status"] == "success")
+        
+        if(Data != null)
         {
-            Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
-            print("Question has been saved");
-            new Answers().Create();
+            print(Data);
+            if (Data[1].AsObject["status"] == "success" || Data[0].AsObject["status"] == "success")
+            {
+                Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
+                print("Question has been saved");
+                new Questions().SaveImage();
+                new Answers().Create();
+            }
+            else
+            {
+                Session.instance.message = Data[1].AsObject["status"];
+            }
         }
-        else
-        {
-            Session.instance.message = Data[1].AsObject["status"];
-        }
+        
 
         
         //StartCoroutine(SaveAnswers());
@@ -230,20 +245,12 @@ public class ApiController : MonoBehaviour
 
     private void SaveAnswers(JSONNode Data)
     {
+        QuestionCreator.instance.loaded = false;
+        print("Answers have been saved");
+        print(Data);
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
 
-        if(Data[1].AsObject["status"] == "success" || Data[0].AsObject["status"] == "success")
-        {
-            QuestionCreator.instance.loaded = false;
-            print("Answers have been saved");
-            Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
-        }
-        else
-        {
-            Session.instance.message = Data[1].AsObject["status"];
-        }
-        
-        
-       
-       
+        int count = 0;
+        count++;
     }
 }

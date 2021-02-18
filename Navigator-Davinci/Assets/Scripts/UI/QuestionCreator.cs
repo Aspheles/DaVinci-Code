@@ -149,11 +149,20 @@ public class QuestionCreator : MonoBehaviour
             }
             else
             {
-                message.text = "Answer can't be empty";
+                Session.instance.message = "erroranswerempty";
             }
         }
 
-        Session.instance.AddAnswer(newAnswers);
+        print(JsonUtility.ToJson(newAnswers));
+        if (HasCorrectValue(newAnswers)) 
+        { 
+            Session.instance.AddAnswer(newAnswers); 
+        }
+        else 
+        {
+            Session.instance.message = "erroranswervalue";
+        }
+
     }
 
     /// <summary>
@@ -173,14 +182,22 @@ public class QuestionCreator : MonoBehaviour
         int amount = 0;
         foreach(Answer answer in answers)
         {
-            if (!answer.isCorrect)
+            if (answer.isCorrect == false)
             {
                 amount++;
             }
         }
 
-        if (amount == answers.Count) return false;
-        else return true;
+        if (amount == answers.Count)
+        {
+            Debug.Log("Has no correct answer " + amount);
+            return false;
+        }
+        else
+        {
+            Debug.Log("Has correct answer" + amount);
+            return true;
+        }
     }
 
 
