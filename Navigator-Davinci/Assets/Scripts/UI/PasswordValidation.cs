@@ -6,18 +6,21 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using SimpleJSON;
 
-public class ResetPassword : MonoBehaviour
+public class PasswordValidation : MonoBehaviour
 {
     [SerializeField] InputField repeatpassword;
     [SerializeField] InputField newpassword;
-    [SerializeField] InputField email;
+    [SerializeField] InputField authcode;
     public Text message;
+    [SerializeField] InputField email;
     EventSystem system;
-    public static ResetPassword instance;
-    public bool emailCheck;
+    bool emailCheck = false;
     public bool repeatpasswordCheck;
     public bool newpasswordCheck;
+    public bool authcodeCheck;
+    public static PasswordValidation instance;
 
     private void Start()
     {
@@ -41,6 +44,8 @@ public class ResetPassword : MonoBehaviour
                 system.SetSelectedGameObject(next.gameObject, new BaseEventData(system));
             }
         }
+
+        
     }
 
     /// <summary>
@@ -52,6 +57,7 @@ public class ResetPassword : MonoBehaviour
         {
             message.color = Color.red;
             message.text = "Email needs to be valid";
+            email.Select();
             emailCheck = false;
         }
         else
@@ -61,14 +67,13 @@ public class ResetPassword : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// checks if the input field have been filled in to the conditions otherwise show an error
     /// checks whether both the passwords have the exact same input and if they passwords are not too short.
     /// </summary>
     public void NewPasswordValidator()
     {
-        if (newpassword.text == repeatpassword.text)
+        if (repeatpassword.text == newpassword.text)
         {
             if (repeatpassword.text.Length > 5 && newpassword.text.Length > 5)
             {
@@ -95,26 +100,57 @@ public class ResetPassword : MonoBehaviour
 
     public void ClearData()
     {
-        repeatpassword.text = string.Empty;
         newpassword.text = string.Empty;
-        email.text = string.Empty;
+        repeatpassword.text = string.Empty;
         message.text = string.Empty;
-        repeatpasswordCheck = false;
         newpasswordCheck = false;
+        repeatpasswordCheck = false;
         emailCheck = false;
     }
 
-    public void OnSubmitButtonClicked()
+    /// <summary>
+    /// when clicked it opens the ResetPassword menu
+    /// first it checks whether you filled in your email correctly or not
+    /// if not you get an error and if it is correct it will fire the verification code function
+    /// this is where you fill in your verification code and the new password you want to use
+    /// </summary>
+    public void OnPasswordSubmitButtonClicked()
     {
-        if (emailCheck = true)
+        if (emailCheck)
         {
+            Session.instance.email = email.text;
+            SendVerification(email.text);
+            message.color = Color.green;
+            message.text = "A verification code has been sent to your emailadress";
             Launcher.instance.OpenResetPasswordMenu();
+           
         }
         else
         {
             message.color = Color.red;
             message.text = "Your Email adress needs to be valid";
         }
+    }
+
+
+    /// <summary>
+    /// calls the function to resend the verification code
+    /// </summary>
+    /// <param name="email"></param>
+    public void SendVerification(string email)
+    {
+        StartCoroutine(VerificationManager.instance.ResendCode(email));
+    }
+
+
+    /// <summary>
+    /// when clicked it will fire the function to send a verification code to your email
+    /// this new code can be used to verify your account or new password
+    /// </summary>
+    /// <param name="email"></param>
+    public void OnPasswordResendCodeButtonClicked()
+    {
+        StartCoroutine(VerificationManager.instance.ResendCode(Session.instance.email));
     }
 
     /// <summary>
@@ -125,64 +161,17 @@ public class ResetPassword : MonoBehaviour
     /// If any of the steps fail, show corresponding error
     /// ** Moet nog aangevuld worden met authenticatie met de reset code die vanaf de DB komt **
     /// </summary>
-    public void OnResetButtonClicked()
+    public void OnPasswordResetButtonClicked()
     {
-        if (repeatpassword.text.Length <= 0 && newpassword.text.Length <= 0)
+        if (newpasswordCheck && repeatpasswordCheck)
+        {
+            StartCoroutine(VerificationManager.instance.ResetPassword(Session.instance.email, newpassword.text, repeatpassword.text, authcode.text));
+            ClearData();
+        }
+        else
         {
             message.color = Color.red;
-            message.text = "Both passwords need to be filled in";
-            Debug.Log("Nope1");
-        }
-        else
-        {
-            if (repeatpassword == true && newpassword == true)
-            {
-                if (repeatpassword.text == newpassword.text)
-                {
-                    Debug.Log("succes");
-                    //StartCoroutine(Authentication.instance.Reset(email.text, repeatpassword.text, newpassword.text));
-                    //ClearData();
-                    Launcher.instance.OpenLoginMenu();
-                } 
-                else
-                {
-                    Debug.Log("Nope3");
-                    message.color = Color.red;
-                    message.text = "Your passwords do not match";
-                }
-
-            }
-            else
-            {
-                message.color = Color.red;
-                message.text = "Passwords need to be bigger than 5 characters";
-                Debug.Log("Nope2");
-            }
-
+            message.text = "your verification code or passwords have been filled in invalid";
         }
     }
-
-    public IEnumerator OnResendCodeButtonClicked(string email)
-    {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("email", email)
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post(" Iets.php ", formData);
-
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.data);
-
-            Launcher.instance.OpenResetPasswordMenu();
-        }
-    }
-
 }
