@@ -6,8 +6,6 @@ TagManager:
   tags:
   - question
   - answer
-  - Ground
-  - Terrain
   layers:
   - Default
   - TransparentFX
