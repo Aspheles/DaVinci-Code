@@ -3344,6 +3344,7 @@ MonoBehaviour:
   puzzleEditName: {fileID: 2380341150808459617}
   puzzleEditDescription: {fileID: 5130840769914641316}
   puzzleEditDifficulty: {fileID: 6464533200728844353}
+  message: {fileID: 0}
 --- !u!1 &6133538774457009957
 GameObject:
   m_ObjectHideFlags: 0

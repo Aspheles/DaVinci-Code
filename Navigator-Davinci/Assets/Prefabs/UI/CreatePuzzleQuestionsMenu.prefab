@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 4793590081574053835}
   m_Horizontal: 0
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -992,7 +992,9 @@ MonoBehaviour:
   finishButton: {fileID: 4793590082165485792}
   closeButton: {fileID: 4793590083015946606}
   description: {fileID: 4793590082209506268}
+  message: {fileID: 0}
   question: []
+  loaded: 0
 --- !u!114 &1798801176432738319
 MonoBehaviour:
   m_ObjectHideFlags: 0
