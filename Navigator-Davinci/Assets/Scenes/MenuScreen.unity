@@ -1607,7 +1607,7 @@ PrefabInstance:
     - target: {fileID: 5409060208988902196, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5409060209287112495, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
@@ -1673,6 +1673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409060210155893821, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
       objectReference: {fileID: 0}
     - target: {fileID: 5409060210171934237, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
@@ -1882,7 +1887,7 @@ PrefabInstance:
     - target: {fileID: 5409060211033786821, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5976093097145092911, guid: a3155dc1d0bc83c42b7b9720ca8b06a0,
         type: 3}
