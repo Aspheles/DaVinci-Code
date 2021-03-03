@@ -10,11 +10,11 @@ using SimpleJSON;
 
 public class PasswordValidation : MonoBehaviour
 {
-    [SerializeField] InputField repeatpassword;
-    [SerializeField] InputField newpassword;
-    [SerializeField] InputField authcode;
+    public InputField repeatpassword;
+    public InputField newpassword;
+    public InputField authcode;
     public Text message;
-    [SerializeField] InputField email;
+    public InputField email;
     EventSystem system;
     bool emailCheck = false;
     public bool repeatpasswordCheck;
@@ -165,6 +165,7 @@ public class PasswordValidation : MonoBehaviour
         if (newpasswordCheck && repeatpasswordCheck)
         {
             StartCoroutine(VerificationManager.instance.ResetPassword(Session.instance.email, newpassword.text, repeatpassword.text, authcode.text));
+            new User().UpdatePassword(false);
             ClearData();
         }
         else

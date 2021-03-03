@@ -27,7 +27,7 @@ public class Environment : MonoBehaviour
         Player plr = Instantiate(playerPrefab);
         
         players.Add(plr);
-        plr.transform.position = spawn.transform.position + new Vector3(0, 0.5f, 0);print(plr.transform.position);
+        plr.transform.position = spawn.transform.position + new Vector3(0, 0.5f, 0);
     }
 
     public void DespawnPlayer(Player plr)

@@ -108,6 +108,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && !inAir)
         {
+            inAir = true;
             rb.AddForce(new Vector3(0, 200, 0));  
         }
 
@@ -120,13 +121,13 @@ public class Player : MonoBehaviour
         Animate();
     }
 
-   private void OnCollisionEnter(Collision ground)
+   private void OnCollisionStay(Collision ground)
     {
         if (ground.gameObject.GetComponent<Ground>())
         {
             
             inAir = false;
-            
+
         }
         Animate();
     }
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour
         if (ground.gameObject.GetComponent<Ground>())
         {
 
-            inAir = true;
+            //inAir = true;
 
         }
         Animate();

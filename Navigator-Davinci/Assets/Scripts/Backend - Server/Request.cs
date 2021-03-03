@@ -20,6 +20,8 @@ public static class Request
         FETCHANSWERS = server + "/loadanswers.php",
         CREATEANSWERS = server + "/savepuzzledata.php",
         SAVEIMAGE = server + "/saveimage.php",
-        RESETPASSWORD = server + "/updatepassword.php";
+        RESETPASSWORD = server + "/updatepassword.php",
+        RESENDCODE = server + "/resendcode.php",
+        VERIFY = server + "/verification.php";
 
 }

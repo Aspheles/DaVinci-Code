@@ -18,7 +18,6 @@ public class GameCamera : MonoBehaviour
     Vector3 dollyDir;
     float maxDistance;
 
-    bool zooming;
 
     void Start()
     {
@@ -55,18 +54,14 @@ public class GameCamera : MonoBehaviour
 
     void Move()
     {
-
-            if(rotation.x < 0)
-            {
-
-            }
-            transform.LookAt(target.transform);
+        //Move
+        transform.LookAt(target.transform);
         
-            rotation.y += Input.GetAxis("Mouse X") * 10;
-            rotation.x -= Input.GetAxis("Mouse Y") * 10;
-            rotation.x = Mathf.Clamp(rotation.x, -40, 60);
+        rotation.y += Input.GetAxis("Mouse X") * 10;
+        rotation.x -= Input.GetAxis("Mouse Y") * 10;
+        rotation.x = Mathf.Clamp(rotation.x, -40, 60);
             
-            pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+        pivotPoint.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
     }
 
@@ -93,7 +88,7 @@ public class GameCamera : MonoBehaviour
 
     private void Zoom(float value)
     {
-        zooming = true;
+
         if(transform.localPosition.z > maxZoom && transform.localPosition.z < minZoom)
         {
             position.z += value;

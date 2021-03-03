@@ -8,10 +8,10 @@ using System;
 
 public class FormValidation : MonoBehaviour
 {
-    [SerializeField] InputField username;
-    [SerializeField] InputField password;
-    [SerializeField] InputField email;
-    [SerializeField] TMP_Dropdown classCode;
+    public InputField username;
+    public InputField password;
+    public InputField email;
+    public TMP_Dropdown classCode;
     public Text message;
     EventSystem system;
     public static FormValidation instance;
@@ -126,7 +126,8 @@ public class FormValidation : MonoBehaviour
     {
         if (usernameCheck && passwordCheck && emailCheck)
         {
-            StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
+            //StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
+            new User().Register();
             ClearData();
             username.text = string.Empty;
         }
@@ -147,7 +148,8 @@ public class FormValidation : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Authentication.instance.Login(email.text, password.text));
+            //StartCoroutine(Authentication.instance.Login(email.text, password.text));
+            new User().Login();
             ClearData();
         }
     }

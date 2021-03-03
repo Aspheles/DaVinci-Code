@@ -30,7 +30,9 @@ public class VerificationManager : MonoBehaviour
     /// </summary>
     public void RequestNewCode()
     {
-        StartCoroutine(ResendCode(Verification.instance.emailInput.text));
+        //StartCoroutine(ResendCode(Verification.instance.emailInput.text));
+        //Passing for resend code in verify
+        new User().Verify(true);
     }
 
     /// <summary>
