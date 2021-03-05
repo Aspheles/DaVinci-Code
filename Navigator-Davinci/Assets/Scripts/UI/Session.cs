@@ -30,12 +30,16 @@ public class Session : MonoBehaviour
                 return "Name is already in use";
             case "erroruser":
                 return "Username or password is incorrect";
+            case "erroruserempty":
+                return "Inputs can't be empty";
             case "answerduplicate":
                 return "Duplicate answers found with same name";
             case "erroranswervalue":
                 return "You need atleast 1 true answer";
             case "erroranswerempty":
                 return "Answer can't be empty";
+            case "errormailused":
+                return "Mail is already in use";
 
 
             default:
@@ -59,20 +63,29 @@ public class Session : MonoBehaviour
                 questionid = question.id;
             }
 
+            //Creating questions, so it can be sent to the database 
+            question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, answers, puzzle.id);
+            //StartCoroutine(SaveQuestion());
+
+            //Send backend request from api to save question
+            new Questions().Create();
+
+            /*
+
             if (image == null)
             {
                 print("You need to select a image");
             }
             else
             {
-                question = new Question(questionid, QuestionCreator.instance.questionInput.text, QuestionCreator.instance.description.text, question.image, answers, puzzle.id);
-                //StartCoroutine(SaveQuestion());
+               
+            }*/
 
-                //Send backend request from api to save question
-                new Questions().Create();
-            }
-           
-            
+
+        }
+        else
+        {
+            Debug.Log("No answers found to save with question");
         }
     }
 

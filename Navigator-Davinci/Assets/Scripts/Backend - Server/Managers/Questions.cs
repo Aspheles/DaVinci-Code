@@ -32,7 +32,7 @@ public class Questions : IManager
 
     public void Edit()
     {
-        
+        return;
     }
 
     public void Load()

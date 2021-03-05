@@ -40,6 +40,11 @@ public class FormValidation : MonoBehaviour
                 system.SetSelectedGameObject(next.gameObject, new BaseEventData(system));
             }
         }
+
+        if(!string.IsNullOrEmpty(Session.instance.message))
+        {
+           message.text = Session.instance.ErrorHandling();
+        }
     }
 
     /// <summary>
@@ -129,7 +134,7 @@ public class FormValidation : MonoBehaviour
             //StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
             new User().Register();
             ClearData();
-            username.text = string.Empty;
+            //username.text = string.Empty;
         }
        
        

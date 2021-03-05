@@ -14,8 +14,6 @@ public class ApiController : MonoBehaviour
         instance = this;
     }
 
-
-
     public void CheckData(JSONNode Data, string type)
     {
         //Clearing session data
@@ -56,8 +54,21 @@ public class ApiController : MonoBehaviour
             case Request.SAVEIMAGE:
                 SaveImage();
                 break;
-
-
+            case Request.REGISTER:
+                RegisterUser(Data);
+                break;
+            case Request.LOGIN:
+                LoginUser(Data);
+                break;
+            case Request.VERIFY:
+                VerifyAccount(Data);
+                break;
+            case Request.RESETPASSWORD:
+                UpdatePassword(Data);
+                break;
+            case Request.RESENDCODE:
+                ResendCode(Data);
+                break;
         }
     }
 
@@ -186,7 +197,7 @@ public class ApiController : MonoBehaviour
             //RawImage questionImage = Data[i].AsObject["image"] as RawImage;
             int puzzleid = Data[i].AsObject["puzzle_id"];
 
-            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, null, puzzleid);
+            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, puzzleid);
             QuestionOverview.instance.Questions.Add(_question);
 
         }
@@ -252,5 +263,103 @@ public class ApiController : MonoBehaviour
 
         int count = 0;
         count++;
+    }
+
+    private void RegisterUser(JSONNode Data)
+    {
+        if (Data[1].AsObject["status"] == "success")
+        {
+           
+            UserInfo.instance.AssignUserData(Data[0]);
+
+            if (!string.IsNullOrEmpty(UserInfo.instance.email))
+            {
+                FormValidation.instance.message.color = Color.green;
+                FormValidation.instance.message.text = "Account has been created";
+                Launcher.instance.OpenVerificationMenu();
+            }
+            else
+            {
+                Debug.Log("Couldn't find account");
+            }
+           
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+    }
+
+    private void LoginUser(JSONNode Data)
+    {
+        if (Data[1].AsObject["status"] == "success")
+        {
+           
+            UserInfo.instance.AssignUserData(Data[0]);
+
+            if (UserInfo.instance.isverified)
+            {
+                Launcher.instance.OpenLoggedInMenu();
+            }
+            else
+            {
+                Launcher.instance.OpenVerificationMenu();
+            }
+        }
+        else
+        {
+            print("Found error in login");
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+    }
+
+    private void UpdatePassword(JSONNode Data)
+    {
+        if (Data[1].AsObject["status"] == "success")
+        {
+            Launcher.instance.OpenLoginMenu();
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+    }
+
+    private void ResendCode(JSONNode Data)
+    {
+        if (Data[1].AsObject["status"] == "success")
+        {
+            if(PasswordValidation.instance != null)
+            {
+                //Display success message
+                PasswordValidation.instance.message.text = "A new code has been sent to your email adress";
+                PasswordValidation.instance.message.color = Color.green;
+            }
+            else
+            {
+                Verification.instance.message.text = "A new code has been sent to your email adress";
+                Verification.instance.message.color = Color.green;
+            }
+           
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
+    }
+
+    private void VerifyAccount(JSONNode Data)
+    {
+        if (Data[1].AsObject["status"] == "success")
+        {
+            //Send to loggedin menu
+            //Verification.instance.message.color = Color.green;
+            //Verification.instance.message.text = "Account activated";
+            Launcher.instance.OpenLoggedInMenu();
+        }
+        else
+        {
+            Session.instance.message = Data[1].AsObject["status"];
+        }
     }
 }

@@ -20,6 +20,7 @@ public class PasswordValidation : MonoBehaviour
     public bool repeatpasswordCheck;
     public bool newpasswordCheck;
     public static PasswordValidation instance;
+    User user = new User();
 
     private void Start()
     {
@@ -118,7 +119,7 @@ public class PasswordValidation : MonoBehaviour
         if (emailCheck)
         {
             Session.instance.email = email.text;
-            SendVerification(email.text);
+            SendVerification();
             Launcher.instance.OpenResetPasswordMenu();
             message.color = Color.green;
             message.text = "A verification code has been sent to your emailadress";
@@ -136,9 +137,10 @@ public class PasswordValidation : MonoBehaviour
     /// calls the function to resend the verification code
     /// </summary>
     /// <param name="email"></param>
-    public void SendVerification(string email)
+    public void SendVerification()
     {
-        StartCoroutine(VerificationManager.instance.ResendCode(email));
+        //StartCoroutine(VerificationManager.instance.ResendCode(email));
+        user.UpdatePassword(true);
     }
 
 
@@ -149,7 +151,8 @@ public class PasswordValidation : MonoBehaviour
     /// <param name="email"></param>
     public void OnPasswordResendCodeButtonClicked()
     {
-        StartCoroutine(VerificationManager.instance.ResendCode(Session.instance.email));
+        //StartCoroutine(VerificationManager.instance.ResendCode(Session.instance.email));
+        user.UpdatePassword(true);
     }
 
     /// <summary>
@@ -164,7 +167,7 @@ public class PasswordValidation : MonoBehaviour
     {
         if (newpasswordCheck && repeatpasswordCheck)
         {
-            StartCoroutine(VerificationManager.instance.ResetPassword(Session.instance.email, newpassword.text, repeatpassword.text, authcode.text));
+            //StartCoroutine(VerificationManager.instance.ResetPassword(Session.instance.email, newpassword.text, repeatpassword.text, authcode.text));
             new User().UpdatePassword(false);
             ClearData();
         }

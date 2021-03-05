@@ -57,12 +57,11 @@ public class Question
 
 
 
-    public Question(int id,string question, string description, Texture2D image ,List<Answer> answers, int puzzleid)
+    public Question(int id,string question, string description ,List<Answer> answers, int puzzleid)
     {
         this.id = id;
         this.question = question;
         this.description = description;
-        this.image = image;
         this.answers = answers;
         this.puzzleid = puzzleid;
     }

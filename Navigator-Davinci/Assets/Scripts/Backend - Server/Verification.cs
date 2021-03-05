@@ -11,6 +11,7 @@ public class Verification : MonoBehaviour
     public InputField codeInput;
     public Text message;
     public static Verification instance;
+    User user;
 
     private void Start()
     {
@@ -22,7 +23,9 @@ public class Verification : MonoBehaviour
 
     public void CheckVerification()
     {
-        StartCoroutine(VerificationManager.instance.Verify(emailInput.text));
+        //StartCoroutine(VerificationManager.instance.Verify(emailInput.text));
+        //user.Verify(false);
+        VerificationManager.instance.VerifyAccount();
     }
 
 }

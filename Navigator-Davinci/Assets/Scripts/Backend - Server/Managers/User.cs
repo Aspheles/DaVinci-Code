@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class User : MonoBehaviour
+public class User
 {
     public List<IMultipartFormSection> form;
+
     public void Register()
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
@@ -59,7 +60,7 @@ public class User : MonoBehaviour
         {
             List<IMultipartFormSection> form = new List<IMultipartFormSection>
             {
-                new MultipartFormDataSection("email", PasswordValidation.instance.email.text)
+                new MultipartFormDataSection("email", Session.instance.email)
             };
 
             ApiHandler.instance.CallApiRequest("post", form, Request.RESENDCODE);

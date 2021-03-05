@@ -10,14 +10,7 @@ public class ApiHandler : MonoBehaviour
 
     private void Awake()
     {
-      
-        instance = this;
-    }
-
-    public enum RequestType{
-        CREATE_PUZZLE,
-        EDIT_PUZZLE,
-        DELETE_PUZZLE
+      instance = this;
     }
 
     /// <summary>
@@ -41,7 +34,8 @@ public class ApiHandler : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                Debug.Log("Error found: ");
+                Debug.Log(www.downloadHandler.text);
             }
             else
             {
@@ -72,23 +66,10 @@ public class ApiHandler : MonoBehaviour
 
                 ApiController.instance.CheckData(Data, url);
             }
-        }else if(type == "image")
-        {
-            UnityWebRequest www = UnityWebRequest.Post(url, form);
-
-            yield return www.SendWebRequest();
-
-
         }
         
     }
 
-    public string Callback(string error)
-    {
-       
-
-        return "";
-    }
 
 }
 
