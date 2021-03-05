@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class QuestionCreator : MonoBehaviour
 {
-    [SerializeField] InputField questionInput;
+    public InputField questionInput;
     [SerializeField] GameObject answerInput;
     [SerializeField] Transform answerOptionsPos;
     [SerializeField] InputField puzzleNameInput;
@@ -17,87 +17,83 @@ public class QuestionCreator : MonoBehaviour
     [SerializeField] GameObject addButton;
     [SerializeField] GameObject finishButton;
     [SerializeField] GameObject closeButton;
-
+    public TMP_InputField description;
+    public TMP_Text message;
 
     public List<Question> question;
     public static QuestionCreator instance;
-    bool loaded;
+    public bool loaded;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
         //Debug.Log(puzzleNameInput.text);
         //Debug.Log(puzzleDifficultyInput.options[puzzleDifficultyInput.value].text);
-        
-
-      
     }
 
-   
+
+    public void ResetData()
+    {
+        questionInput.text = "";
+        description.text = "";
+
+        foreach(Transform child in answerOptionsPos)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+
     private void Update()
     {
-        
-        
-
-        if (QuestionSession.instance.question != null)
+        if(Session.instance.message != null)
         {
-            
-            GameObject.Find("title").GetComponent<Text>().text = "Edit your question";
-            questionInput.text = QuestionSession.instance.question.question;
-            LoadAnswers(QuestionSession.instance.question.answer);
-            //QuestionSession.instance.question = null;
-
+            message.text = Session.instance.ErrorHandling();
         }
-        else if(QuestionSession.instance.question == null)
+        
+        if(GameObject.FindGameObjectsWithTag("answer").Length > 0)
+        {
+            MoveAnswerRect();
+        }
+        else
         {
             ResetAnswerRect();
         }
       
     }
 
+    /// <summary>
+    /// Removing old answers if there are any, afterwards loads in answers from current question.
+    /// </summary>
     public void LoadAnswers(List<Answer> answers)
     {
+        questionInput.text = Session.instance.question.question;
+        description.text = Session.instance.question.description;
 
         foreach (Transform child in answerOptionsPos)
         {
             Destroy(child.gameObject);
         }
 
-        if(answers.Count > 0)
+        MoveAnswerRect();
+
+        foreach (Answer answer in answers)
         {
-            MoveAnswerRect();
-            foreach (Answer answer in answers)
-            {
-                GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
-                QuestionClone.transform.SetParent(answerOptionsPos);
-                //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
-                QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
-                QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
-            }
+            GameObject QuestionClone = Instantiate(answerInput, answerOptionsPos.position, Quaternion.identity);
+            QuestionClone.transform.SetParent(answerOptionsPos);
+            //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
+            QuestionClone.GetComponent<AnswerManager>().id = answer.id;
+            QuestionClone.GetComponent<AnswerManager>().answerField.text = answer.answer;
+            QuestionClone.GetComponent<AnswerManager>().correctToggle.isOn = answer.isCorrect;
         }
         
-        
-        
-        
-        
     }
 
-    public void RemoveAnswer(string answer)
-    {
-        /*
-        foreach(Question q in question)
-        {
-          Answer item = q.answer.Find((x) => x.answer == answer);
-          if(item != null)
-          {
-            q.answer.Remove(item);
-          }
-        }*/
+    
 
-        Answer item = QuestionSession.instance.question.answer.Find((x) => x.answer == answer);
-        if (item != null) QuestionSession.instance.question.answer.Remove(item);
-    }
-
+    /// <summary>
+    /// Creates new answer.
+    /// </summary>
     public void CreateAnswerOptions()
     {
 
@@ -108,6 +104,9 @@ public class QuestionCreator : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Moves containers to their own position, sets the answers container to active.
+    /// </summary>
     void MoveAnswerRect()
     {
         answersScrollView.SetActive(true);
@@ -119,6 +118,10 @@ public class QuestionCreator : MonoBehaviour
         closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(390, 200, 0);
     }
 
+
+    /// <summary>
+    /// Sets the answers container to false.
+    /// </summary>
     void ResetAnswerRect()
     {
         answersScrollView.SetActive(false);
@@ -130,81 +133,72 @@ public class QuestionCreator : MonoBehaviour
         closeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(200, 200, 0);
     }
 
+    /// <summary>
+    /// Edits or creates new questions with answers, and saves question to database.
+    /// </summary>
     public void FinishQuestions()
     {
-        question = new List<Question>();
-
-        List<Answer> answers = new List<Answer>();
-        GameObject[] item = GameObject.FindGameObjectsWithTag("answer");
-
-        for (int i = 0; i < item.Length; i++)
+        List<Answer> newAnswers = new List<Answer>();
+        foreach (GameObject answer in GameObject.FindGameObjectsWithTag("answer"))
         {
-            answers.Add(new Answer(item[i].GetComponent<AnswerManager>().answerField.text, item[i].GetComponent<AnswerManager>().correctToggle.isOn));
-        }
-
-        /*
-        if(answers.Count > 0)
-        {
-            question.Add(new Question(questionInput.text, answers));
-            StartCoroutine(CreatePuzzle());
-            foreach(Question q in question)
+            //Check if answer isn't empty
+            if (!string.IsNullOrEmpty(answer.GetComponent<AnswerManager>().answerField.text))
             {
-                for(int i = 0; i< q.answer.Count; i++)
-                {
-                    StartCoroutine(CreateQuestion(q.answer[i].answer, q.answer[i].isCorrect));
-                }
-                
+                Answer _answer = new Answer(answer.GetComponent<AnswerManager>().id, answer.GetComponent<AnswerManager>().answerField.text, answer.GetComponent<AnswerManager>().correctToggle.isOn);
+                newAnswers.Add(_answer);
+            }
+            else
+            {
+                Session.instance.message = "erroranswerempty";
             }
         }
-        */
-        
-        //questiontest.Add(new Question(question.text, ))
-    }
 
-    IEnumerator CreatePuzzle()
-    {
-        //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        print(JsonUtility.ToJson(newAnswers));
+        if (HasCorrectValue(newAnswers)) 
+        { 
+            Session.instance.AddAnswer(newAnswers); 
+        }
+        else 
         {
-            new MultipartFormDataSection("puzzlename", puzzleNameInput.text),
-            new MultipartFormDataSection("puzzledifficulty", puzzleDifficultyInput.options[puzzleDifficultyInput.value].text),
-           
-        };
-        //formData.Add(new MultipartFormFileSection(email, "my file data"));
-
-        //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php", formData);
-
-        yield return www.SendWebRequest();
+            Session.instance.message = "erroranswervalue";
+        }
 
     }
 
-    IEnumerator CreateQuestion(string answerTitle, bool answerValue)
+    /// <summary>
+    /// Cancels the question creation and returns to the overwiew.
+    /// </summary>
+
+    public void CancelChanges()
     {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
+        Session.instance.question = null;
+        loaded = false;
+        ResetData();
+        Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
+    }
+
+    private bool HasCorrectValue(List<Answer> answers)
+    {
+        int amount = 0;
+        foreach(Answer answer in answers)
         {
-            //Creates a list for the data so it can be sent to the PHP file can get it trough $_POST
+            if (answer.isCorrect == false)
+            {
+                amount++;
+            }
+        }
 
-            new MultipartFormDataSection("answertitle", answerTitle),
-            new MultipartFormDataSection("answervalue", answerValue.ToString())
-        };
-
-
-
-        //formData.Add(new MultipartFormFileSection(email, "my file data"));
-
-        //Sending the data 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/answer.php", formData);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
+        if (amount == answers.Count)
         {
-            Debug.Log(www.error);
+            Debug.Log("Has no correct answer " + amount);
+            return false;
         }
         else
         {
-            Debug.Log("Form upload complete!");
+            Debug.Log("Has correct answer" + amount);
+            return true;
         }
     }
+
 
 }

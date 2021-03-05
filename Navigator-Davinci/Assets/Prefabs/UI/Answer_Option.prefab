@@ -51,8 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468b7be1f5638ce43ac34430f5e6e2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   answerField: {fileID: 3620536487362706755}
   correctToggle: {fileID: 3620536487825150932}
+  answerObject: {fileID: 3620536487071420902}
 --- !u!1001 &3620536487356317919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -432,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11441930, guid: c0134381ae00c4c55871549e355e5943, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DeleteAnswerOption
+      value: DeleteanswersOption
       objectReference: {fileID: 0}
     - target: {fileID: 11441930, guid: c0134381ae00c4c55871549e355e5943, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -466,10 +468,6 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11477856, guid: c0134381ae00c4c55871549e355e5943, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: 9aadde45ece12475ea4aac8381197c44, type: 3}
     - target: {fileID: 22403982, guid: c0134381ae00c4c55871549e355e5943, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

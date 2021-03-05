@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Launcher : MonoBehaviour
 {
@@ -23,7 +25,7 @@ public class Launcher : MonoBehaviour
 
     public void OpenMainMenu()
     {
-        Authentication.instance.ResetData();
+        //Authentication.instance.ResetData();
         MenuManager.instance.OpenMenu("main");
     }
 
@@ -55,11 +57,19 @@ public class Launcher : MonoBehaviour
     public void OpenPuzzleQuestionCreatorMenu()
     {
         MenuManager.instance.OpenMenu("question");
+        if(Session.instance.question != null)
+        {
+            new Answers().Load();
+        }
+        
+        
     }
 
     public void OpenPuzzleQuestionsOverviewMenu()
     {
         MenuManager.instance.OpenMenu("questionoverview");
+        //StartCoroutine(QuestionOverview.instance.FetchQuestionsData());
+        new Questions().Load();
     }
 
     public void OpenVerificationMenu()
@@ -67,8 +77,39 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("verification");
     }
 
+    public void OpenAdminPuzzleOverviewMenu()
+    {
+        MenuManager.instance.OpenMenu("adminpuzzleoverview");
+        //StartCoroutine(PuzzleOverview.instance.FetchPuzzles());
+        new Puzzles().Load();
+    }
+
+    public void OpenPreRunMenu()
+    {
+        MenuManager.instance.OpenMenu("prerun");
+    }
+
     public void CheckValues()
     {
         Debug.Log("Value changed");
+    }
+
+    public void OpenResetPasswordMenu()
+    {
+        MenuManager.instance.OpenMenu("resetpassword");
+    }
+
+    public void OpenSubmitMenu() 
+    {
+        MenuManager.instance.OpenMenu("submit");    
+    }
+
+    public void StartGame()
+    {
+        if(UserInfo.instance.email != null)
+        {
+            //Starting Game
+            SceneManager.LoadScene(1);
+        }
     }
 }

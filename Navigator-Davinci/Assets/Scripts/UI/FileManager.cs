@@ -47,7 +47,7 @@ public class FileManager : MonoBehaviour
         // Name: Users
         // Path: C:\Users
         // Icon: default (folder icon)
-        FileBrowser.AddQuickLink("Users", "C:\\Users", null);
+        FileBrowser.AddQuickLink("Users", "C:\\Users/Pictures", null);
 
         // Show a save file dialog 
         // onSuccess event: not registered (which means this dialog is pretty useless)
@@ -72,36 +72,24 @@ public class FileManager : MonoBehaviour
 
     }
 
-    public void WriteResult(string[] paths)
-    {
-        if (paths.Length == 0)
-        {
-            return;
-        }
 
-        _path = "";
-        foreach (var p in paths)
-        {
-            _path += p + "\n";
-        }
-        UpdateImage();
-    }
-
-    public void WriteResult(string path)
-    {
-        _path = path;
-        
-    }
-
-
+    /// <summary>
+    /// Gets the image in the path, and sets the gameobject texture to the image texture from the path.
+    /// </summary>
     public void UpdateImage()
     {
         WWW www = new WWW(_path);
         img.texture = www.texture;
 
+        Session.instance.question.image = www.texture;
+        
         largeImage.GetComponent<RawImage>().texture = www.texture;
         zoomBtn.SetActive(true);
     }
+
+    /// <summary>
+    /// Activates the Large Image game object.
+    /// </summary>
 
     public void EnlargeImage()
     {
@@ -109,6 +97,9 @@ public class FileManager : MonoBehaviour
         cover.SetActive(true);
     }
 
+    /// <summary>
+    /// Deactivates the Large Image game object.
+    /// </summary>
     public void CloseLargeImage()
     {
         largeImage.SetActive(false);
@@ -116,7 +107,10 @@ public class FileManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Opens the file explorer to choose your image.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ShowLoadDialogCoroutine()
     {
         // Show a load file dialog and wait for a response from user
@@ -136,6 +130,7 @@ public class FileManager : MonoBehaviour
             {
                 Debug.Log(FileBrowser.Result[i]);
                 _path = FileBrowser.Result[i];
+                Session.instance.image = FileBrowser.Result[i];
             }
 
             UpdateImage();

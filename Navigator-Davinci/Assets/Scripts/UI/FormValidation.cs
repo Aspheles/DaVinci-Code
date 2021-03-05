@@ -8,16 +8,17 @@ using System;
 
 public class FormValidation : MonoBehaviour
 {
-    [SerializeField] InputField username;
-    [SerializeField] InputField password;
-    [SerializeField] InputField email;
-    [SerializeField] TMP_Dropdown classCode;
+    public InputField username;
+    public InputField password;
+    public InputField email;
+    public TMP_Dropdown classCode;
     public Text message;
     EventSystem system;
     public static FormValidation instance;
     public bool usernameCheck;
     public bool emailCheck;
     public bool passwordCheck;
+
 
     private void Start()
     {
@@ -39,7 +40,16 @@ public class FormValidation : MonoBehaviour
                 system.SetSelectedGameObject(next.gameObject, new BaseEventData(system));
             }
         }
+
+        if(!string.IsNullOrEmpty(Session.instance.message))
+        {
+           message.text = Session.instance.ErrorHandling();
+        }
     }
+
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
 
     public void UsernameValidator()
     {
@@ -57,6 +67,9 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
     public void EmailValidator()
     {
         if(email.text.IndexOf("@mydavinci.nl") <= 0)
@@ -73,6 +86,9 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the input is according to the conditions, if so, enable the check. otherwise error is shown.
+    /// </summary>
     public void PasswordValidator()
     {
         if (password.text.Length < 6)
@@ -89,6 +105,11 @@ public class FormValidation : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// Clears all the input fields.
+    /// </summary>
     public void ClearData()
     {
         //username.text = string.Empty;
@@ -98,20 +119,31 @@ public class FormValidation : MonoBehaviour
         usernameCheck = false;
         passwordCheck = false;
         emailCheck = false;
+
     }
 
+    /// <summary>
+    /// Registers a user when the button is clicked.
+    /// Checks if the validation is correct, if so.
+    /// Executes the registration function.
+    /// </summary>
     public void OnRegisterButtonClicked()
     {
         if (usernameCheck && passwordCheck && emailCheck)
         {
-            StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
+            //StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
+            new User().Register();
             ClearData();
-            username.text = string.Empty;
+            //username.text = string.Empty;
         }
        
        
     }
-   
+    /// <summary>
+    /// Logs in a user when the button is clicked.
+    /// Checks if the imput is correct, if so-
+    /// login function will be executed.
+    /// </summary>
     public void OnLoginButtonClicked()
     {
         if (email.text.Length <= 0 && password.text.Length <= 0)
@@ -121,10 +153,18 @@ public class FormValidation : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Authentication.instance.Login(email.text, password.text));
+            //StartCoroutine(Authentication.instance.Login(email.text, password.text));
+            new User().Login();
             ClearData();
         }
-
-
     }
+    /// <summary>
+    /// when clicked it opens the Submit menu
+    /// this is the place where you give up your emailadress for a new verification code
+    /// </summary>
+    public void OnForgotPasswordButtonClicked()
+    {
+        Launcher.instance.OpenSubmitMenu();
+    }
+
 }

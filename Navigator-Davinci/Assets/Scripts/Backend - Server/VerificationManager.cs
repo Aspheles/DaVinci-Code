@@ -8,97 +8,35 @@ using UnityEngine.UI;
 public class VerificationManager : MonoBehaviour
 {
     public static VerificationManager instance;
-    public string email;
-    public string username;
-    //public string token;
-    //public int verified;
-    //public string expiredate;
+    public User user = new User();
 
-
-   
     private void Start()
     {
         instance = this;
+        
     }
 
-    private void Update()
+    /// <summary>
+    /// Creates new verification code for the user.
+    /// </summary>
+    public void RequestNewCode()
     {
-        if(GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
-        {
-            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
-        }
+        //StartCoroutine(ResendCode(Verification.instance.emailInput.text));
+        //Passing for resend code in verify
+        //new User().Verify(true);
+        user.Verify(true);
+    }
+
+    /// <summary>
+    /// Verifies the user account.
+    /// </summary>
+    /// <param name="email"></param>
+    public void VerifyAccount()
+    {
+  
+        //StartCoroutine(Verify(email));
+        user.Verify(false);
     }
 
     
-    public void RequestNewCode()
-    {
-        StartCoroutine(ResendCode(Verification.instance.emailInput.text));
-    }
-
-    public void VerifyAccount(string email)
-    {
-        StartCoroutine(Verify(email));
-    }
-
-    public IEnumerator ResendCode(string email)
-    {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("email", email)
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/resendcode.php", formData);
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.data);
-            
-            //MenuManager.instance.OpenMenu("verification");
-        }
-    }
-
-    public IEnumerator Verify(string email)
-    {
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>
-        {
-            new MultipartFormDataSection("email", email),
-            new MultipartFormDataSection("code", Verification.instance.codeInput.text)
-        };
-
-        UnityWebRequest www = UnityWebRequest.Post("http://davinci-code.nl/verification.php", formData);
-
-        yield return www.SendWebRequest();
-
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.text);
-
-            if (www.downloadHandler.text.Contains("Success"))
-            {
-                Verification.instance.message.color = Color.green;
-                Verification.instance.message.text = "Account activated";
-                Launcher.instance.OpenLoggedInMenu();
-            }
-            else
-            {
-                Verification.instance.message.color = Color.red;
-                Verification.instance.message.text = www.downloadHandler.text;
-            }
-            
-        }
-    }
-
-
 }

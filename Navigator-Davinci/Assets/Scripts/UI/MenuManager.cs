@@ -13,6 +13,11 @@ public class MenuManager : MonoBehaviour
         if (instance != null) return;
         instance = this;
     }
+
+    /// <summary>
+    /// Opens the specified menu, and closes the rest.
+    /// </summary>
+    /// <param name="menuName"></param>
     public void OpenMenu(string menuName)
     {
         for (int i = 0; i < menus.Length; i++)
@@ -28,6 +33,10 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Closes all the menus, that are not open. checks for the current menu and sets it active.
+    /// </summary>
+    /// <param name="menu"></param>
     public void OpenMenu(Menu menu)
     {
         for(int i = 0; i < menus.Length; i++)

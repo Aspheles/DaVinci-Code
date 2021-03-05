@@ -11,18 +11,21 @@ public class Verification : MonoBehaviour
     public InputField codeInput;
     public Text message;
     public static Verification instance;
+    User user;
 
     private void Start()
     {
         instance = this;
 
-        if (VerificationManager.instance.email != null) emailInput.text = VerificationManager.instance.email;
+        if (UserInfo.instance.email != null) emailInput.text = UserInfo.instance.email;
     }
 
 
     public void CheckVerification()
     {
-        StartCoroutine(VerificationManager.instance.Verify(emailInput.text));
+        //StartCoroutine(VerificationManager.instance.Verify(emailInput.text));
+        //user.Verify(false);
+        VerificationManager.instance.VerifyAccount();
     }
 
 }

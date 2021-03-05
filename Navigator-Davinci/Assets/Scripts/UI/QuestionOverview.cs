@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using SimpleJSON;
 
 
 public class QuestionOverview : MonoBehaviour
@@ -12,43 +13,34 @@ public class QuestionOverview : MonoBehaviour
     public GameObject QuestionInput;
     public List<Question> Questions;
     public static QuestionOverview instance;
+    public Scrollbar scrollbar;
+    public GameObject questionObject;
 
-
-    public void Start()
+    public void Awake()
     {
         instance = this;
-        LoadQuestions();
+        //StartCoroutine(FetchQuestionsData());
+        StartCoroutine(changeScrollValue());
+        //LoadQuestions();
+
+        //if(Session.instance.allQuestions.Count > 0)
     }
+
+    IEnumerator changeScrollValue()
+    {
+        Debug.Log("Now its called");
+        yield return new WaitForSeconds(0.1f);
+        scrollbar.value = 1;
+        Debug.Log("Now its setted");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public void LoadQuestions()
     {
         
-        List<Answer> Answers;
-        Answers = new List<Answer>
-        {
-            new Answer("name", false),
-            new Answer("yolo", true),
-            new Answer("ding", false),
-            new Answer("mah", false),
-            new Answer("Ik weiger", true)
-        };
 
-        List<Answer> newAnswers = new List<Answer>();
-        
-
-        Questions = new List<Question>
-        {
-            new Question("wat denk jij vandaag?", Answers),
-            new Question("hoe praat jij tegen mensen?", Answers),
-            new Question("Wat is het weer vandaag?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("willen wij meer of minder vakantie hebben in Nederland?", Answers),
-            new Question("Wat weegt zwaarder, een kilo staal of een kilo veren?", newAnswers)
-        };
-
-        int QuestionCount = 1;
         foreach (Question question in Questions)
         {
 
@@ -56,17 +48,25 @@ public class QuestionOverview : MonoBehaviour
             QuestionClone.transform.SetParent(QuestionPositions);
             //QuestionClone.GetComponent<QuestionManager>().questionTitle.text = "Question " + QuestionCount + ": " + question.question;
             QuestionClone.GetComponent<QuestionManager>().questionTitle.text = question.question;
+            QuestionClone.GetComponent<QuestionManager>().id = question.id;
 
-            QuestionCount++;
+            
         } 
 
 
 
     }
-
+    /// <summary>
+    /// Add new question.
+    /// </summary>
     public void CreateNewQuestion()
     {
-        QuestionSession.instance.question = null;
+        Session.instance.question = null;
+        //QuestionCreator.instance.ResetData();
         Launcher.instance.OpenPuzzleQuestionCreatorMenu();
     }
+
+
+  
+
 }

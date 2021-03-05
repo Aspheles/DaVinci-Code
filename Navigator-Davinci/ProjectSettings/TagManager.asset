@@ -6,6 +6,8 @@ TagManager:
   tags:
   - question
   - answer
+  - Ground
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - test
+  - test2
   - 
   - 
   - 

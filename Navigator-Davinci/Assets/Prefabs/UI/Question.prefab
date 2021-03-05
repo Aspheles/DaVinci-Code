@@ -76,8 +76,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 513
+  m_textAlignment: 520
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -171,7 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a414fe0a559cb4646907c4580717a7ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   questionTitle: {fileID: 8452550047202509471}
+  questionObject: {fileID: 8452550047202509466}
 --- !u!1001 &5305104665289623240
 PrefabInstance:
   m_ObjectHideFlags: 0
