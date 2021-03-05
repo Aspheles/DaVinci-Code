@@ -164,7 +164,7 @@ public class ApiController : MonoBehaviour
             {
                 Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
                 print("Question has been saved");
-                new Questions().SaveImage();
+                //new Questions().SaveImage();
                 new Answers().Create();
             }
             else

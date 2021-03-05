@@ -15,7 +15,6 @@ public class Questions : IManager
             new MultipartFormDataSection("question_title", QuestionCreator.instance.questionInput.text),
             new MultipartFormDataSection("question_description",  QuestionCreator.instance.description.text),
             new MultipartFormDataSection("puzzle_id", Session.instance.puzzle.id.ToString()),
-            new MultipartFormDataSection("image", "null"),
         };
         ApiHandler.instance.CallApiRequest("post", form, Request.CREATEQUESTION);
     }
@@ -46,6 +45,7 @@ public class Questions : IManager
         ApiHandler.instance.CallApiRequest("post", form, Request.FETCHQUESTIONS);
     }
 
+    /*
     public void SaveImage()
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
@@ -57,5 +57,5 @@ public class Questions : IManager
         };
         ApiHandler.instance.CallApiRequest("post", form, Request.SAVEIMAGE);
 
-    }
+    }*/
 }
