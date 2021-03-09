@@ -16,12 +16,13 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Animator animation;
 
-    private GameObject[] ground;
+    private GameObject ground;
 
     public bool idle;
     private bool running;
     private bool sprinting;
     private bool inAir;
+    string[] animations;
 
     float speed = 3;
 
@@ -29,7 +30,9 @@ public class Player : MonoBehaviour
     {
         rb = player.GetComponent<Rigidbody>();
         animation = figure.GetComponent<Animator>();
-        ground = GameObject.FindGameObjectsWithTag("Ground");
+        ground = GameObject.FindGameObjectWithTag("Ground");
+       
+
     }
     
     public void Animate()
@@ -68,57 +71,59 @@ public class Player : MonoBehaviour
     }
     public void Move()
     {
-        float boost = 0;
+       
+            float boost = 0;
 
-        if (Input.GetKey(KeyCode.LeftControl) && running)
-        {
-            boost = 3;
-            sprinting = true;
-        }
-        else
-        {
-            sprinting = false;
-        }
+            if (Input.GetKey(KeyCode.LeftControl) && running)
+            {
+                boost = 3;
+                sprinting = true;
+            }
+            else
+            {
+                sprinting = false;
+            }
 
-        if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
-        {
-            running = true;
-            transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * (speed + boost);
-        }
+            if (Input.GetKey("w") || Input.GetKey("d") || Input.GetKey("s") || Input.GetKey("a"))
+            {
+                running = true;
+                transform.position += new Vector3(transform.forward.x, 0, transform.forward.z) * Time.deltaTime * (speed + boost);
+            }
 
-        if (Input.GetKey("w"))
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w), 5);
-        }
+            if (Input.GetKey("w"))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w), 5);
+            }
 
-        if (Input.GetKey("d"))
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 90, 0), 5);
-        }
+            if (Input.GetKey("d"))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 90, 0), 5);
+            }
 
-        if (Input.GetKey("s"))
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 180, 0), 5);
-        }
+            if (Input.GetKey("s"))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, 180, 0), 5);
+            }
 
-        if (Input.GetKey("a"))
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 5);
-        }
+            if (Input.GetKey("a"))
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 5);
+            }
 
-        if (Input.GetKey(KeyCode.Space) && !inAir)
-        {
-            inAir = true;
-            rb.AddForce(new Vector3(0, 200, 0));  
-        }
+            if (Input.GetKey(KeyCode.Space) && !inAir)
+            {
+                inAir = true;
+                rb.AddForce(new Vector3(0, 200, 0));
+            }
 
-        else if(!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
-        {
-            running = false;
-            idle = true;
-        }
+            else if (!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
+            {
+                running = false;
+                idle = true;
+            }
 
-        Animate();
+            Animate();
+        
     }
 
    private void OnCollisionStay(Collision ground)

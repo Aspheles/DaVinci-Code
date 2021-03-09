@@ -41,7 +41,6 @@ public class ApiHandler : MonoBehaviour
             {
                 byte[] dbData = www.downloadHandler.data;
                 string Result = System.Text.Encoding.Default.GetString(dbData);
-                print(Result);
                 JSONArray Data = JSON.Parse(Result) as JSONArray;
    
                 ApiController.instance.CheckData(Data, url);

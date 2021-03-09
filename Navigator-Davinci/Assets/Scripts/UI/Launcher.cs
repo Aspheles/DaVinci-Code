@@ -110,6 +110,8 @@ public class Launcher : MonoBehaviour
         {
             //Starting Game
             SceneManager.LoadScene(1);
+            DontDestroyOnLoad(UserInfo.instance);
+            DontDestroyOnLoad(Session.instance);
         }
     }
 }

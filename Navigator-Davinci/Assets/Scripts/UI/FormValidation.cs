@@ -41,10 +41,6 @@ public class FormValidation : MonoBehaviour
             }
         }
 
-        if(!string.IsNullOrEmpty(Session.instance.message))
-        {
-           message.text = Session.instance.ErrorHandling();
-        }
     }
 
     /// <summary>
@@ -56,7 +52,7 @@ public class FormValidation : MonoBehaviour
         if(username.text.Length < 5)
         {
             message.color = Color.red;
-            message.text = "Your username needs to be bigger than 5 character";
+            Session.instance.message = "Your username needs to be bigger than 5 character";
             username.Select();
             usernameCheck = false;
         }
@@ -75,7 +71,7 @@ public class FormValidation : MonoBehaviour
         if(email.text.IndexOf("@mydavinci.nl") <= 0)
         {
             message.color = Color.red;
-            message.text = "Email needs to be valid";
+            Session.instance.message = "Email needs to be valid";
             email.Select();
             emailCheck = false;
         }
@@ -94,7 +90,7 @@ public class FormValidation : MonoBehaviour
         if (password.text.Length < 6)
         {
             message.color = Color.red;
-            message.text = "Your password needs to be bigger than 5 character";
+            Session.instance.message = "Your password needs to be bigger than 5 character";
             password.Select();
             passwordCheck = false;
         }
@@ -146,10 +142,9 @@ public class FormValidation : MonoBehaviour
     /// </summary>
     public void OnLoginButtonClicked()
     {
-        if (email.text.Length <= 0 && password.text.Length <= 0)
+        if (email.text.Length <= 0 || password.text.Length <= 0)
         {
-            message.color = Color.red;
-            message.text = "Email or Password can't be empty";
+            Session.instance.message = "Email or Password can't be empty";
         }
         else
         {
