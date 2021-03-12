@@ -30,9 +30,6 @@ public class Player : MonoBehaviour
     {
         rb = player.GetComponent<Rigidbody>();
         animation = figure.GetComponent<Animator>();
-        ground = GameObject.FindGameObjectWithTag("Ground");
-       
-
     }
     
     public void Animate()
@@ -128,23 +125,13 @@ public class Player : MonoBehaviour
 
    private void OnCollisionStay(Collision ground)
     {
-        if (ground.gameObject.GetComponent<Ground>())
-        {
-            
-            inAir = false;
+        inAir = false;
 
-        }
         Animate();
     }
 
     private void OnCollisionExit(Collision ground)
     {
-        if (ground.gameObject.GetComponent<Ground>())
-        {
-
-            //inAir = true;
-
-        }
         Animate();
     }
 
@@ -155,6 +142,9 @@ public class Player : MonoBehaviour
 
     void LateUpdate()
     {
-        head.transform.rotation = pivotPoint.transform.rotation;
+        if(head.transform.eulerAngles.y < 80 && head.transform.eulerAngles.y > 280)
+        {
+            head.transform.rotation = pivotPoint.transform.rotation;
+        }
     }
 }

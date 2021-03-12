@@ -2914,7 +2914,6 @@ GameObject:
   - component: {fileID: 8874255553519552514}
   - component: {fileID: 3129188470591484553}
   - component: {fileID: 1840459604049433815}
-  - component: {fileID: 1840459604049433832}
   m_Layer: 0
   m_Name: Spawnpoint
   m_TagString: Terrain
@@ -2997,18 +2996,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8001233555263389933, guid: 92b9bbd44821aff478a4e686b3d6be6f, type: 3}
---- !u!114 &1840459604049433832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840459604049433814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd836dc42e19d74792aaf1f81d4ef38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1851493234602701384
 GameObject:
   m_ObjectHideFlags: 0
@@ -5424,8 +5411,6 @@ GameObject:
   - component: {fileID: 7112920926362508985}
   - component: {fileID: 7705180327350234144}
   - component: {fileID: 6329074568535962569}
-  - component: {fileID: 6329074568535962570}
-  - component: {fileID: 6329074568535962571}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Terrain
@@ -5509,30 +5494,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1453043773871479701, guid: 92b9bbd44821aff478a4e686b3d6be6f, type: 3}
---- !u!114 &6329074568535962570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6329074568535962568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd836dc42e19d74792aaf1f81d4ef38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6329074568535962571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6329074568535962568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd836dc42e19d74792aaf1f81d4ef38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6487666502991681372
 GameObject:
   m_ObjectHideFlags: 0
@@ -6936,7 +6897,6 @@ GameObject:
   - component: {fileID: 230627849067635654}
   - component: {fileID: 6816724045780180464}
   - component: {fileID: 9054888828489744645}
-  - component: {fileID: 9054888828489744646}
   m_Layer: 0
   m_Name: Middle
   m_TagString: Terrain
@@ -7020,18 +6980,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1385279003812690709, guid: 92b9bbd44821aff478a4e686b3d6be6f, type: 3}
---- !u!114 &9054888828489744646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9054888828489744644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd836dc42e19d74792aaf1f81d4ef38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9099935211612785983
 GameObject:
   m_ObjectHideFlags: 0
