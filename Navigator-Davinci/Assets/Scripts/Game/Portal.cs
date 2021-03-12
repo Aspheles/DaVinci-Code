@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
+    public static Portal instance;
     [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject nextPortal;
 
@@ -17,16 +18,19 @@ public class Portal : MonoBehaviour
 
     bool status;
 
-    private void Start()
+    private void Awake()
     {
-        confirm.SetActive(false);
+        if (instance != null) Destroy(instance);
+        instance = this;
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Player>())
         {
+            Player.instance.canwalk = false;
             player = collision.gameObject.GetComponent<Player>();
-            confirm.SetActive(true);
+            Launcher.instance.OpenConfirmRunMenu();
 
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
@@ -35,7 +39,7 @@ public class Portal : MonoBehaviour
 
     public void CancelNow()
     {
-        confirm.SetActive(false);
+        Player.instance.canwalk = true;
         player.transform.position = spawnPoint.transform.position + new Vector3(0, 1.5f, 0);
     }
 

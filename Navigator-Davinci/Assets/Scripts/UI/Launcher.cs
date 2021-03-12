@@ -104,6 +104,17 @@ public class Launcher : MonoBehaviour
         MenuManager.instance.OpenMenu("submit");    
     }
 
+    public void CloseConfirmMenu()
+    {
+        MenuManager.instance.OpenMenu("close");
+    }
+
+    public void OpenConfirmRunMenu()
+    {
+        MenuManager.instance.OpenMenu("confirmrun");
+        Portal.instance.CancelNow();
+    }
+
     public void StartGame()
     {
         if(UserInfo.instance.email != null)
@@ -111,7 +122,12 @@ public class Launcher : MonoBehaviour
             //Starting Game
             SceneManager.LoadScene(1);
             DontDestroyOnLoad(UserInfo.instance);
-            DontDestroyOnLoad(Session.instance);
         }
+    }
+
+    public void LoadRoom()
+    {
+        SceneManager.LoadScene(2);
+        //DontDestroyOnLoad(UserInfo.instance);
     }
 }
