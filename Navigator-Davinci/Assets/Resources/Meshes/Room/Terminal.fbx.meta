@@ -1,8 +1,14 @@
 fileFormatVersion: 2
-guid: 6bc041c5e1844334f9318ceb098c8098
+guid: d7ad7a30e22db9a429a738370597d6e0
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 7484894911212865519
+    second: C_Window|Power_Source
+  - first:
+      74: 1418594162764073087
+    second: Power_Source|Power_Source
   externalObjects: {}
   materials:
     materialImportMode: 1

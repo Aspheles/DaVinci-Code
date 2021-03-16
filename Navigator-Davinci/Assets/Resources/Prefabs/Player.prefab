@@ -13538,7 +13538,7 @@ GameObject:
   - component: {fileID: 8308653558843424035}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -13577,6 +13577,7 @@ MonoBehaviour:
   camera: {fileID: 8308653560400681381}
   pivotPoint: {fileID: 8308653560618979490}
   head: {fileID: 253989044360297079}
+  idle: 0
 --- !u!136 &8308653558843424044
 CapsuleCollider:
   m_ObjectHideFlags: 0
