@@ -1134,7 +1134,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99825e9f8222bd44d9c19ab43f30b7c4, type: 2}
+  - {fileID: 2100000, guid: 468e4efd525aed64bb13d08e70a6a7a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1848,7 +1848,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa4e150e738acc64c9faea40f7ef0fc8, type: 2}
+  - {fileID: 2100000, guid: 99825e9f8222bd44d9c19ab43f30b7c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2488,7 +2488,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa4e150e738acc64c9faea40f7ef0fc8, type: 2}
+  - {fileID: 2100000, guid: b38f17e8fa816444fa8b64ca6cde1f07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2537,7 +2537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terminalName: 
   confirmText: {fileID: 0}
-  mat: {fileID: 2100000, guid: fa4e150e738acc64c9faea40f7ef0fc8, type: 2}
+  mat: {fileID: 2100000, guid: b38f17e8fa816444fa8b64ca6cde1f07, type: 2}
 --- !u!1 &7964997597276795166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2788,6 +2788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9204566423246657392}
   - component: {fileID: 1263752140507017629}
+  - component: {fileID: 3275979614723741146}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -2826,4 +2827,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   number: 
   room: {fileID: 0}
-  mat: {fileID: 0}
+  mat: {fileID: 2100000, guid: 99825e9f8222bd44d9c19ab43f30b7c4, type: 2}
+--- !u!95 &3275979614723741146
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428170904343317962}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 16e895649a66d6b46b1510804b51ddab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -6,7 +6,6 @@ using UnityEngine;
 public class Terminal : MonoBehaviour
 {
     public string number;
-    public Room room;
     public Material mat;
 
     private void Update()
@@ -17,4 +16,5 @@ public class Terminal : MonoBehaviour
     {
         number = data[0].AsObject["number"];
     }
+
 }

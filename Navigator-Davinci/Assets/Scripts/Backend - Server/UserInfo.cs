@@ -13,6 +13,8 @@ public class UserInfo : MonoBehaviour
     public bool isverified = false;
     public bool isadmin = false;
     public static UserInfo instance;
+    public string startingDifficulty;
+
 
     private void Start()
     {

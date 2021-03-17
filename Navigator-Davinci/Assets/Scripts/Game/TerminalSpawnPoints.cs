@@ -12,16 +12,22 @@ public class TerminalSpawnPoints : MonoBehaviour
     {
         LoadTerminals();
     }
+
+
     public void LoadTerminals()
     {
         for(int i = 0; i < spawnpoints.Count; i++)
         {
             //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
             GameObject terminalCopy = Instantiate(terminalObject, spawnpoints[i].transform.position, Quaternion.identity);
-            terminalCopy.GetComponent<Terminal>().number = "0";
+            terminalCopy.GetComponent<Terminal>().number = i.ToString();
 
             terminalCopy.transform.SetParent(spawnpoints[i].transform);
             terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
+
+            // The Terminal copy gets added to the List of terminals in the room script.
+
+            Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
         }
     }
 }

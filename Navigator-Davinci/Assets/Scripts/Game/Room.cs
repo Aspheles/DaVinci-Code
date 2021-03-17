@@ -9,4 +9,18 @@ public class Room : MonoBehaviour
     public string difficulty;
     public Time roomTime;
     public bool isCompleted;
+
+    public List<Terminal> terminals;
+
+    public static Room instance;
+
+    private void Awake()
+    {
+        if(instance != null)
+        {
+            Destroy(instance);
+        }
+
+        instance = this;
+    }
 }

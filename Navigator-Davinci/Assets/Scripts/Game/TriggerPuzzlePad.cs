@@ -8,14 +8,16 @@ public class TriggerPuzzlePad : MonoBehaviour
     public string terminalName;
     public TMP_Text confirmText;
     public Material mat;
+    public GameObject puzzlePanel;
 
     private void Update()
     {
-        mat.color = Color.blue;
     }
     private void Start()
     {
         confirmText = GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>();
+        puzzlePanel = GameObject.Find("TerminalPuzzle");
+        puzzlePanel.SetActive(false);
     }
 
     private void OnCollisionStay(Collision collision)
@@ -23,6 +25,11 @@ public class TriggerPuzzlePad : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             confirmText.text = "Press 'E' to start the terminal";
+            if(Input.GetKey(KeyCode.E))
+            {
+                mat.color = Color.white;
+                puzzlePanel.SetActive(true);
+            }
         }
     }
 

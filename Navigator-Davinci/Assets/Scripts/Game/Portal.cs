@@ -48,6 +48,7 @@ public class Portal : MonoBehaviour
         AsyncOperation loading = SceneManager.LoadSceneAsync(enter.name);
         //enter.SpawnPlayer(enter.spawnPoint);
         StartCoroutine(LoadNextScene(loading, enter));
+        DontDestroyOnLoad(UserInfo.instance);
 
     }
 
