@@ -68,7 +68,7 @@ public class GameCamera : MonoBehaviour
     private void Collision()
     {
         RaycastHit hit;
-        Vector3 standardPosition = pivotPoint.transform.TransformPoint(dollyDir * position.magnitude);
+        Vector3 standardPosition = transform.TransformPoint(dollyDir * position.magnitude);
 
         if (Physics.Linecast(pivotPoint.transform.position, standardPosition, out hit))
         {
