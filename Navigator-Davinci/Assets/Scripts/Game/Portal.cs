@@ -33,7 +33,7 @@ public class Portal : MonoBehaviour
             Launcher.instance.OpenConfirmRunMenu();
 
             UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+            //UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         }
     }
 
