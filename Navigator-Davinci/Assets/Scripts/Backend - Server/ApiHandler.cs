@@ -54,7 +54,8 @@ public class ApiHandler : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                Debug.Log("Error found: ");
+                Debug.Log(www.downloadHandler.text);
             }
             else
             {

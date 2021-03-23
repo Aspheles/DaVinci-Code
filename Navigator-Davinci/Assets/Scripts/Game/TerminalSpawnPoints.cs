@@ -25,6 +25,16 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.transform.SetParent(spawnpoints[i].transform);
             terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
 
+            if(i == 0)
+            {
+                terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
+            }
+            else
+            {
+                terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.BLOCKED;
+            }
+            
+
             // The Terminal copy gets added to the List of terminals in the room script.
 
             Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());

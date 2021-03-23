@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TriggerPuzzlePad : MonoBehaviour
 {
-    public string terminalName;
+    public Terminal terminal;
     public TMP_Text confirmText;
     public Material mat;
     public GameObject puzzlePanel;
@@ -16,19 +16,22 @@ public class TriggerPuzzlePad : MonoBehaviour
     private void Start()
     {
         confirmText = GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>();
-        puzzlePanel = GameObject.Find("TerminalPuzzle");
-        puzzlePanel.SetActive(false);
+
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(terminal.progress != Terminal.ScreenProgress.BLOCKED)
         {
-            confirmText.text = "Press 'E' to start the terminal";
-            if(Input.GetKey(KeyCode.E))
+            if (collision.gameObject.tag == "Player")
             {
-                mat.color = Color.white;
-                puzzlePanel.SetActive(true);
+                confirmText.text = "Press 'E' to start the terminal";
+                if (Input.GetKey(KeyCode.E))
+                {
+                    //mat.color = Color.white;
+                    RunManager.instance.OpenPuzzle();
+                    terminal.progress = Terminal.ScreenProgress.PROGRESS;
+                }
             }
         }
     }

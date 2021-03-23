@@ -22,6 +22,7 @@ public static class Request
         SAVEIMAGE = server + "/saveimage.php",
         RESETPASSWORD = server + "/updatepassword.php",
         RESENDCODE = server + "/resendcode.php",
-        VERIFY = server + "/verification.php";
+        VERIFY = server + "/verification.php",
+        LOADPUZZLESDATA = server + "/loadpuzzlesdata.php";
 
 }

@@ -69,6 +69,9 @@ public class ApiController : MonoBehaviour
             case Request.RESENDCODE:
                 ResendCode(Data);
                 break;
+            case Request.LOADPUZZLESDATA:
+                LoadPuzzlesData(Data);
+                break;
 
             default:
                 Debug.LogError("No Function assigned");
@@ -156,6 +159,17 @@ public class ApiController : MonoBehaviour
         {
             PuzzleOverview.instance.LoadPuzzles();
         }
+        
+    }
+
+    private void LoadPuzzlesData(JSONNode Data)
+    {
+        for(int i = 0; i < Data.Count; i++)
+        {
+            PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
+            RunManager.instance.puzzles.Add(Puzzle);
+        }
+
         
     }
 

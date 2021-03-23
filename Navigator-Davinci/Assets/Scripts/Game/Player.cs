@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
 
     public static Player instance;
 
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject figure;
+    [SerializeField] public GameObject player;
+    [SerializeField] public GameObject figure;
     [SerializeField] public GameCamera camera;
     [SerializeField] private GameObject pivotPoint;
     [SerializeField] private GameObject head;

@@ -24,7 +24,7 @@ public class Run : MonoBehaviour
         if(run == null)
         {
             id = "0";
-            difficulty = UserInfo.instance.startingDifficulty;
+            difficulty = UserInfo.instance.selectedDifficulty;
             player = UserInfo.instance;
             time = 0f;
             isCompleted = false;

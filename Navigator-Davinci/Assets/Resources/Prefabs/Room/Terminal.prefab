@@ -1894,14 +1894,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6006912161652107685}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000017708982, y: -0.000000062584874, z: -0.0000003170967}
+  m_LocalRotation: {x: 0.23356953, y: -0, z: -0, w: 0.9723401}
+  m_LocalPosition: {x: 0.00000017708982, y: 0.00009540099, z: 0.00016294079}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7315361207187122602}
   m_Father: {fileID: 4400316148489726826}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.015001, y: 0, z: 0}
 --- !u!33 &4724043601956217230
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2535,9 +2535,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d131efd3dc4640a9adfee6baac344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terminalName: 
+  terminal: {fileID: 1263752140507017629}
   confirmText: {fileID: 0}
   mat: {fileID: 2100000, guid: b38f17e8fa816444fa8b64ca6cde1f07, type: 2}
+  puzzlePanel: {fileID: 0}
 --- !u!1 &7964997597276795166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,8 +2827,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 
-  room: {fileID: 0}
   mat: {fileID: 2100000, guid: 99825e9f8222bd44d9c19ab43f30b7c4, type: 2}
+  terminal: {fileID: 8428170904343317962}
+  screen: {fileID: 2447683622910732081}
+  terminalScreenmat: {fileID: 0}
+  progress: 0
+  terminalmat: {fileID: 0}
 --- !u!95 &3275979614723741146
 Animator:
   serializedVersion: 3
