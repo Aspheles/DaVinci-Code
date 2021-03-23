@@ -7,6 +7,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    public static Player instance;
+
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject figure;
     [SerializeField] public GameCamera camera;
@@ -23,14 +25,17 @@ public class Player : MonoBehaviour
     private bool sprinting;
     private bool inAir;
     string[] animations;
+    public bool canwalk;
 
     float speed = 3;
 
     private void Start()
     {
+        instance = this;
         rb = player.GetComponent<Rigidbody>();
         animation = figure.GetComponent<Animator>();
         ground = GameObject.FindGameObjectWithTag("Ground");
+        canwalk = true;
        
 
     }
@@ -71,7 +76,8 @@ public class Player : MonoBehaviour
     }
     public void Move()
     {
-       
+        if (canwalk)
+        {
             float boost = 0;
 
             if (Input.GetKey(KeyCode.LeftControl) && running)
@@ -123,6 +129,8 @@ public class Player : MonoBehaviour
             }
 
             Animate();
+        }
+            
         
     }
 

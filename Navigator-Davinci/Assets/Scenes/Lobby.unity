@@ -220,6 +220,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1365838663 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 660030416824883533, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+    type: 3}
+  m_PrefabInstance: {fileID: 583007692632526698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1365838668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365838663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b6926876a69f1840b74c0c64649d09b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Difficulty: {fileID: 1502945381}
+--- !u!114 &1502945381 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5122812790989836480, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+    type: 3}
+  m_PrefabInstance: {fileID: 583007692632526698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1829283561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7609546150023247540, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+    type: 3}
+  m_PrefabInstance: {fileID: 583007692632526698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dcb96240d9c0a458c90c1c5503a194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1911579542
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +344,7 @@ PrefabInstance:
     - target: {fileID: 1840459604049433814, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Terrain
       objectReference: {fileID: 0}
     - target: {fileID: 2809184692987402460, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
@@ -371,7 +414,7 @@ PrefabInstance:
     - target: {fileID: 6329074568535962568, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Terrain
       objectReference: {fileID: 0}
     - target: {fileID: 7335330241733339376, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
@@ -396,7 +439,7 @@ PrefabInstance:
     - target: {fileID: 9054888828489744644, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Terrain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18bf632e54d7bd745ae181a78431562f, type: 3}
@@ -411,12 +454,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4850623086565946992}
+      objectReference: {fileID: 1829283561}
+    - target: {fileID: 583007691654979611, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseConfirmMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 583007692317629842, guid: 23f9ef1cffeec204d9ff63fd43e25128,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4850623086565946992}
+      objectReference: {fileID: 1829283561}
+    - target: {fileID: 583007692317629842, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenPreRunMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 583007693158314355, guid: 23f9ef1cffeec204d9ff63fd43e25128,
         type: 3}
       propertyPath: m_text
@@ -552,17 +605,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 660030417763682637, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1365838668}
+    - target: {fileID: 660030417763682637, guid: 23f9ef1cffeec204d9ff63fd43e25128,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmDifficulty
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23f9ef1cffeec204d9ff63fd43e25128, type: 3}
---- !u!114 &4850623086565946992 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4654928339724803704, guid: 18bf632e54d7bd745ae181a78431562f,
-    type: 3}
-  m_PrefabInstance: {fileID: 272889263503206408}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5c2a3874f6db864288f694609c7640d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
