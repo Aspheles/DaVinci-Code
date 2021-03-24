@@ -18,9 +18,6 @@ public class RunManager : MonoBehaviour
     public List<Question> questions;
     public TMP_Text timerText;
 
-
-
-
     private void Awake()
     {
         instance = this;

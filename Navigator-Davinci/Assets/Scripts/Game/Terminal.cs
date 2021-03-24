@@ -67,9 +67,12 @@ public class Terminal : MonoBehaviour
 
     public void LoadPuzzle()
     {
-        int random = Random.Range(0, RunManager.instance.puzzles.Count);
-        print(random);
-        puzzle = RunManager.instance.puzzles[random];
+        if(RunManager.instance.puzzles.Count > 0)
+        {
+            int random = Random.Range(0, RunManager.instance.puzzles.Count);
+            print(random);
+            puzzle = RunManager.instance.puzzles[random];
+        }
     }
 
     public void GetQuestions()

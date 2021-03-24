@@ -129,15 +129,19 @@ public class FormValidation : MonoBehaviour
         {
             //StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
             new User().Register();
+            username.text = string.Empty;
             ClearData();
-            //username.text = string.Empty;
+            
         }
         else
         {
             Session.instance.message = message.text;
         }
 
-
+        if(username.text.Length <= 0 || password.text.Length <= 0 || email.text.Length <= 0)
+        {
+            Session.instance.message = "Inputs can't be empty";
+        }
        
        
     }
