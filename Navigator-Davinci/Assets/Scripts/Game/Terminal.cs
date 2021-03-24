@@ -13,15 +13,12 @@ public class Terminal : MonoBehaviour
     public ScreenProgress progress;
     public Material terminalmat;
     public PuzzleData puzzle;
-    List<Question> questions;
+    public List<Question> questions;
+    public int question_number = 0;
 
     private void Start()
     {
         terminalScreenmat = screen.GetComponent<MeshRenderer>().material;
-        if (RunManager.instance.puzzles.Count > 0)
-        {
-            puzzle = RunManager.instance.puzzles[Random.Range(0, RunManager.instance.puzzles.Count - 1)];
-        }
     }
 
     public enum ScreenProgress
@@ -61,7 +58,20 @@ public class Terminal : MonoBehaviour
         mat.color = Color.red;
         CheckTerminalProgress(progress);
 
+        if(GameManager.instance != null && progress == ScreenProgress.READY || progress == ScreenProgress.PROGRESS)
+        {
+            GameManager.instance.GetQuestion(questions[question_number]);
+        }
+
     }
+
+    public void LoadPuzzle()
+    {
+        int random = Random.Range(0, RunManager.instance.puzzles.Count);
+        print(random);
+        puzzle = RunManager.instance.puzzles[random];
+    }
+
     public void GetQuestions()
     {
         if(ApiHandler.instance != null)
@@ -78,4 +88,16 @@ public class Terminal : MonoBehaviour
         }
     }
 
+
+    public void LoadPuzzleQuestions(List<Question> _questions)
+    {
+        questions = _questions;
+       
+    }
+
+    public void StartPuzzleGame()
+    {
+        //GameManager.instance.GetQuestion()
+       
+    }
 }

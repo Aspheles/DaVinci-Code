@@ -2,7 +2,7 @@
 include "connection.php";
 
 try{
-    $stmt = $conn->prepare("SELECT id, title, description, image  FROM questions WHERE puzzle_id=:puzzle_id");
+    $stmt = $conn->prepare("SELECT id, title, description FROM questions WHERE puzzle_id=:puzzle_id");
     $stmt->bindParam(":puzzle_id", $_POST['puzzle_id'], PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

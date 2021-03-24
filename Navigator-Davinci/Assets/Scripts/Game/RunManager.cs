@@ -19,6 +19,8 @@ public class RunManager : MonoBehaviour
     public TMP_Text timerText;
 
 
+
+
     private void Awake()
     {
         instance = this;
@@ -63,11 +65,12 @@ public class RunManager : MonoBehaviour
 
     public void LoadPuzzlesData()
     {
-        if(ApiHandler.instance != null) ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
-
+        ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
     }
 
-
-    
+    public void SetPuzzleQuestions(Terminal terminal)
+    {
+        terminal.questions = questions;
+    }
 }
 

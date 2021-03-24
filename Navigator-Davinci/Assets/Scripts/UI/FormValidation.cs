@@ -52,7 +52,7 @@ public class FormValidation : MonoBehaviour
         if(username.text.Length < 5)
         {
             message.color = Color.red;
-            Session.instance.message = "Your username needs to be bigger than 5 character";
+            message.text = "Your username needs to be bigger than 5 character";
             username.Select();
             usernameCheck = false;
         }
@@ -71,7 +71,7 @@ public class FormValidation : MonoBehaviour
         if(email.text.IndexOf("@mydavinci.nl") <= 0)
         {
             message.color = Color.red;
-            Session.instance.message = "Email needs to be valid";
+            message.text = "Email needs to be valid";
             email.Select();
             emailCheck = false;
         }
@@ -90,7 +90,7 @@ public class FormValidation : MonoBehaviour
         if (password.text.Length < 6)
         {
             message.color = Color.red;
-            Session.instance.message = "Your password needs to be bigger than 5 character";
+            message.text = "Your password needs to be bigger than 5 character";
             password.Select();
             passwordCheck = false;
         }
@@ -132,6 +132,12 @@ public class FormValidation : MonoBehaviour
             ClearData();
             //username.text = string.Empty;
         }
+        else
+        {
+            Session.instance.message = message.text;
+        }
+
+
        
        
     }
@@ -139,6 +145,7 @@ public class FormValidation : MonoBehaviour
     /// Logs in a user when the button is clicked.
     /// Checks if the imput is correct, if so-
     /// login function will be executed.
+    /// 
     /// </summary>
     public void OnLoginButtonClicked()
     {

@@ -32,7 +32,13 @@ public class TerminalSpawnPoints : MonoBehaviour
             {
                 terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.BLOCKED;
             }
-            
+
+
+            //Check puzzles if they don't match with others
+            terminalCopy.GetComponent<Terminal>().LoadPuzzle();
+
+            //set questions to the correct terminal
+            //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
 
             // The Terminal copy gets added to the List of terminals in the room script.
 

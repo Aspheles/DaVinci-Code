@@ -16,6 +16,7 @@ public class TriggerPuzzlePad : MonoBehaviour
     private void Start()
     {
         confirmText = GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>();
+        terminal.GetQuestions();
 
     }
 
@@ -31,7 +32,8 @@ public class TriggerPuzzlePad : MonoBehaviour
                     //mat.color = Color.white;
                     RunManager.instance.OpenPuzzle();
                     terminal.progress = Terminal.ScreenProgress.PROGRESS;
-                    terminal.GetQuestions();
+                    terminal.LoadPuzzleQuestions(RunManager.instance.questions);
+                    
                 }
             }
         }

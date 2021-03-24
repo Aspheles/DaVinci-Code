@@ -11,6 +11,8 @@ public class GamePuzzle : MonoBehaviour
     {
         menuScreen.SetActive(false);
         gameScreen.SetActive(true);
+
+
     }
 
     public void LeavePuzzle()
