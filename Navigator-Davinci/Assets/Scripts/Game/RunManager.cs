@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 public class RunManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class RunManager : MonoBehaviour
     public GameObject puzzleUI;
     public Transform startingPosition;
     public List<PuzzleData> puzzles;
+    public List<Question> questions;
+    public TMP_Text timerText;
 
 
     private void Awake()
@@ -41,8 +44,8 @@ public class RunManager : MonoBehaviour
         if (run != null && run.isCompleted == false)
         {
             timer += Time.deltaTime;
+            timerText.text = "Time: " + Mathf.Round(timer).ToString();
         }
-
     }
 
     public void OpenPuzzle()
@@ -60,8 +63,7 @@ public class RunManager : MonoBehaviour
 
     public void LoadPuzzlesData()
     {
-        
-        ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
+        if(ApiHandler.instance != null) ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
 
     }
 

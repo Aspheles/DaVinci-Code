@@ -20,7 +20,6 @@ public class TerminalSpawnPoints : MonoBehaviour
         {
             //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
             GameObject terminalCopy = Instantiate(terminalObject, spawnpoints[i].transform.position, Quaternion.identity);
-            terminalCopy.GetComponent<Terminal>().number = i.ToString();
 
             terminalCopy.transform.SetParent(spawnpoints[i].transform);
             terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;

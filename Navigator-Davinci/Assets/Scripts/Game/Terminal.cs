@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Terminal : MonoBehaviour
 {
-    public string number;
     public Material mat;
     public GameObject terminal;
     public GameObject screen;
     public Material terminalScreenmat;
     public ScreenProgress progress;
     public Material terminalmat;
+    public PuzzleData puzzle;
+    List<Question> questions;
 
     private void Start()
     {
         terminalScreenmat = screen.GetComponent<MeshRenderer>().material;
+        if (RunManager.instance.puzzles.Count > 0)
+        {
+            puzzle = RunManager.instance.puzzles[Random.Range(0, RunManager.instance.puzzles.Count - 1)];
+        }
     }
 
     public enum ScreenProgress
@@ -56,9 +62,20 @@ public class Terminal : MonoBehaviour
         CheckTerminalProgress(progress);
 
     }
-    public void GetData(JSONNode data)
+    public void GetQuestions()
     {
-        number = data[0].AsObject["number"];
+        if(ApiHandler.instance != null)
+        {
+            if(puzzle != null)
+            {
+                List<IMultipartFormSection> form = new List<IMultipartFormSection>
+                {
+                   new MultipartFormDataSection("puzzleid", puzzle.id.ToString())
+                };
+
+                ApiHandler.instance.CallApiRequest("post", form, Request.LOADPUZZLEQUESTIONS);
+            }
+        }
     }
 
 }

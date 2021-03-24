@@ -6,6 +6,7 @@ public class GamePuzzle : MonoBehaviour
 {
     public GameObject menuScreen;
     public GameObject gameScreen;
+
     public void StartPuzzle()
     {
         menuScreen.SetActive(false);

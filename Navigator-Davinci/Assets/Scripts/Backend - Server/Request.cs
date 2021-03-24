@@ -23,6 +23,7 @@ public static class Request
         RESETPASSWORD = server + "/updatepassword.php",
         RESENDCODE = server + "/resendcode.php",
         VERIFY = server + "/verification.php",
-        LOADPUZZLESDATA = server + "/loadpuzzlesdata.php";
+        LOADPUZZLESDATA = server + "/loadpuzzlesdata.php",
+        LOADPUZZLEQUESTIONS = server + "/loadpuzzlequestions.php";
 
 }

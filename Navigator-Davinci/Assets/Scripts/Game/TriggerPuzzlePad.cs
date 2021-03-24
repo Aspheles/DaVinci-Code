@@ -26,11 +26,12 @@ public class TriggerPuzzlePad : MonoBehaviour
             if (collision.gameObject.tag == "Player")
             {
                 confirmText.text = "Press 'E' to start the terminal";
-                if (Input.GetKey(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     //mat.color = Color.white;
                     RunManager.instance.OpenPuzzle();
                     terminal.progress = Terminal.ScreenProgress.PROGRESS;
+                    terminal.GetQuestions();
                 }
             }
         }

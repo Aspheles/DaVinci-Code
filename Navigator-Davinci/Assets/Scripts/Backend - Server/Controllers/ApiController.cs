@@ -73,6 +73,10 @@ public class ApiController : MonoBehaviour
                 LoadPuzzlesData(Data);
                 break;
 
+            case Request.LOADPUZZLEQUESTIONS:
+                LoadPuzzleQuestions(Data);
+                break;
+
             default:
                 Debug.LogError("No Function assigned");
                 break;
@@ -171,6 +175,26 @@ public class ApiController : MonoBehaviour
         }
 
         
+    }
+
+    private void LoadPuzzleQuestions(JSONNode Data)
+    {
+        RunManager.instance.questions = new List<Question>();
+
+        for (int i = 0; i < Data.Count; i++)
+        {
+            //Local variables
+            string questionId = Data[i].AsObject["id"];
+            string questionTitle = Data[i].AsObject["title"];
+            string questionDescription = Data[i].AsObject["description"];
+            //RawImage questionImage = Data[i].AsObject["image"] as RawImage;
+            int puzzleid = Data[i].AsObject["puzzle_id"];
+
+            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, puzzleid);
+            RunManager.instance.questions.Add(_question);
+
+        }
+
     }
 
     private void SaveQuestion(JSONNode Data)
