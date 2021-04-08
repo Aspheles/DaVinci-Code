@@ -142,8 +142,10 @@ public class Player : MonoBehaviour
 
     void LateUpdate()
     {
-        if(head.transform.eulerAngles.y < 80 && head.transform.eulerAngles.y > 280)
+
+        if (head.transform.eulerAngles.y < 80 && head.transform.eulerAngles.y > 280)
         {
+            print("test");
             head.transform.rotation = pivotPoint.transform.rotation;
         }
     }
