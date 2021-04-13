@@ -60,7 +60,10 @@ public class Terminal : MonoBehaviour
 
         if(GameManager.instance != null && progress == ScreenProgress.READY || progress == ScreenProgress.PROGRESS)
         {
-            GameManager.instance.GetQuestion(questions[question_number]);
+            if(questions.Count > 0)
+            {
+                GameManager.instance.GetQuestion(questions[0]);
+            }
         }
 
     }

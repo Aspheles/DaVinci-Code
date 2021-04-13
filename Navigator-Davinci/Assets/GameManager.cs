@@ -12,10 +12,9 @@ public class GameManager : MonoBehaviour
     public TMP_Text question_description;
     public List<Answer> answers;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
-        
     }
 
     public void GetQuestion(Question question)
