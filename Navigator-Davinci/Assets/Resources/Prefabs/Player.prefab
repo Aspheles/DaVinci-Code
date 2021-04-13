@@ -1900,7 +1900,7 @@ GameObject:
   - component: {fileID: 7347172857660869994}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1940,6 +1940,7 @@ MonoBehaviour:
   pivotPoint: {fileID: 2473681234046035113}
   head: {fileID: 1531114132974462607}
   idle: 0
+  canwalk: 0
 --- !u!136 &10131432076505743
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -794,7 +794,7 @@ MonoBehaviour:
   scene:
     m_Handle: 0
   environment: {fileID: 7422643241531589136}
-  playerPrefab: {fileID: 8308653558843424045, guid: 9afc2b78f97e8bf4397fa0d8c02f5ddc,
+  playerPrefab: {fileID: 8752950111548064849, guid: bce6065fb0def2e49964c326c710c7fe,
     type: 3}
   spawnPoint: {fileID: 8659745500129892210}
   players: []
