@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 7e75c1fde9df8a24992d54094afba9f2,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -336,6 +336,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 599913115891805935, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522699887810897603, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1840459604049433814, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_Layer
@@ -352,6 +362,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8752950111548064849, guid: bce6065fb0def2e49964c326c710c7fe,
         type: 3}
+    - target: {fileID: 2245467011243250241, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373304255855052681, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2809184692987402460, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_RootOrder
@@ -412,11 +432,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lobby
       objectReference: {fileID: 0}
+    - target: {fileID: 3591636620217535630, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4654928339724803704, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: confirm
       value: 
       objectReference: {fileID: 233664479}
+    - target: {fileID: 5388411810563896913, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6231024581943461457, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6329074568535962568, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_TagString
