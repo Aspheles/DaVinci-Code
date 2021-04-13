@@ -346,6 +346,12 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 1921452805789157338, guid: 18bf632e54d7bd745ae181a78431562f,
+        type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 8752950111548064849, guid: bce6065fb0def2e49964c326c710c7fe,
+        type: 3}
     - target: {fileID: 2809184692987402460, guid: 18bf632e54d7bd745ae181a78431562f,
         type: 3}
       propertyPath: m_RootOrder
@@ -441,7 +447,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Terrain
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1840459604049433832, guid: 18bf632e54d7bd745ae181a78431562f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 18bf632e54d7bd745ae181a78431562f, type: 3}
 --- !u!1001 &583007692632526698
 PrefabInstance:
