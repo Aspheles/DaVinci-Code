@@ -141,12 +141,15 @@ public class Player : MonoBehaviour
     }
 
     void LateUpdate()
-    {
-
-        if (head.transform.eulerAngles.y < 80 && head.transform.eulerAngles.y > 280)
+    {         
+        if (pivotPoint.transform.localRotation.eulerAngles.y > 275 || pivotPoint.transform.localRotation.eulerAngles.y < 85)
         {
-            print("test");
-            head.transform.rotation = pivotPoint.transform.rotation;
+            head.transform.localRotation = pivotPoint.transform.localRotation * Quaternion.Euler(-25, 0, 0);
+        }
+
+        if(head.transform.localRotation.eulerAngles.y < 275 && head.transform.localRotation.eulerAngles.y > 85)
+        {
+            head.transform.localRotation = new Quaternion(0, head.transform.localRotation.eulerAngles.y, 0, head.transform.localRotation.w) * Quaternion.Euler(-25, 0, 0);
         }
     }
 }
