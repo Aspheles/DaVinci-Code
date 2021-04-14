@@ -23,4 +23,21 @@ public class Room : MonoBehaviour
 
         instance = this;
     }
+
+    private void Update()
+    {
+        CheckLevelCleared();
+    }
+
+    public void CheckLevelCleared()
+    {
+        int count = 0;
+        foreach(Terminal terminal in terminals)
+        {
+            if (terminal.finished) count++;
+        }
+
+        if (terminals.Count == count) isCompleted = true;
+        else isCompleted = false;
+    }
 }

@@ -24,6 +24,9 @@ public class FormValidation : MonoBehaviour
     {
         system = EventSystem.current;
         instance = this;
+
+        email.text = "admin@mydavinci.nl";
+        password.text = "admin1";
     }
     private void Update()
     {

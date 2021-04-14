@@ -9,20 +9,29 @@ public class RunManager : MonoBehaviour
     public static RunManager instance;
     public Run run;
     public Room room;
+    public Terminal terminal;
     public bool roomCompleted;
     public float timer = 0f;
-
     public GameObject puzzleUI;
     public Transform startingPosition;
     public List<PuzzleData> puzzles;
-    public List<Question> questions;
     public TMP_Text timerText;
+    public bool questionLoaded;
+    public bool answersLoaded;
+    public bool puzzleStarted = false;
+    public GameObject loadingScreen;
+
+    public int question_number = 0;
+
+    public int points;
+
+    public TMP_Text yavuzLog;
 
     private void Awake()
     {
         instance = this;
+        questionLoaded = false;
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
-        puzzles = new List<PuzzleData>();
         LoadPuzzlesData();
 
     }
@@ -43,7 +52,7 @@ public class RunManager : MonoBehaviour
         if (run != null && run.isCompleted == false)
         {
             timer += Time.deltaTime;
-            timerText.text = "Time: " + Mathf.Round(timer).ToString();
+            timerText.text = "Time: " + Mathf.Round(timer).ToString();           
         }
     }
 
@@ -65,9 +74,21 @@ public class RunManager : MonoBehaviour
         ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
     }
 
-    public void SetPuzzleQuestions(Terminal terminal)
+    public void FinishPuzzle()
     {
-        terminal.questions = questions;
+        if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
+        {
+            terminal.progress = Terminal.ScreenProgress.FINISHED;
+        }
+        else
+        {
+            terminal.progress = Terminal.ScreenProgress.FAILED;
+        }
+
+       
+        question_number = 0;
+        points = 0;
+        
     }
 }
 

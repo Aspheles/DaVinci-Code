@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class GamePuzzle : MonoBehaviour
 {
+    public static GamePuzzle instance;
     public GameObject menuScreen;
     public GameObject gameScreen;
+
+    private void Start()
+    {
+        instance = this;
+    }
 
     public void StartPuzzle()
     {
         menuScreen.SetActive(false);
         gameScreen.SetActive(true);
+        RunManager.instance.puzzleStarted = true;
+        
 
 
     }

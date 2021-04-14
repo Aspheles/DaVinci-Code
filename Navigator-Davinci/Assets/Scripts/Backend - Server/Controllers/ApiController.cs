@@ -76,6 +76,9 @@ public class ApiController : MonoBehaviour
             case Request.LOADPUZZLEQUESTIONS:
                 LoadPuzzleQuestions(Data);
                 break;
+            case Request.LOADGAMEQUESTIONANSWERS:
+                LoadGameQuestionAnswers(Data);
+                break;
 
             default:
                 Debug.LogError("No Function assigned");
@@ -168,19 +171,21 @@ public class ApiController : MonoBehaviour
 
     private void LoadPuzzlesData(JSONNode Data)
     {
-        for(int i = 0; i < Data.Count; i++)
+        //Debug.Log(Data);
+
+        //Checking if puzzle data has been received
+        for (int i = 0; i < Data.Count; i++)
         {
             PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
             RunManager.instance.puzzles.Add(Puzzle);
         }
-
+        
         
     }
 
     private void LoadPuzzleQuestions(JSONNode Data)
     {
-        RunManager.instance.questions = new List<Question>();
-
+        
         for (int i = 0; i < Data.Count; i++)
         {
             //Local variables
@@ -191,10 +196,50 @@ public class ApiController : MonoBehaviour
             int puzzleid = Data[i].AsObject["puzzle_id"];
 
             Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, puzzleid);
-            RunManager.instance.questions.Add(_question);
+            RunManager.instance.terminal.questions.Add(_question);
 
         }
+        
+        if(RunManager.instance.terminal.answers.Count <= 0)
+        {
+            RunManager.instance.terminal.questionsLoaded = true;
+            RunManager.instance.terminal.GetAnswers();
+        }
+        
 
+    }
+
+    private void LoadGameQuestionAnswers(JSONNode Data)
+    {
+        List<Answer> answers = new List<Answer>();
+
+        if (Data != null)
+        {
+            for (int i = 0; i < Data.Count; i++)
+            {
+
+                int answerID = int.Parse(Data[i].AsObject["id"]);
+                string answerName = Data[i].AsObject["title"];
+                string answerValue = Data[i].AsObject["value"];
+                //string questionId = Data[i].AsObject["question_id"];
+                bool answerbool;
+
+                if (answerValue == "0") answerbool = false;
+                else answerbool = true;
+
+                answers.Add(new Answer(answerID, answerName, answerbool));
+
+            }
+
+            RunManager.instance.terminal.answers = answers;
+            GameManager.instance.DisplayAnswers();
+            print("Answers has been loaded");
+
+        }
+        else
+        {
+            print("There were no answers for this question");
+        }
     }
 
     private void SaveQuestion(JSONNode Data)

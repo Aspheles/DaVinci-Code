@@ -13,6 +13,15 @@ public class TerminalSpawnPoints : MonoBehaviour
         LoadTerminals();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetTerminals();
+        }
+
+
+    }
 
     public void LoadTerminals()
     {
@@ -24,18 +33,12 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.transform.SetParent(spawnpoints[i].transform);
             terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
 
-            if(i == 0)
-            {
-                terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
-            }
-            else
-            {
-                terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.BLOCKED;
-            }
+            terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
 
+           
 
             //Check puzzles if they don't match with others
-            terminalCopy.GetComponent<Terminal>().LoadPuzzle();
+            //terminalCopy.GetComponent<Terminal>().LoadPuzzle();
 
             //set questions to the correct terminal
             //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
@@ -43,6 +46,14 @@ public class TerminalSpawnPoints : MonoBehaviour
             // The Terminal copy gets added to the List of terminals in the room script.
 
             Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
+        }
+    }
+
+    public void ResetTerminals()
+    {
+        foreach(Terminal terminal in RunManager.instance.room.terminals)
+        {
+            terminal.ResetTerminal();
         }
     }
 }

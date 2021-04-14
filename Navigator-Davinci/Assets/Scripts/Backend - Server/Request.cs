@@ -24,6 +24,7 @@ public static class Request
         RESENDCODE = server + "/resendcode.php",
         VERIFY = server + "/verification.php",
         LOADPUZZLESDATA = server + "/loadpuzzlesdata.php",
-        LOADPUZZLEQUESTIONS = server + "/loadpuzzlequestions.php";
+        LOADPUZZLEQUESTIONS = server + "/loadpuzzlequestions.php",
+        LOADGAMEQUESTIONANSWERS = server + "/loadgamequestionanswers.php";
 
 }

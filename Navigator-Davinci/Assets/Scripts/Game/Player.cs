@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -23,8 +24,6 @@ public class Player : MonoBehaviour
     public bool idle;
     private bool running;
     private bool sprinting;
-    private bool inAir;
-    string[] animations;
     public bool canwalk;
 
     float speed = 3;
@@ -39,7 +38,26 @@ public class Player : MonoBehaviour
        
 
     }
-    
+
+    private void Update()
+    {
+        if(SceneManager.GetActiveScene().name == "Room")
+        {
+            if (RunManager.instance.puzzles.Count > 0)
+            {
+                RunManager.instance.loadingScreen.SetActive(false);
+                canwalk = true;
+                //Session.instance.message = "Questions have been loaded";
+            }
+            else
+            {
+                RunManager.instance.loadingScreen.SetActive(true);
+                canwalk = false;
+                //Session.instance.message = "Waiting for questions to load...";
+            }
+        }
+    }
+
     public void Animate()
     {
         if (idle)
@@ -64,14 +82,6 @@ public class Player : MonoBehaviour
             animation.SetBool("Idle", false);
             animation.SetBool("Running", true);
             animation.SetBool("Sprinting", true);
-        }
-
-        if(inAir)
-        {
-            animation.SetBool("Idle", false);
-            animation.SetBool("Running", false);
-            animation.SetBool("Sprinting", false);
-            animation.SetBool("inAir", true);
         }
     }
     public void Move()
@@ -116,13 +126,7 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, camera.transform.rotation.y, 0, camera.transform.rotation.w) * Quaternion.Euler(0, -90, 0), 5);
             }
 
-            if (Input.GetKey(KeyCode.Space) && !inAir)
-            {
-                inAir = true;
-                rb.AddForce(new Vector3(0, 200, 0));
-            }
-
-            else if (!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a") && !Input.GetKey(KeyCode.Space))
+            else if (!Input.GetKey("w") && !Input.GetKey("d") && !Input.GetKey("s") && !Input.GetKey("a"))
             {
                 running = false;
                 idle = true;
@@ -134,28 +138,6 @@ public class Player : MonoBehaviour
         
     }
 
-   private void OnCollisionStay(Collision ground)
-    {
-        if (ground.gameObject.GetComponent<Ground>())
-        {
-            
-            inAir = false;
-
-        }
-        Animate();
-    }
-
-    private void OnCollisionExit(Collision ground)
-    {
-        if (ground.gameObject.GetComponent<Ground>())
-        {
-
-            //inAir = true;
-
-        }
-        Animate();
-    }
-
     void FixedUpdate()
     {
         Move();
@@ -163,6 +145,14 @@ public class Player : MonoBehaviour
 
     void LateUpdate()
     {
-        head.transform.rotation = pivotPoint.transform.rotation;
+        if (pivotPoint.transform.localRotation.eulerAngles.y > 275 || pivotPoint.transform.localRotation.eulerAngles.y < 85)
+        {
+            head.transform.localRotation = pivotPoint.transform.localRotation * Quaternion.Euler(-25, 0, 0);
+        }
+
+        if (head.transform.localRotation.eulerAngles.y < 275 && head.transform.localRotation.eulerAngles.y > 85)
+        {
+            head.transform.localRotation = new Quaternion(0, head.transform.localRotation.eulerAngles.y, 0, head.transform.localRotation.w) * Quaternion.Euler(-25, 0, 0);
+        }
     }
 }

@@ -13,8 +13,16 @@ public class Terminal : MonoBehaviour
     public ScreenProgress progress;
     public Material terminalmat;
     public PuzzleData puzzle;
+
     public List<Question> questions;
-    public int question_number = 0;
+    public List<Answer> answers;
+    public int questionNumber = 0;
+    public int answeredCorrect = 0;
+
+    public bool answeredQuestion = false;
+    public bool puzzleLoaded = false;
+    public bool questionsLoaded = false;
+    public bool finished = false;
 
     private void Start()
     {
@@ -30,6 +38,7 @@ public class Terminal : MonoBehaviour
         FAILED
     }
 
+    //Displays terminal screen depending on the progess
     void CheckTerminalProgress(ScreenProgress progress)
     {
         switch (progress)
@@ -58,32 +67,65 @@ public class Terminal : MonoBehaviour
         mat.color = Color.red;
         CheckTerminalProgress(progress);
 
-        if(GameManager.instance != null && progress == ScreenProgress.READY || progress == ScreenProgress.PROGRESS)
+        if (!puzzleLoaded)
+        {
+            LoadPuzzle();
+        }
+
+        if (questionsLoaded)
+        {
+            //GameManager.instance.DisplayAnswers();
+        }
+
+        if(GameManager.instance != null)
         {
             if(questions.Count > 0)
             {
-                GameManager.instance.GetQuestion(questions[0]);
+                //Debug.Log("Questions Count: " + questions.Count);
+                GameManager.instance.GetQuestion(questions[questionNumber]);
             }
         }
 
-    }
-
-    public void LoadPuzzle()
-    {
-        if(RunManager.instance.puzzles.Count > 0)
+        if(progress == ScreenProgress.FINISHED || progress == ScreenProgress.FAILED)
         {
-            int random = Random.Range(0, RunManager.instance.puzzles.Count);
-            print(random);
-            puzzle = RunManager.instance.puzzles[random];
+            finished = true;
+        }
+        else
+        {
+            finished = false;
         }
     }
 
+    //Selects a puzzle from the loaded puzzles
+    public void LoadPuzzle()
+    {
+        print("Puzzles loaded Count: " + RunManager.instance.puzzles.Count);
+        RunManager.instance.yavuzLog.text = "Count: " + RunManager.instance.puzzles.Count.ToString();
+        if (RunManager.instance.puzzles.Count > 0)
+        {
+            int random = Random.Range(0, RunManager.instance.puzzles.Count);
+            if(RunManager.instance.puzzles[random].difficulty == UserInfo.instance.selectedDifficulty)
+            {
+                puzzle = RunManager.instance.puzzles[random];
+                puzzleLoaded = true;
+            }
+            
+           
+            
+            //Check if puzzle gets loaded in EXE
+            
+        }
+    }
+
+    //Makes a api request to receive question from the current puzzle loaded in terminal
     public void GetQuestions()
     {
-        if(ApiHandler.instance != null)
+        if (ApiHandler.instance != null)
         {
-            if(puzzle != null)
+            if (puzzle != null)
             {
+                questions = new List<Question>();
+                RunManager.instance.loadingScreen.SetActive(true);
                 List<IMultipartFormSection> form = new List<IMultipartFormSection>
                 {
                    new MultipartFormDataSection("puzzleid", puzzle.id.ToString())
@@ -92,18 +134,27 @@ public class Terminal : MonoBehaviour
                 ApiHandler.instance.CallApiRequest("post", form, Request.LOADPUZZLEQUESTIONS);
             }
         }
+        
     }
 
-
-    public void LoadPuzzleQuestions(List<Question> _questions)
+    public void GetAnswers()
     {
-        questions = _questions;
-       
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("id", questions[questionNumber].id.ToString())
+        };
+
+        ApiHandler.instance.CallApiRequest("post", form, Request.LOADGAMEQUESTIONANSWERS);
     }
 
-    public void StartPuzzleGame()
+    public void ResetTerminal()
     {
-        //GameManager.instance.GetQuestion()
+        progress = ScreenProgress.FINISHED;
+        questions = new List<Question>();
+        answers = new List<Answer>();
+        puzzle = null;
+        answeredCorrect = 0;
+        questionNumber = 0;
        
     }
 }

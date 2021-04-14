@@ -16,25 +16,28 @@ public class TriggerPuzzlePad : MonoBehaviour
     private void Start()
     {
         confirmText = GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>();
-        terminal.GetQuestions();
+        //terminal.GetQuestions();
 
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if(terminal.progress != Terminal.ScreenProgress.BLOCKED)
+        if(terminal.progress == Terminal.ScreenProgress.READY || terminal.progress == Terminal.ScreenProgress.PROGRESS)
         {
             if (collision.gameObject.tag == "Player")
             {
+                RunManager.instance.terminal = terminal;
                 confirmText.text = "Press 'E' to start the terminal";
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     //mat.color = Color.white;
                     RunManager.instance.OpenPuzzle();
                     terminal.progress = Terminal.ScreenProgress.PROGRESS;
-                    terminal.LoadPuzzleQuestions(RunManager.instance.questions);
-                    
+                    terminal.questions = new List<Question>();
+                    terminal.GetQuestions();                            
+        
                 }
+
             }
         }
     }
