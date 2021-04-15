@@ -69,6 +69,20 @@ public class ApiController : MonoBehaviour
             case Request.RESENDCODE:
                 ResendCode(Data);
                 break;
+            case Request.LOADPUZZLESDATA:
+                LoadPuzzlesData(Data);
+                break;
+
+            case Request.LOADPUZZLEQUESTIONS:
+                LoadPuzzleQuestions(Data);
+                break;
+            case Request.LOADGAMEQUESTIONANSWERS:
+                LoadGameQuestionAnswers(Data);
+                break;
+
+            default:
+                Debug.LogError("No Function assigned");
+                break;
         }
     }
 
@@ -90,7 +104,7 @@ public class ApiController : MonoBehaviour
 
             PuzzleManager.instance.ClearInputs();
             Launcher.instance.OpenPuzzleQuestionCreatorMenu();
-            print("Puzzle has been saved");
+            Session.instance.message = "Puzzle has been created";
         }
         else
         {
@@ -111,7 +125,7 @@ public class ApiController : MonoBehaviour
                 PuzzleOverview.instance.LoadPuzzles();
             }
 
-            print("Puzzle has been edited");
+            Session.instance.message = "Puzzle has been edited";
         }
         else
         {
@@ -127,6 +141,7 @@ public class ApiController : MonoBehaviour
     private void DeletePuzzle()
     {
         Destroy(PuzzleOverview.instance.selectedPuzzle.puzzleObject);
+        Session.instance.message = "Puzzle " + PuzzleOverview.instance.selectedPuzzle.name.text + " has been deleted";
     }
 
     private void FetchPuzzles(JSONNode Data)
@@ -154,6 +169,80 @@ public class ApiController : MonoBehaviour
         
     }
 
+    private void LoadPuzzlesData(JSONNode Data)
+    {
+        //Debug.Log(Data);
+
+        //Checking if puzzle data has been received
+        for (int i = 0; i < Data.Count; i++)
+        {
+            PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
+            RunManager.instance.puzzles.Add(Puzzle);
+        }
+        
+        
+    }
+
+    private void LoadPuzzleQuestions(JSONNode Data)
+    {
+        RunManager.instance.terminal.questions = new List<Question>();
+
+        for (int i = 0; i < Data.Count; i++)
+        {
+            //Local variables
+            string questionId = Data[i].AsObject["id"];
+            string questionTitle = Data[i].AsObject["title"];
+            string questionDescription = Data[i].AsObject["description"];
+            //RawImage questionImage = Data[i].AsObject["image"] as RawImage;
+            int puzzleid = Data[i].AsObject["puzzle_id"];
+
+            Question _question = new Question(int.Parse(questionId), questionTitle, questionDescription, null, puzzleid);
+            RunManager.instance.terminal.questions.Add(_question);
+
+        }
+        
+        if(RunManager.instance.terminal.answers.Count <= 0)
+        {
+            RunManager.instance.terminal.questionsLoaded = true;
+            RunManager.instance.terminal.GetAnswers();
+        }
+        
+
+    }
+
+    private void LoadGameQuestionAnswers(JSONNode Data)
+    {
+        List<Answer> answers = new List<Answer>();
+
+        if (Data != null)
+        {
+            for (int i = 0; i < Data.Count; i++)
+            {
+
+                int answerID = int.Parse(Data[i].AsObject["id"]);
+                string answerName = Data[i].AsObject["title"];
+                string answerValue = Data[i].AsObject["value"];
+                //string questionId = Data[i].AsObject["question_id"];
+                bool answerbool;
+
+                if (answerValue == "0") answerbool = false;
+                else answerbool = true;
+
+                answers.Add(new Answer(answerID, answerName, answerbool));
+
+            }
+
+            RunManager.instance.terminal.answers = answers;
+            GameManager.instance.DisplayAnswers();
+            print("Answers has been loaded");
+
+        }
+        else
+        {
+            print("There were no answers for this question");
+        }
+    }
+
     private void SaveQuestion(JSONNode Data)
     {
         
@@ -164,7 +253,7 @@ public class ApiController : MonoBehaviour
             {
                 Session.instance.question.id = int.Parse(Data[0].AsObject["id"]);
                 print("Question has been saved");
-                //new Questions().SaveImage();
+                //ry fnew Questions().SaveImage();
                 new Answers().Create();
             }
             else
@@ -172,16 +261,16 @@ public class ApiController : MonoBehaviour
                 Session.instance.message = Data[1].AsObject["status"];
             }
         }
-        
 
-        
+
+        Session.instance.message = "The question has been saved";
         //StartCoroutine(SaveAnswers());
     }
 
     private void DeleteQuestion()
     {
         Destroy(QuestionOverview.instance.questionObject);
-        print("Question Has been deleted");
+        Session.instance.message = "Question has been deleted";
     }
 
     private void FetchQuestions(JSONNode Data)
@@ -216,7 +305,7 @@ public class ApiController : MonoBehaviour
     private void DeleteAnswer()
     {
         Destroy(Session.instance.answerObject);
-        print("Answer has been deleted");
+        Session.instance.message = "Answer has been deleted";
     }
 
     private void FetchAnswers(JSONNode Data)
@@ -257,12 +346,8 @@ public class ApiController : MonoBehaviour
     private void SaveAnswers(JSONNode Data)
     {
         QuestionCreator.instance.loaded = false;
-        print("Answers have been saved");
-        print(Data);
+        //Session.instance.message = "Answers have been saved";
         Launcher.instance.OpenPuzzleQuestionsOverviewMenu();
-
-        int count = 0;
-        count++;
     }
 
     private void RegisterUser(JSONNode Data)
@@ -274,8 +359,7 @@ public class ApiController : MonoBehaviour
 
             if (!string.IsNullOrEmpty(UserInfo.instance.email))
             {
-                FormValidation.instance.message.color = Color.green;
-                FormValidation.instance.message.text = "Account has been created";
+                Session.instance.message = "Account has been created";
                 Launcher.instance.OpenVerificationMenu();
             }
             else
@@ -300,6 +384,7 @@ public class ApiController : MonoBehaviour
             if (UserInfo.instance.isverified)
             {
                 Launcher.instance.OpenLoggedInMenu();
+                Session.instance.message = "You have successfully logged in";
             }
             else
             {
@@ -308,8 +393,14 @@ public class ApiController : MonoBehaviour
         }
         else
         {
-            print("Found error in login");
-            Session.instance.message = Data[1].AsObject["status"];
+            if(Data[1].AsObject["status"] == null)
+            {
+                Session.instance.message = Data[0].AsObject["status"];
+            }
+            else
+            {
+                Session.instance.message = Data[1].AsObject["status"];
+            }
         }
     }
 
@@ -318,6 +409,7 @@ public class ApiController : MonoBehaviour
         if (Data[1].AsObject["status"] == "success")
         {
             Launcher.instance.OpenLoginMenu();
+            Session.instance.message = "Your password has been updated";
         }
         else
         {
@@ -329,18 +421,7 @@ public class ApiController : MonoBehaviour
     {
         if (Data[1].AsObject["status"] == "success")
         {
-            if(PasswordValidation.instance != null)
-            {
-                //Display success message
-                PasswordValidation.instance.message.text = "A new code has been sent to your email adress";
-                PasswordValidation.instance.message.color = Color.green;
-            }
-            else
-            {
-                Verification.instance.message.text = "A new code has been sent to your email adress";
-                Verification.instance.message.color = Color.green;
-            }
-           
+            Session.instance.message = "Verification code has been sent to your email";
         }
         else
         {
@@ -355,6 +436,7 @@ public class ApiController : MonoBehaviour
             //Send to loggedin menu
             //Verification.instance.message.color = Color.green;
             //Verification.instance.message.text = "Account activated";
+            Session.instance.message = "Your account has been activated";
             Launcher.instance.OpenLoggedInMenu();
         }
         else

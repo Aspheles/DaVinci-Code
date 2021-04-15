@@ -22,7 +22,7 @@ public class GameCamera : MonoBehaviour
     void Start()
     {
         UnityEngine.Cursor.visible = false;
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         rotation = pivotPoint.transform.eulerAngles;
         minZoom = -0.5f;
         maxZoom = -3f;

@@ -153,15 +153,28 @@ public class QuestionCreator : MonoBehaviour
             }
         }
 
-        print(JsonUtility.ToJson(newAnswers));
-        if (HasCorrectValue(newAnswers)) 
-        { 
-            Session.instance.AddAnswer(newAnswers); 
-        }
-        else 
+        
+
+       
+        if (!string.IsNullOrEmpty(questionInput.text) && !string.IsNullOrEmpty(description.text))
         {
-            Session.instance.message = "erroranswervalue";
+            if (HasCorrectValue(newAnswers))
+            {
+                Session.instance.AddAnswer(newAnswers);
+                ResetData();
+            }
+            else
+            {
+                Session.instance.message = "erroranswervalue";
+            }
         }
+        else
+        {
+            Session.instance.message = "Inputs can't be empty";
+        }
+        
+       
+        
 
     }
 
@@ -188,16 +201,8 @@ public class QuestionCreator : MonoBehaviour
             }
         }
 
-        if (amount == answers.Count)
-        {
-            Debug.Log("Has no correct answer " + amount);
-            return false;
-        }
-        else
-        {
-            Debug.Log("Has correct answer" + amount);
-            return true;
-        }
+        if (amount == answers.Count) return false;
+        else return true;
     }
 
 

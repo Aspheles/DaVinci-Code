@@ -1,0 +1,119 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+using TMPro;
+
+public class RunManager : MonoBehaviour
+{
+    public static RunManager instance;
+    public Run run;
+    public Room room;
+    public Terminal terminal;
+    public bool roomCompleted;
+    public float timer = 0f;
+    public GameObject puzzleUI;
+    public Transform startingPosition;
+    public List<PuzzleData> puzzles;
+    public TMP_Text timerText;
+    public bool questionLoaded;
+    public bool answersLoaded;
+    public bool puzzleStarted = false;
+    public GameObject loadingScreen;
+    public int points;
+
+    private void Awake()
+    {
+        instance = this;
+        questionLoaded = false;
+        startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
+        LoadPuzzlesData();
+
+    }
+
+    public void ResetManager()
+    {
+        points = 0;
+        roomCompleted = false;
+        puzzleStarted = false;
+        questionLoaded = false;
+        puzzles = new List<PuzzleData>();
+        LoadPuzzlesData();
+    }
+
+    private void Update()
+    {
+        if (room == null)
+        {
+            room = GameObject.Find("Room").GetComponent<Room>();
+        }
+
+        if (run == null)
+        {
+            Run.instance.CreateRun(run);
+            run = Run.instance.GetRun();
+        }
+
+        if (run != null && room.isCompleted == false)
+        {
+            timer += Time.deltaTime;
+            timerText.text = "Time: " + Mathf.Round(timer).ToString();           
+
+            if(puzzles.Count > 0)
+            {
+                if (!TerminalSpawnPoints.instance.terminalsLoaded)
+                {
+                    TerminalSpawnPoints.instance.LoadTerminals();
+                    TerminalSpawnPoints.instance.terminalsLoaded = true;
+                }
+                
+            }
+        }
+        else
+        {
+            /*
+            foreach(Terminal terminal in room.terminals)
+            {
+                terminal.ResetTerminal();
+            }
+            room.roomNumber++;
+            */
+
+        }
+    }
+
+    public void OpenPuzzle()
+    {
+        puzzleUI.SetActive(true);
+        Cursor.visible = true;
+    }
+
+    public void ClosePuzzle()
+    {
+        puzzleUI.SetActive(false);
+        Cursor.visible = false;
+        Player.instance.player.transform.position = startingPosition.position;
+    }
+
+    public void LoadPuzzlesData()
+    {
+        ApiHandler.instance.CallApiRequest("get", null, Request.LOADPUZZLESDATA);
+    }
+
+    public void FinishPuzzle()
+    {
+        if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
+        {
+            terminal.progress = Terminal.ScreenProgress.FINISHED;
+        }
+        else
+        {
+            terminal.progress = Terminal.ScreenProgress.FAILED;
+        }
+
+      
+        points = 0;
+        
+    }
+}
+

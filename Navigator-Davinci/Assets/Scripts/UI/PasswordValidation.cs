@@ -16,7 +16,7 @@ public class PasswordValidation : MonoBehaviour
     public Text message;
     public InputField email;
     EventSystem system;
-    bool emailCheck = false;
+    public bool emailCheck = false;
     public bool repeatpasswordCheck;
     public bool newpasswordCheck;
     public static PasswordValidation instance;
@@ -55,9 +55,6 @@ public class PasswordValidation : MonoBehaviour
     {
         if (email.text.IndexOf("@mydavinci.nl") <= 0)
         {
-            message.color = Color.red;
-            message.text = "Email needs to be valid";
-            email.Select();
             emailCheck = false;
         }
         else
@@ -73,6 +70,7 @@ public class PasswordValidation : MonoBehaviour
     /// </summary>
     public void NewPasswordValidator()
     {
+        message.color = Color.red;
         if (repeatpassword.text == newpassword.text)
         {
             if (repeatpassword.text.Length > 5 && newpassword.text.Length > 5)
@@ -83,15 +81,12 @@ public class PasswordValidation : MonoBehaviour
             }
             else
             {
-                message.color = Color.red;
                 message.text = "Your password needs to be bigger than 5 characters";
                 repeatpasswordCheck = false;
                 newpasswordCheck = false;
             }
         }
-        else
-        {
-            message.color = Color.red;
+        else { 
             message.text = "Your passwords do not match";
             repeatpasswordCheck = false;
             newpasswordCheck = false;
@@ -121,14 +116,10 @@ public class PasswordValidation : MonoBehaviour
             Session.instance.email = email.text;
             SendVerification();
             Launcher.instance.OpenResetPasswordMenu();
-            message.color = Color.green;
-            message.text = "A verification code has been sent to your emailadress";
-
         }
         else
         {
-            message.color = Color.red;
-            message.text = "Your Email adress needs to be valid";
+            Session.instance.message = "Email is not valid";
         }
     }
 
@@ -171,10 +162,6 @@ public class PasswordValidation : MonoBehaviour
             new User().UpdatePassword(false);
             ClearData();
         }
-        else
-        {
-            message.color = Color.red;
-            message.text = "your verification code or passwords have been filled in invalid";
-        }
+       
     }
 }

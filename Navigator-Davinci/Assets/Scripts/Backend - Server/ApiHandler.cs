@@ -41,9 +41,9 @@ public class ApiHandler : MonoBehaviour
             {
                 byte[] dbData = www.downloadHandler.data;
                 string Result = System.Text.Encoding.Default.GetString(dbData);
-                print(Result);
                 JSONArray Data = JSON.Parse(Result) as JSONArray;
-   
+
+                //print(Data);
                 ApiController.instance.CheckData(Data, url);
             }
         }
@@ -55,7 +55,8 @@ public class ApiHandler : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                Debug.Log("Error found: ");
+                Debug.Log(www.downloadHandler.text);
             }
             else
             {

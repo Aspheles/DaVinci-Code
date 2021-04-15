@@ -10,18 +10,12 @@ public class FormController : MonoBehaviour
    
 }
 
-public enum PuzzleDifficulty
-{
-    easy,
-    medium,
-    hard
-}
+
 
 [Serializable]
 public class PuzzleData
 {
-    public string errorMessage;
-
+   
     public static PuzzleData instance;
 
     public int id;
@@ -50,10 +44,8 @@ public class Question
     public int id;
     public string question;
     public string description;
-    public Texture2D image;
     public List<Answer> answers;
     public int puzzleid;
-    public string errorMessage;
 
 
 
@@ -74,7 +66,6 @@ public class Answer
     public int id;
     public string answer;
     public bool isCorrect;
-    public string errorMessage;
 
     public Answer(int id, string answer, bool isCorrect)
     {

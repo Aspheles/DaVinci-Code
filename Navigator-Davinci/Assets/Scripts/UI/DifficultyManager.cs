@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DifficultyManager : MonoBehaviour
 {
-    [SerializeField] GameObject alertPanel;
+    public TMP_Dropdown Difficulty;
 
-    private void Start()
+    public void ConfirmDifficulty()
     {
-        alertPanel.SetActive(false);
-    }
-    public void OnNextClicked()
-    {
-        alertPanel.SetActive(true);
+        UserInfo.instance.selectedDifficulty = Difficulty.options[Difficulty.value].text;
+        Launcher.instance.LoadRoom();
     }
 
-    public void OnOkClicked()
-    {
-        alertPanel.SetActive(false);
-    }
+   
 }

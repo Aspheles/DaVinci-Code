@@ -24,6 +24,9 @@ public class FormValidation : MonoBehaviour
     {
         system = EventSystem.current;
         instance = this;
+
+        email.text = "admin@mydavinci.nl";
+        password.text = "admin1";
     }
     private void Update()
     {
@@ -41,10 +44,6 @@ public class FormValidation : MonoBehaviour
             }
         }
 
-        if(!string.IsNullOrEmpty(Session.instance.message))
-        {
-           message.text = Session.instance.ErrorHandling();
-        }
     }
 
     /// <summary>
@@ -133,8 +132,18 @@ public class FormValidation : MonoBehaviour
         {
             //StartCoroutine(Authentication.instance.Register(username.text, email.text, password.text, classCode.options[classCode.value].text));
             new User().Register();
+            username.text = string.Empty;
             ClearData();
-            //username.text = string.Empty;
+            
+        }
+        else
+        {
+            Session.instance.message = message.text;
+        }
+
+        if(username.text.Length <= 0 || password.text.Length <= 0 || email.text.Length <= 0)
+        {
+            Session.instance.message = "Inputs can't be empty";
         }
        
        
@@ -143,13 +152,13 @@ public class FormValidation : MonoBehaviour
     /// Logs in a user when the button is clicked.
     /// Checks if the imput is correct, if so-
     /// login function will be executed.
+    /// 
     /// </summary>
     public void OnLoginButtonClicked()
     {
-        if (email.text.Length <= 0 && password.text.Length <= 0)
+        if (email.text.Length <= 0 || password.text.Length <= 0)
         {
-            message.color = Color.red;
-            message.text = "Email or Password can't be empty";
+            Session.instance.message = "Email or Password can't be empty";
         }
         else
         {

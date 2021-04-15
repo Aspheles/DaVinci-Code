@@ -21,6 +21,7 @@ public class Authentication : MonoBehaviour
     {
         ResetData();
         Launcher.instance.OpenMainMenu();
+        Session.instance.message = "You have been successfully logged out";
     }
 
 
