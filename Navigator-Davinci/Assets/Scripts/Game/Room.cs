@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Room : MonoBehaviour
 {
@@ -9,10 +10,12 @@ public class Room : MonoBehaviour
     public string difficulty;
     public Time roomTime;
     public bool isCompleted;
+    public int roomNumber = 0;
 
     public List<Terminal> terminals;
 
     public static Room instance;
+    public TMP_Text roomText;
 
     private void Awake()
     {
@@ -22,10 +25,12 @@ public class Room : MonoBehaviour
         }
 
         instance = this;
+        difficulty = UserInfo.instance.selectedDifficulty;
     }
 
     private void Update()
     {
+        roomText.text = "Room: " + roomNumber.ToString();
         CheckLevelCleared();
     }
 
@@ -38,6 +43,6 @@ public class Room : MonoBehaviour
         }
 
         if (terminals.Count == count) isCompleted = true;
-        else isCompleted = false;
+       
     }
 }

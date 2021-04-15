@@ -67,16 +67,6 @@ public class Terminal : MonoBehaviour
         mat.color = Color.red;
         CheckTerminalProgress(progress);
 
-        if (!puzzleLoaded)
-        {
-            LoadPuzzle();
-        }
-
-        if (questionsLoaded)
-        {
-            //GameManager.instance.DisplayAnswers();
-        }
-
         if(GameManager.instance != null)
         {
             if(questions.Count > 0)
@@ -97,24 +87,32 @@ public class Terminal : MonoBehaviour
     }
 
     //Selects a puzzle from the loaded puzzles
-    public void LoadPuzzle()
+    public void LoadPuzzle(string difficulty)
     {
         print("Puzzles loaded Count: " + RunManager.instance.puzzles.Count);
-        RunManager.instance.yavuzLog.text = "Count: " + RunManager.instance.puzzles.Count.ToString();
-        if (RunManager.instance.puzzles.Count > 0)
+
+        /*
+        Debug.Log(difficulty);
+        
+        if(RunManager.instance.puzzles[random].difficulty == difficulty)
         {
-            int random = Random.Range(0, RunManager.instance.puzzles.Count);
-            if(RunManager.instance.puzzles[random].difficulty == UserInfo.instance.selectedDifficulty)
-            {
-                puzzle = RunManager.instance.puzzles[random];
-                puzzleLoaded = true;
-            }
-            
+            puzzle = RunManager.instance.puzzles[random];
+            puzzleLoaded = true;
+        }*/
+
+        List<PuzzleData> randomizedPuzzles = new List<PuzzleData>();
+        foreach(PuzzleData puzzle in RunManager.instance.puzzles)
+        {
+            if (puzzle.difficulty == difficulty) randomizedPuzzles.Add(puzzle);
+        }
+        int random = Random.Range(0, randomizedPuzzles.Count);
+        puzzle = Shuffle<PuzzleData>(randomizedPuzzles)[random];
+      
            
             
             //Check if puzzle gets loaded in EXE
             
-        }
+        
     }
 
     //Makes a api request to receive question from the current puzzle loaded in terminal
@@ -124,7 +122,6 @@ public class Terminal : MonoBehaviour
         {
             if (puzzle != null)
             {
-                questions = new List<Question>();
                 RunManager.instance.loadingScreen.SetActive(true);
                 List<IMultipartFormSection> form = new List<IMultipartFormSection>
                 {
@@ -149,12 +146,29 @@ public class Terminal : MonoBehaviour
 
     public void ResetTerminal()
     {
-        progress = ScreenProgress.FINISHED;
+        finished = false;
+        TerminalSpawnPoints.instance.terminalsLoaded = false;
+        progress = ScreenProgress.READY;
         questions = new List<Question>();
         answers = new List<Answer>();
         puzzle = null;
         answeredCorrect = 0;
         questionNumber = 0;
+
        
+    }
+
+
+    public static List<T> Shuffle<T>(List<T> _list)
+    {
+        for (int i = 0; i < _list.Count; i++)
+        {
+            T temp = _list[i];
+            int randomIndex = Random.Range(i, _list.Count);
+            _list[i] = _list[randomIndex];
+            _list[randomIndex] = temp;
+        }
+
+        return _list;
     }
 }

@@ -185,7 +185,8 @@ public class ApiController : MonoBehaviour
 
     private void LoadPuzzleQuestions(JSONNode Data)
     {
-        
+        RunManager.instance.terminal.questions = new List<Question>();
+
         for (int i = 0; i < Data.Count; i++)
         {
             //Local variables

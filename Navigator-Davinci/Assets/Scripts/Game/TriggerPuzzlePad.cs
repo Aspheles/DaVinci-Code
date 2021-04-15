@@ -33,8 +33,8 @@ public class TriggerPuzzlePad : MonoBehaviour
                     //mat.color = Color.white;
                     RunManager.instance.OpenPuzzle();
                     terminal.progress = Terminal.ScreenProgress.PROGRESS;
-                    terminal.questions = new List<Question>();
-                    terminal.GetQuestions();                            
+                    terminal.GetQuestions();
+                    RunManager.instance.loadingScreen.SetActive(true);
         
                 }
 
