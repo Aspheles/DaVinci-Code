@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name == "Room")
         {
-            if (RunManager.instance.puzzles.Count > 0)
+            if (RunManager.instance.puzzles.Count > 0 && Room.instance.terminalsLoaded)
             {
                 RunManager.instance.loadingScreen.SetActive(false);
                 canwalk = true;
@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                TerminalSpawnPoints.instance.GetDifficulty();
                 RunManager.instance.loadingScreen.SetActive(true);
                 canwalk = false;
                 //Session.instance.message = "Waiting for questions to load...";

@@ -21,6 +21,7 @@ public class RunManager : MonoBehaviour
     public bool puzzleStarted = false;
     public GameObject loadingScreen;
     public int points;
+   
 
     private void Awake()
     {
@@ -47,10 +48,9 @@ public class RunManager : MonoBehaviour
         if (run != null && room.isCompleted == false)
         {
             timer += Time.deltaTime;
-            timerText.text = "Time: " + Mathf.Round(timer).ToString();           
-
-           
+            timerText.text = "Time: " + Mathf.Round(timer).ToString();
             
+              
         }
       
     }

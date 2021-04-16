@@ -15,8 +15,6 @@ public class TerminalSpawnPoints : MonoBehaviour
     private void Start()
     {
         instance = this;
-        GetDifficulty();
-        //LoadTerminals();
     }
 
     public void LoadTerminals()
@@ -34,7 +32,7 @@ public class TerminalSpawnPoints : MonoBehaviour
 
          
             //Check puzzles if they don't match with others
-            //terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+            terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
 
             //set questions to the correct terminal
             //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
@@ -43,6 +41,7 @@ public class TerminalSpawnPoints : MonoBehaviour
 
             Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
         }
+        Room.instance.terminalsLoaded = true;
     }
 
     public void GetDifficulty()
@@ -195,6 +194,7 @@ public class TerminalSpawnPoints : MonoBehaviour
                     break;
             }
         }
+        LoadTerminals();
     }
 
     public void AssignDifficulty(string difficulty, int amount)
