@@ -181,7 +181,7 @@ public class TerminalSpawnPoints : MonoBehaviour
            
 
             //Check puzzles if they don't match with others
-            terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+            //terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
 
             //set questions to the correct terminal
             //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
