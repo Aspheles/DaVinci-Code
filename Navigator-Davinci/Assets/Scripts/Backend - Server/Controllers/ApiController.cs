@@ -181,8 +181,7 @@ public class ApiController : MonoBehaviour
             RunManager.instance.puzzles.Add(Puzzle);
         }
 
-        //Checking if puzzles exist, so terminals can be loaded in
-        TerminalSpawnPoints.instance.LoadTerminals();
+        
     }
 
     private void LoadPuzzleQuestions(JSONNode Data)

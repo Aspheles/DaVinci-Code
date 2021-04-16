@@ -15,12 +15,39 @@ public class TerminalSpawnPoints : MonoBehaviour
     private void Start()
     {
         instance = this;
+        GetDifficulty();
         //LoadTerminals();
     }
 
     public void LoadTerminals()
     {
-        if(Room.instance.roomNumber <= 1 || UserInfo.instance.selectedDifficulty == "Hard")
+       
+        for(int i = 0; i < spawnpoints.Count; i++)
+        {
+            //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
+            GameObject terminalCopy = Instantiate(terminalObject, spawnpoints[i].transform.position, Quaternion.identity);
+
+            terminalCopy.transform.SetParent(spawnpoints[i].transform);
+            terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
+
+            terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
+
+         
+            //Check puzzles if they don't match with others
+            //terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+
+            //set questions to the correct terminal
+            //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
+
+            // The Terminal copy gets added to the List of terminals in the room script.
+
+            Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
+        }
+    }
+
+    public void GetDifficulty()
+    {
+        if (Room.instance.roomNumber <= 1 || UserInfo.instance.selectedDifficulty == "Hard")
         {
             AssignDifficulty(Room.instance.difficulty, 6);
         }
@@ -30,11 +57,11 @@ public class TerminalSpawnPoints : MonoBehaviour
             switch (Room.instance.roomNumber)
             {
                 case 2:
-                    if(Room.instance.difficulty == "Easy")
+                    if (Room.instance.difficulty == "Easy")
                     {
                         //5x easy
                         //1x medium
-                        for(int i = 0; i < 5; i++)
+                        for (int i = 0; i < 5; i++)
                         {
                             difficultyList.Add("Easy");
                         }
@@ -168,29 +195,6 @@ public class TerminalSpawnPoints : MonoBehaviour
                     break;
             }
         }
-        for(int i = 0; i < spawnpoints.Count; i++)
-        {
-            //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
-            GameObject terminalCopy = Instantiate(terminalObject, spawnpoints[i].transform.position, Quaternion.identity);
-
-            terminalCopy.transform.SetParent(spawnpoints[i].transform);
-            terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
-
-            terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
-
-           
-
-            //Check puzzles if they don't match with others
-            //terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
-
-            //set questions to the correct terminal
-            //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
-
-            // The Terminal copy gets added to the List of terminals in the room script.
-
-            Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
-        }
- 
     }
 
     public void AssignDifficulty(string difficulty, int amount)
