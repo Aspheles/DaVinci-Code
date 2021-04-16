@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class Terminal : MonoBehaviour
 {
+    public int terminalNumber;
     public Material mat;
     public GameObject terminal;
     public GameObject screen;
@@ -100,13 +101,19 @@ public class Terminal : MonoBehaviour
             puzzleLoaded = true;
         }*/
 
-        List<PuzzleData> randomizedPuzzles = new List<PuzzleData>();
+        
         foreach(PuzzleData puzzle in RunManager.instance.puzzles)
         {
-            if (puzzle.difficulty == difficulty) randomizedPuzzles.Add(puzzle);
+            if (puzzle.difficulty == difficulty)
+            {
+                if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))
+                {
+                    RunManager.instance.randomizedPuzzles.Add(puzzle);
+                }
+            }
         }
-        int random = Random.Range(0, randomizedPuzzles.Count);
-        puzzle = Shuffle<PuzzleData>(randomizedPuzzles)[random];
+
+        puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
       
            
             
@@ -144,16 +151,4 @@ public class Terminal : MonoBehaviour
         ApiHandler.instance.CallApiRequest("post", form, Request.LOADGAMEQUESTIONANSWERS);
     }
 
-    public static List<T> Shuffle<T>(List<T> _list)
-    {
-        for (int i = 0; i < _list.Count; i++)
-        {
-            T temp = _list[i];
-            int randomIndex = Random.Range(i, _list.Count);
-            _list[i] = _list[randomIndex];
-            _list[randomIndex] = temp;
-        }
-
-        return _list;
-    }
 }

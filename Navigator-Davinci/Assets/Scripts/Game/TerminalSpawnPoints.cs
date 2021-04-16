@@ -20,11 +20,14 @@ public class TerminalSpawnPoints : MonoBehaviour
 
     public void LoadTerminals()
     {
-        
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
+
         if(GameObject.FindGameObjectsWithTag("Terminal").Length > 0)
         {
             for(int i = 0; i < spawnpoints.Count; i++)
             {
+                if(spawnpoints[i].GetComponentInChildren<Terminal>() != null)
                 Destroy(spawnpoints[i].GetComponentInChildren<Terminal>().gameObject);
             }
         }
@@ -38,6 +41,7 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.transform.rotation = spawnpoints[i].transform.rotation;
 
             terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
+            terminalCopy.GetComponent<Terminal>().terminalNumber = i;
 
          
             //Check puzzles if they don't match with others

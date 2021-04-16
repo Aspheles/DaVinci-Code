@@ -15,6 +15,7 @@ public class RunManager : MonoBehaviour
     public GameObject puzzleUI;
     public Transform startingPosition;
     public List<PuzzleData> puzzles;
+    public List<PuzzleData> randomizedPuzzles;
     public TMP_Text timerText;
     public bool questionLoaded;
     public bool answersLoaded;
@@ -84,6 +85,20 @@ public class RunManager : MonoBehaviour
       
         points = 0;
         
+    }
+
+
+    public static List<T> Shuffle<T>(List<T> _list)
+    {
+        for (int i = 0; i < _list.Count; i++)
+        {
+            T temp = _list[i];
+            int randomIndex = Random.Range(i, _list.Count);
+            _list[i] = _list[randomIndex];
+            _list[randomIndex] = temp;
+        }
+
+        return _list;
     }
 }
 
