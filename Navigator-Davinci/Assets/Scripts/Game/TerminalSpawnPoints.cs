@@ -18,16 +18,6 @@ public class TerminalSpawnPoints : MonoBehaviour
         //LoadTerminals();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetTerminals();
-        }
-
-
-    }
-
     public void LoadTerminals()
     {
         if(Room.instance.roomNumber <= 1 || UserInfo.instance.selectedDifficulty == "Hard")
@@ -191,7 +181,7 @@ public class TerminalSpawnPoints : MonoBehaviour
            
 
             //Check puzzles if they don't match with others
-            terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+            //terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
 
             //set questions to the correct terminal
             //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
@@ -211,8 +201,4 @@ public class TerminalSpawnPoints : MonoBehaviour
         }
     }
 
-    public void ResetTerminals()
-    {
-        RunManager.instance.room.terminals = new List<Terminal>();
-    }
 }

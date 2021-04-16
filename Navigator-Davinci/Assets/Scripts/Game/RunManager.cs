@@ -31,16 +31,6 @@ public class RunManager : MonoBehaviour
 
     }
 
-    public void ResetManager()
-    {
-        points = 0;
-        roomCompleted = false;
-        puzzleStarted = false;
-        questionLoaded = false;
-        puzzles = new List<PuzzleData>();
-        LoadPuzzlesData();
-    }
-
     private void Update()
     {
         if (room == null)
@@ -59,27 +49,10 @@ public class RunManager : MonoBehaviour
             timer += Time.deltaTime;
             timerText.text = "Time: " + Mathf.Round(timer).ToString();           
 
-            if(puzzles.Count > 0)
-            {
-                if (!TerminalSpawnPoints.instance.terminalsLoaded)
-                {
-                    TerminalSpawnPoints.instance.LoadTerminals();
-                    TerminalSpawnPoints.instance.terminalsLoaded = true;
-                }
-                
-            }
+           
+            
         }
-        else
-        {
-            /*
-            foreach(Terminal terminal in room.terminals)
-            {
-                terminal.ResetTerminal();
-            }
-            room.roomNumber++;
-            */
-
-        }
+      
     }
 
     public void OpenPuzzle()

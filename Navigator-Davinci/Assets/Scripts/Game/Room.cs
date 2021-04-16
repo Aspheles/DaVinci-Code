@@ -13,6 +13,7 @@ public class Room : MonoBehaviour
     public int roomNumber = 0;
 
     public List<Terminal> terminals;
+    public bool terminalsLoaded = false;
 
     public static Room instance;
     public TMP_Text roomText;
@@ -31,7 +32,21 @@ public class Room : MonoBehaviour
     private void Update()
     {
         roomText.text = "Room: " + roomNumber.ToString();
+        LoadTerminals();
         CheckLevelCleared();
+    }
+
+    public void LoadTerminals()
+    {
+        if(TerminalSpawnPoints.instance.difficultyList.Count > 0 && !terminalsLoaded)
+        {
+            for (int i = 0; i < terminals.Count; i++)
+            {
+                terminals[i].LoadPuzzle(TerminalSpawnPoints.instance.difficultyList[i]);
+            }
+            terminalsLoaded = true;
+        }
+        
     }
 
     public void CheckLevelCleared()
@@ -43,6 +58,7 @@ public class Room : MonoBehaviour
         }
 
         if (terminals.Count == count) isCompleted = true;
+        else isCompleted = false;
        
     }
 }

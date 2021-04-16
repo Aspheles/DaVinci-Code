@@ -144,21 +144,6 @@ public class Terminal : MonoBehaviour
         ApiHandler.instance.CallApiRequest("post", form, Request.LOADGAMEQUESTIONANSWERS);
     }
 
-    public void ResetTerminal()
-    {
-        finished = false;
-        TerminalSpawnPoints.instance.terminalsLoaded = false;
-        progress = ScreenProgress.READY;
-        questions = new List<Question>();
-        answers = new List<Answer>();
-        puzzle = null;
-        answeredCorrect = 0;
-        questionNumber = 0;
-
-       
-    }
-
-
     public static List<T> Shuffle<T>(List<T> _list)
     {
         for (int i = 0; i < _list.Count; i++)
