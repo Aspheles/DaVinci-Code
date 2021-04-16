@@ -32,10 +32,11 @@ public class Room : MonoBehaviour
     private void Update()
     {
         roomText.text = "Room: " + roomNumber.ToString();
-        LoadTerminals();
         CheckLevelCleared();
     }
 
+
+    /*
     public void LoadTerminals()
     {
         if(TerminalSpawnPoints.instance.difficultyList.Count > 0 && !terminalsLoaded)
@@ -47,7 +48,7 @@ public class Room : MonoBehaviour
             terminalsLoaded = true;
         }
         
-    }
+    }*/
 
     public void CheckLevelCleared()
     {
