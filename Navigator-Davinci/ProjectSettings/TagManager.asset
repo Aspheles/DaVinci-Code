@@ -8,6 +8,7 @@ TagManager:
   - answer
   - Ground
   - Terrain
+  - Terminal
   layers:
   - Default
   - TransparentFX

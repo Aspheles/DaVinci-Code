@@ -173,15 +173,13 @@ public class ApiController : MonoBehaviour
     {
         //Debug.Log(Data);
 
-
         //Checking if puzzle data has been received
         for (int i = 0; i < Data.Count; i++)
         {
             PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
             RunManager.instance.puzzles.Add(Puzzle);
         }
-
-        TerminalSpawnPoints.instance.GetDifficulty();
+        
     }
 
     private void LoadPuzzleQuestions(JSONNode Data)
@@ -207,7 +205,6 @@ public class ApiController : MonoBehaviour
             RunManager.instance.terminal.questionsLoaded = true;
             RunManager.instance.terminal.GetAnswers();
         }
-        
 
     }
 

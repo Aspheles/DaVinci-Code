@@ -28,17 +28,14 @@ public class RunManager : MonoBehaviour
         instance = this;
         questionLoaded = false;
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
+        room = GameObject.Find("Room").GetComponent<Room>();
         LoadPuzzlesData();
 
     }
 
     private void Update()
     {
-        if (room == null)
-        {
-            room = GameObject.Find("Room").GetComponent<Room>();
-        }
-
+        
         if (run == null)
         {
             Run.instance.CreateRun(run);

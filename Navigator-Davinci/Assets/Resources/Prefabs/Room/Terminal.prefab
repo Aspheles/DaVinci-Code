@@ -2792,7 +2792,7 @@ GameObject:
   - component: {fileID: 3275979614723741146}
   m_Layer: 0
   m_Name: Terminal
-  m_TagString: Untagged
+  m_TagString: Terminal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2826,13 +2826,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43260a0f71d97c54cbc24578b4e7be87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number: 
   mat: {fileID: 2100000, guid: 99825e9f8222bd44d9c19ab43f30b7c4, type: 2}
   terminal: {fileID: 8428170904343317962}
   screen: {fileID: 2447683622910732081}
   terminalScreenmat: {fileID: 0}
   progress: 0
   terminalmat: {fileID: 0}
+  puzzle:
+    id: 0
+    name: 
+    difficulty: 
+    description: 
+    creator: 
+  questions: []
+  answers: []
+  questionNumber: 0
+  answeredCorrect: 0
+  answeredQuestion: 0
+  puzzleLoaded: 0
+  questionsLoaded: 0
+  finished: 0
 --- !u!95 &3275979614723741146
 Animator:
   serializedVersion: 3

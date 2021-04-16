@@ -37,10 +37,7 @@ public class GameManager : MonoBehaviour
             //RunManager.instance.loadingScreen.SetActive(false);
             GetQuestion(RunManager.instance.terminal.questions[RunManager.instance.terminal.questionNumber]);
         }
-        else
-        {
-            //RunManager.instance.loadingScreen.SetActive(true);
-        }
+        
         
     }
 

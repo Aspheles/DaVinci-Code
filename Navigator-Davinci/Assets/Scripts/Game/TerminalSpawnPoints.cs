@@ -20,7 +20,15 @@ public class TerminalSpawnPoints : MonoBehaviour
 
     public void LoadTerminals()
     {
-       
+        
+        if(GameObject.FindGameObjectsWithTag("Terminal").Length > 0)
+        {
+            for(int i = 0; i < spawnpoints.Count; i++)
+            {
+                Destroy(spawnpoints[i].GetComponentInChildren<Terminal>().gameObject);
+            }
+        }
+
         for(int i = 0; i < spawnpoints.Count; i++)
         {
             //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
@@ -42,7 +50,6 @@ public class TerminalSpawnPoints : MonoBehaviour
 
             Room.instance.terminals.Add(terminalCopy.GetComponent<Terminal>());
         }
-        Room.instance.terminalsLoaded = true;
     }
 
     public void GetDifficulty()
