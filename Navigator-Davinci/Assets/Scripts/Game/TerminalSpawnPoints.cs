@@ -15,6 +15,7 @@ public class TerminalSpawnPoints : MonoBehaviour
     private void Start()
     {
         instance = this;
+        GetDifficulty();
     }
 
     public void LoadTerminals()

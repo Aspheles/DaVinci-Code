@@ -51,7 +51,6 @@ public class Player : MonoBehaviour
             }
             else
             {
-                TerminalSpawnPoints.instance.GetDifficulty();
                 RunManager.instance.loadingScreen.SetActive(true);
                 canwalk = false;
                 //Session.instance.message = "Waiting for questions to load...";
