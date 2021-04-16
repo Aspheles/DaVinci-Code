@@ -181,7 +181,7 @@ public class ApiController : MonoBehaviour
             RunManager.instance.puzzles.Add(Puzzle);
         }
 
-        
+        TerminalSpawnPoints.instance.GetDifficulty();
     }
 
     private void LoadPuzzleQuestions(JSONNode Data)
