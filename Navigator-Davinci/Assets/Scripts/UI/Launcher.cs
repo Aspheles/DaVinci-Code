@@ -115,6 +115,11 @@ public class Launcher : MonoBehaviour
         Portal.instance.CancelNow();
     }
 
+    public void OpenGameOverMenu()
+    {
+        MenuManager.instance.OpenMenu("gameover");
+    }
+
     public void StartGame()
     {
         if(UserInfo.instance.email != null)

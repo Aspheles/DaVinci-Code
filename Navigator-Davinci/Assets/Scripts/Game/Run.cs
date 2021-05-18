@@ -28,6 +28,7 @@ public class Run : MonoBehaviour
             player = UserInfo.instance;
             time = 0f;
             isCompleted = false;
+
         }
         else
         {

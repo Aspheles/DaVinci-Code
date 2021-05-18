@@ -31,6 +31,7 @@ MonoBehaviour:
   authcode: {fileID: 0}
   message: {fileID: 2093171987293959427}
   email: {fileID: 3434815067244730656}
+  emailCheck: 0
   repeatpasswordCheck: 0
   newpasswordCheck: 0
 --- !u!1 &5409060210315005889

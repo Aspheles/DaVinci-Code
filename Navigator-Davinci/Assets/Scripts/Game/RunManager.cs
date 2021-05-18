@@ -22,17 +22,24 @@ public class RunManager : MonoBehaviour
     public bool puzzleStarted = false;
     public GameObject loadingScreen;
     public int points;
-   
+    public int maxHealth;
+    public int currentHealth;
+    public HealthBar healthBar;
+    public bool gameOver = false;
+
 
     private void Awake()
     {
         instance = this;
         questionLoaded = false;
+        maxHealth = 4;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
         room = GameObject.Find("Room").GetComponent<Room>();
         LoadPuzzlesData();
-
     }
+
 
     private void Update()
     {
@@ -43,12 +50,10 @@ public class RunManager : MonoBehaviour
             run = Run.instance.GetRun();
         }
 
-        if (run != null && room.isCompleted == false)
+        if (run != null && room.isCompleted == false && gameOver == false)
         {
             timer += Time.deltaTime;
             timerText.text = "Time: " + Mathf.Round(timer).ToString();
-            
-              
         }
       
     }
@@ -80,11 +85,26 @@ public class RunManager : MonoBehaviour
         else
         {
             terminal.progress = Terminal.ScreenProgress.FAILED;
+            TakeDamage(1);
         }
 
-      
+        print(currentHealth);
         points = 0;
         
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        healthBar.SetHealth(currentHealth);
+
+        if(currentHealth == 0)
+        {
+            Launcher.instance.OpenGameOverMenu();
+            Player.instance.canwalk = false;
+            gameOver = true;
+        }
     }
 
 
