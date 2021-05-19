@@ -21,6 +21,8 @@ public class RunManager : MonoBehaviour
     public bool answersLoaded;
     public bool puzzleStarted = false;
     public GameObject loadingScreen;
+    public GameObject startTerminalText;
+    public GameObject result;
     public int points;
    
 
@@ -56,12 +58,16 @@ public class RunManager : MonoBehaviour
     public void OpenPuzzle()
     {
         puzzleUI.SetActive(true);
+        startTerminalText.SetActive(false);
         Cursor.visible = true;
     }
 
     public void ClosePuzzle()
     {
+        print("ssdf");
         puzzleUI.SetActive(false);
+        startTerminalText.SetActive(true);
+        result.SetActive(false);
         Cursor.visible = false;
         Player.instance.player.transform.position = startingPosition.position;
     }
@@ -75,8 +81,8 @@ public class RunManager : MonoBehaviour
     {
         if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
         {
-            //terminal.progress = Terminal.ScreenProgress.FINISHED;
-            Launcher.instance.OpenPuzzleResult();
+            terminal.progress = Terminal.ScreenProgress.FINISHED;
+            
         }
         else
         {
@@ -90,7 +96,9 @@ public class RunManager : MonoBehaviour
 
     public void ShowResult()
     {
+        //RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
         Launcher.instance.OpenPuzzleResult();
+        Cursor.visible = true;
     }
 
 
