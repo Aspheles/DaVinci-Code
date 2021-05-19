@@ -72,12 +72,17 @@ public class ApiController : MonoBehaviour
             case Request.LOADPUZZLESDATA:
                 LoadPuzzlesData(Data);
                 break;
-
             case Request.LOADPUZZLEQUESTIONS:
                 LoadPuzzleQuestions(Data);
                 break;
             case Request.LOADGAMEQUESTIONANSWERS:
                 LoadGameQuestionAnswers(Data);
+                break;
+            case Request.FINISHROOM:
+                FinishRoom(Data);
+                break;
+            case Request.GETFINISHEDPUZZLES:
+                GetFinishedPuzzles(Data);
                 break;
 
             default:
@@ -86,6 +91,33 @@ public class ApiController : MonoBehaviour
         }
     }
 
+    private void GetFinishedPuzzles(JSONNode Data)
+    {
+       
+        RunManager.instance.completedPuzzles = new List<CompletedPuzzle>();
+
+        for (int i = 0; i < Data.Count; i++)
+        {
+
+            int puzzleId = int.Parse(Data[i].AsObject["puzzleid"]);
+            int accountid = int.Parse(Data[i].AsObject["accountid"]);
+            int runid = int.Parse(Data[i].AsObject["runid"]);
+               
+
+            CompletedPuzzle puzzle = new CompletedPuzzle(puzzleId, accountid, runid);
+            RunManager.instance.completedPuzzles.Add(puzzle);
+
+        }
+
+        
+    }
+    private void FinishRoom(JSONNode Data)
+    {
+        if(Data[0].AsObject["status"] == "success")
+        {
+            Debug.Log("Run has been saved with puzzles in database");
+        }
+    }
     private void SaveImage()
     {
         print("Image has been saved");
@@ -172,13 +204,50 @@ public class ApiController : MonoBehaviour
     private void LoadPuzzlesData(JSONNode Data)
     {
         //Debug.Log(Data);
+        List<PuzzleData> fetchedPuzzles = new List<PuzzleData>();
+        List<PuzzleData> newPuzzles = new List<PuzzleData>();
 
-        //Checking if puzzle data has been received
-        for (int i = 0; i < Data.Count; i++)
+
+        if (RunManager.instance.puzzles.Count > 0)
         {
-            PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
-            RunManager.instance.puzzles.Add(Puzzle);
+
+            RunManager.instance.puzzles.Clear();
+            Debug.Log("Cleared all puzzles");
         }
+
+        if(RunManager.instance.completedPuzzles.Count > 0)
+        {
+            Debug.Log("Removing puzzles...");
+            for (int i = 0; i < Data.Count; i++)
+            {
+                PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
+                fetchedPuzzles.Add(Puzzle);
+            }
+
+            foreach(PuzzleData puzzle in fetchedPuzzles)
+            {
+                for(int i = 0; i < RunManager.instance.completedPuzzles.Count; i++)
+                {
+                    if (puzzle.id == RunManager.instance.completedPuzzles[i].puzzleid)
+                    {
+                        fetchedPuzzles.Remove(puzzle);
+                    }
+                }
+                
+            }
+            Debug.Log("Finished filtering puzzles");
+            RunManager.instance.puzzles = fetchedPuzzles;
+        }
+        else
+        {
+            
+            for (int i = 0; i < Data.Count; i++)
+            {
+                PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
+                RunManager.instance.puzzles.Add(Puzzle);
+            }
+        }
+        
         
     }
 
@@ -199,12 +268,9 @@ public class ApiController : MonoBehaviour
             RunManager.instance.terminal.questions.Add(_question);
 
         }
-        
-        if(RunManager.instance.terminal.answers.Count <= 0)
-        {
-            RunManager.instance.terminal.questionsLoaded = true;
-            RunManager.instance.terminal.GetAnswers();
-        }
+
+        RunManager.instance.terminal.questionsLoaded = true;
+        RunManager.instance.terminal.GetAnswers();
 
     }
 

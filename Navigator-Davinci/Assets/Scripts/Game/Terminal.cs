@@ -101,7 +101,9 @@ public class Terminal : MonoBehaviour
             puzzleLoaded = true;
         }*/
 
-        
+        RunManager.instance.randomizedPuzzles = new List<PuzzleData>();
+
+       
         foreach(PuzzleData puzzle in RunManager.instance.puzzles)
         {
             if (puzzle.difficulty == difficulty)
@@ -113,6 +115,7 @@ public class Terminal : MonoBehaviour
             }
         }
 
+    
         puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
       
            

@@ -117,6 +117,8 @@ public class Launcher : MonoBehaviour
 
     public void OpenGameOverMenu()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         MenuManager.instance.OpenMenu("gameover");
     }
 

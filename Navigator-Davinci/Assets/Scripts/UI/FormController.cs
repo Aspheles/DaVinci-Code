@@ -10,6 +10,20 @@ public class FormController : MonoBehaviour
    
 }
 
+[Serializable]
+public class CompletedPuzzle
+{
+    public int puzzleid;
+    public int accountid;
+    public int runid;
+
+    public CompletedPuzzle(int puzzleid, int accountid, int runid)
+    {
+        this.puzzleid = puzzleid;
+        this.accountid = accountid;
+        this.runid = runid;
+    }
+}
 
 
 [Serializable]

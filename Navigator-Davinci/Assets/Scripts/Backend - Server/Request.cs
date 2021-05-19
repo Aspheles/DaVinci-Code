@@ -25,6 +25,8 @@ public static class Request
         VERIFY = server + "/verification.php",
         LOADPUZZLESDATA = server + "/loadpuzzlesdata.php",
         LOADPUZZLEQUESTIONS = server + "/loadpuzzlequestions.php",
-        LOADGAMEQUESTIONANSWERS = server + "/loadgamequestionanswers.php";
+        LOADGAMEQUESTIONANSWERS = server + "/loadgamequestionanswers.php",
+        FINISHROOM = server + "/finishroom.php",
+        GETFINISHEDPUZZLES = server + "/getfinishedpuzzles.php";
 
 }

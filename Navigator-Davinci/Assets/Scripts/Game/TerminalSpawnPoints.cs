@@ -20,6 +20,7 @@ public class TerminalSpawnPoints : MonoBehaviour
 
     public void LoadTerminals()
     {
+      
         RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
         RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
 
@@ -44,8 +45,23 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.GetComponent<Terminal>().terminalNumber = i;
 
          
-            //Check puzzles if they don't match with others
-            terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+            //Load the puzzle in the terminal
+            if(Room.instance.roomNumber == 1)
+            {
+                terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+            }
+            else
+            {
+                //Now we have to check which puzzles has been done already from the database so it can be loaded in
+                //Fetch from api request
+
+                if(RunManager.instance.completedPuzzles.Count > 0)
+                {
+                    terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+                }
+                
+            }
+            
 
             //set questions to the correct terminal
             //RunManager.instance.SetPuzzleQuestions(terminalCopy.GetComponent<Terminal>());
@@ -214,6 +230,21 @@ public class TerminalSpawnPoints : MonoBehaviour
         for(int i = 0; i < amount; i++)
         {
             difficultyList.Add(difficulty);
+        }
+    }
+
+    public void ResetTerminals()
+    {
+        int terminalCount = GameObject.FindGameObjectsWithTag("Terminal").Length;
+
+        if(terminalCount > 0)
+        {
+            foreach(GameObject terminal in GameObject.FindGameObjectsWithTag("Terminal"))
+            {
+                Destroy(terminal);
+            }
+
+            GetDifficulty();
         }
     }
 

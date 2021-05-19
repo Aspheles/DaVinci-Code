@@ -10,7 +10,7 @@ public class Room : MonoBehaviour
     public string difficulty;
     public Time roomTime;
     public bool isCompleted;
-    public int roomNumber = 0;
+    public int roomNumber = 1;
 
     public List<Terminal> terminals;
     public bool terminalsLoaded = false;
@@ -27,6 +27,7 @@ public class Room : MonoBehaviour
 
         instance = this;
         difficulty = UserInfo.instance.selectedDifficulty;
+        roomNumber = 1;
     }
 
     private void Update()

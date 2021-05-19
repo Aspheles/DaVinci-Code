@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RunManager : MonoBehaviour
 {
@@ -26,7 +27,9 @@ public class RunManager : MonoBehaviour
     public int currentHealth;
     public HealthBar healthBar;
     public bool gameOver = false;
-
+    public int maxRoomNumber = 6;
+    public int CompletedTerminalsAmount;
+    public List<CompletedPuzzle> completedPuzzles;
 
     private void Awake()
     {
@@ -35,6 +38,7 @@ public class RunManager : MonoBehaviour
         maxHealth = 4;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        CompletedTerminalsAmount = 0;
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
         room = GameObject.Find("Room").GetComponent<Room>();
         LoadPuzzlesData();
@@ -43,19 +47,52 @@ public class RunManager : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (run == null)
         {
             Run.instance.CreateRun(run);
             run = Run.instance.GetRun();
         }
 
-        if (run != null && room.isCompleted == false && gameOver == false)
+        if (run != null && run.isCompleted == false && gameOver == false)
         {
+            healthBar.SetHealth(currentHealth);
             timer += Time.deltaTime;
             timerText.text = "Time: " + Mathf.Round(timer).ToString();
         }
+
+        //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
+
+        if (CompletedTerminalsAmount >= 1)
+        {
+            FinishRoom();
+            if (currentHealth < maxHealth) currentHealth++;
+            NextRoom();
+            
+            
+        }
+
+    }
+    
+
+    public void NextRoom()
+    {
+        GetFinishedPuzzles();
+
+        room.terminals.Clear();
+
+        //Reset Values
+        CompletedTerminalsAmount = 0;
+
+        LoadPuzzlesData();
+
+        TerminalSpawnPoints.instance.difficultyList.Clear();
       
+        //Remove interaction text
+        GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>().text = "";
+
+        //Reset terminals
+        TerminalSpawnPoints.instance.ResetTerminals();
     }
 
     public void OpenPuzzle()
@@ -78,9 +115,10 @@ public class RunManager : MonoBehaviour
 
     public void FinishPuzzle()
     {
-        if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
+        if (terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
         {
             terminal.progress = Terminal.ScreenProgress.FINISHED;
+            CompletedTerminalsAmount++;
         }
         else
         {
@@ -90,16 +128,15 @@ public class RunManager : MonoBehaviour
 
         print(currentHealth);
         points = 0;
-        
+
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
-        healthBar.SetHealth(currentHealth);
-
-        if(currentHealth == 0)
+       
+        if (currentHealth == 0)
         {
             Launcher.instance.OpenGameOverMenu();
             Player.instance.canwalk = false;
@@ -107,6 +144,51 @@ public class RunManager : MonoBehaviour
         }
     }
 
+
+    //Creating Run in the database
+
+
+    //Checking if user can go to next room and updating values
+    public void FinishRoom()
+    {
+        if (room.roomNumber <= maxRoomNumber)
+        {
+            room.roomNumber++;
+
+            //Getting the puzzles
+            List<PuzzleData> puzzles = randomizedPuzzles;
+
+            foreach(PuzzleData puzzle in puzzles)
+            {
+                List<IMultipartFormSection> form = new List<IMultipartFormSection>
+                {
+                    new MultipartFormDataSection("runid", room.id.ToString()),
+                    new MultipartFormDataSection("puzzleid", puzzle.id.ToString()),
+                    new MultipartFormDataSection("accountid", UserInfo.instance.id.ToString())
+
+                };
+
+                ApiHandler.instance.CallApiRequest("post", form, Request.FINISHROOM);
+            }
+
+            CompletedTerminalsAmount = 0;
+        }
+        else
+        {
+            //Completed all the rooms
+        }
+
+    }
+
+    public void GetFinishedPuzzles()
+    {
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("accountid", UserInfo.instance.id.ToString())
+        };
+
+        ApiHandler.instance.CallApiRequest("post", form, Request.GETFINISHEDPUZZLES);
+    }
 
     public static List<T> Shuffle<T>(List<T> _list)
     {
