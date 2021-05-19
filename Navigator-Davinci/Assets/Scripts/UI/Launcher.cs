@@ -115,6 +115,10 @@ public class Launcher : MonoBehaviour
         Portal.instance.CancelNow();
     }
 
+    public void OpenPuzzleResult()
+    {
+        MenuManager.instance.OpenMenu("puzzleresult");
+    }
     public void StartGame()
     {
         if(UserInfo.instance.email != null)

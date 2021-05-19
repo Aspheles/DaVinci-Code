@@ -87,6 +87,11 @@ public class RunManager : MonoBehaviour
         
     }
 
+    public void ShowResult()
+    {
+        Launcher.instance.OpenPuzzleResult();
+    }
+
 
     public static List<T> Shuffle<T>(List<T> _list)
     {
