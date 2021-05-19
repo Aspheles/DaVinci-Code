@@ -75,7 +75,8 @@ public class RunManager : MonoBehaviour
     {
         if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
         {
-            terminal.progress = Terminal.ScreenProgress.FINISHED;
+            //terminal.progress = Terminal.ScreenProgress.FINISHED;
+            Launcher.instance.OpenPuzzleResult();
         }
         else
         {
