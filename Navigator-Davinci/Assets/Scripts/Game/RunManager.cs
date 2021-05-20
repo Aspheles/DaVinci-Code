@@ -23,6 +23,7 @@ public class RunManager : MonoBehaviour
     public GameObject loadingScreen;
     public GameObject startTerminalText;
     public GameObject result;
+    public GameObject mark;
     public int points;
    
 
@@ -82,11 +83,13 @@ public class RunManager : MonoBehaviour
         if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
         {
             terminal.progress = Terminal.ScreenProgress.FINISHED;
+            ClosePuzzle();
             
         }
         else
         {
             terminal.progress = Terminal.ScreenProgress.FAILED;
+            ClosePuzzle();
         }
 
       
@@ -96,8 +99,11 @@ public class RunManager : MonoBehaviour
 
     public void ShowResult()
     {
-        //RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
+        RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
         Launcher.instance.OpenPuzzleResult();
+        float nr = (points / terminal.questions.Count) * 10;
+        print(nr);
+        this.mark.gameObject.GetComponent<TMP_Text>().text = nr.ToString();
         Cursor.visible = true;
     }
 
