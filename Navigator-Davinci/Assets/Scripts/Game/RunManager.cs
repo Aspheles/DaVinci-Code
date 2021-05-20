@@ -63,13 +63,23 @@ public class RunManager : MonoBehaviour
 
         //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
 
-        if (CompletedTerminalsAmount >= 1)
+        if (CompletedTerminalsAmount >= Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) + 1 && room.isCompleted == true)
         {
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
-            NextRoom();
             
             
+            
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            CompletedTerminalsAmount = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            currentHealth = maxHealth;
         }
 
     }
@@ -77,9 +87,20 @@ public class RunManager : MonoBehaviour
 
     public void NextRoom()
     {
-        GetFinishedPuzzles();
+
+        if(room.difficulty == "Easy" && room.roomNumber > 6)
+        {
+            room.difficulty = "Medium";
+            room.roomNumber = 1;
+        }else if(room.difficulty == "Medium" && room.roomNumber > 6)
+        {
+            room.difficulty = "Hard";
+            room.roomNumber = 1;
+        }
 
         room.terminals.Clear();
+
+        GetFinishedPuzzles();
 
         //Reset Values
         CompletedTerminalsAmount = 0;
@@ -91,8 +112,7 @@ public class RunManager : MonoBehaviour
         //Remove interaction text
         GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>().text = "";
 
-        //Reset terminals
-        TerminalSpawnPoints.instance.ResetTerminals();
+        
     }
 
     public void OpenPuzzle()
@@ -126,7 +146,6 @@ public class RunManager : MonoBehaviour
             TakeDamage(1);
         }
 
-        print(currentHealth);
         points = 0;
 
     }
@@ -145,7 +164,24 @@ public class RunManager : MonoBehaviour
     }
 
 
-    //Creating Run in the database
+   public void FilterPuzzles()
+    {
+        if(completedPuzzles.Count > 0 && puzzles.Count > 0)
+        {
+            foreach(CompletedPuzzle completedPuzzle in completedPuzzles)
+            {
+                for(int i = 0; i < puzzles.Count; i++)
+                {
+                    if(completedPuzzle.puzzleid == puzzles[i].id)
+                    {
+                        puzzles.Remove(puzzles[i]);
+                    }
+                }
+            }
+
+            Debug.Log("Finished filtering puzzles");
+        }
+    }
 
 
     //Checking if user can go to next room and updating values
@@ -155,10 +191,8 @@ public class RunManager : MonoBehaviour
         {
             room.roomNumber++;
 
-            //Getting the puzzles
-            List<PuzzleData> puzzles = randomizedPuzzles;
-
-            foreach(PuzzleData puzzle in puzzles)
+          
+            foreach(PuzzleData puzzle in randomizedPuzzles)
             {
                 List<IMultipartFormSection> form = new List<IMultipartFormSection>
                 {

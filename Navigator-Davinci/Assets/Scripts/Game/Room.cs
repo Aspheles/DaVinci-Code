@@ -17,6 +17,7 @@ public class Room : MonoBehaviour
 
     public static Room instance;
     public TMP_Text roomText;
+    public TMP_Text roomDifficulty;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class Room : MonoBehaviour
     private void Update()
     {
         roomText.text = "Room: " + roomNumber.ToString();
+        roomDifficulty.text = "Difficulty: " + difficulty;
+
         if(!terminalsLoaded)
         {
             TerminalSpawnPoints.instance.GetDifficulty();

@@ -21,9 +21,6 @@ public class TerminalSpawnPoints : MonoBehaviour
     public void LoadTerminals()
     {
       
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
-
         if(GameObject.FindGameObjectsWithTag("Terminal").Length > 0)
         {
             for(int i = 0; i < spawnpoints.Count; i++)
@@ -43,21 +40,24 @@ public class TerminalSpawnPoints : MonoBehaviour
 
             terminalCopy.GetComponent<Terminal>().progress = Terminal.ScreenProgress.READY;
             terminalCopy.GetComponent<Terminal>().terminalNumber = i;
+            terminalCopy.GetComponent<Terminal>().difficulty = difficultyList[i];
 
          
             //Load the puzzle in the terminal
             if(Room.instance.roomNumber == 1)
             {
-                terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+                terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, false);
             }
             else
             {
                 //Now we have to check which puzzles has been done already from the database so it can be loaded in
                 //Fetch from api request
 
+                //Debug.Log("Completed puzzles count: " + RunManager.instance.completedPuzzles.Count);
+
                 if(RunManager.instance.completedPuzzles.Count > 0)
                 {
-                    terminalCopy.GetComponent<Terminal>().LoadPuzzle(difficultyList[i]);
+                    terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, true);
                 }
                 
             }
@@ -74,7 +74,7 @@ public class TerminalSpawnPoints : MonoBehaviour
 
     public void GetDifficulty()
     {
-        if (Room.instance.roomNumber <= 1 || UserInfo.instance.selectedDifficulty == "Hard")
+        if (Room.instance.roomNumber <= 1 || UserInfo.instance.selectedDifficulty == "Hard" || Room.instance.difficulty == "Hard")
         {
             AssignDifficulty(Room.instance.difficulty, 6);
         }
@@ -222,7 +222,40 @@ public class TerminalSpawnPoints : MonoBehaviour
                     break;
             }
         }
+        RunManager.instance.randomizedPuzzles = new List<PuzzleData>();
         LoadTerminals();
+    }
+
+    public PuzzleData LoadPuzzles(string difficulty, bool hasCompletedPuzzles)
+    {
+
+        if (hasCompletedPuzzles)
+        {
+            Debug.Log("Starting to filter puzzles");
+            //Remove puzzles that the user already completed
+            RunManager.instance.FilterPuzzles();
+        }
+
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
+        
+        foreach(PuzzleData puzzle in RunManager.instance.puzzles)
+        {
+            if(puzzle.difficulty == difficulty)
+            {
+                if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))
+                {
+                    RunManager.instance.randomizedPuzzles.Add(puzzle);
+                    return puzzle;
+                }
+                
+            }
+        }
+
+        return null;
+
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
+
+
     }
 
     public void AssignDifficulty(string difficulty, int amount)

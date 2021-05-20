@@ -14,6 +14,7 @@ public class Terminal : MonoBehaviour
     public ScreenProgress progress;
     public Material terminalmat;
     public PuzzleData puzzle;
+    public string difficulty;
 
     public List<Question> questions;
     public List<Answer> answers;
@@ -88,9 +89,9 @@ public class Terminal : MonoBehaviour
     }
 
     //Selects a puzzle from the loaded puzzles
-    public void LoadPuzzle(string difficulty)
+    public void LoadPuzzle(string difficulty, bool hasCompletedPuzzles)
     {
-        print("Puzzles loaded Count: " + RunManager.instance.puzzles.Count);
+        //print("Puzzles loaded Count: " + RunManager.instance.puzzles.Count);
 
         /*
         Debug.Log(difficulty);
@@ -101,21 +102,10 @@ public class Terminal : MonoBehaviour
             puzzleLoaded = true;
         }*/
 
-        RunManager.instance.randomizedPuzzles = new List<PuzzleData>();
-
        
-        foreach(PuzzleData puzzle in RunManager.instance.puzzles)
-        {
-            if (puzzle.difficulty == difficulty)
-            {
-                if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))
-                {
-                    RunManager.instance.randomizedPuzzles.Add(puzzle);
-                }
-            }
-        }
 
-    
+
+        //RunManager.instance.randomizedPuzzles = selectedPuzzles;
         puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
       
            
