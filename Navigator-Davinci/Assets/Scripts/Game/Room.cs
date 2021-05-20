@@ -52,8 +52,8 @@ public class Room : MonoBehaviour
             if (terminal.finished) count++;
         }
 
-        if (terminals.Count == count) isCompleted = true;
-        else isCompleted = false;
-       
+        if (count == 6) RunManager.instance.roomCompleted = true;
+        else RunManager.instance.roomCompleted = false;
+
     }
 }

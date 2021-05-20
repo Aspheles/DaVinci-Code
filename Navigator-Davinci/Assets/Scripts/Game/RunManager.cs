@@ -63,7 +63,7 @@ public class RunManager : MonoBehaviour
 
         //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
 
-        if (CompletedTerminalsAmount >= Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) + 1 && room.isCompleted == true)
+        if (CompletedTerminalsAmount >= Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) + 1 && roomCompleted == true)
         {
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
