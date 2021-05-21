@@ -89,7 +89,7 @@ public class Terminal : MonoBehaviour
     }
 
     //Selects a puzzle from the loaded puzzles
-    public void LoadPuzzle(string difficulty, bool hasCompletedPuzzles)
+    public void LoadPuzzle(bool hasCompletedPuzzles)
     {
         //print("Puzzles loaded Count: " + RunManager.instance.puzzles.Count);
 
@@ -102,11 +102,26 @@ public class Terminal : MonoBehaviour
             puzzleLoaded = true;
         }*/
 
+        
+
        
+
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
+
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
+
+        if (hasCompletedPuzzles)
+        {
+            Debug.Log("Starting to filter puzzles");
+            //Remove puzzles that the user already completed
+            RunManager.instance.FilterPuzzles();
+        }
 
 
         //RunManager.instance.randomizedPuzzles = selectedPuzzles;
-        puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
+        if (RunManager.instance.randomizedPuzzles[terminalNumber] != null)
+            puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
+        else Debug.Log("Puzzle in terminal: " + terminalNumber + " not found");
       
            
             

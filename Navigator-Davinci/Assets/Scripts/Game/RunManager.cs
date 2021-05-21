@@ -31,6 +31,7 @@ public class RunManager : MonoBehaviour
     public int CompletedTerminalsAmount;
     public List<CompletedPuzzle> completedPuzzles;
 
+
     private void Awake()
     {
         instance = this;
@@ -63,7 +64,7 @@ public class RunManager : MonoBehaviour
 
         //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
 
-        if (CompletedTerminalsAmount >= Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) + 1 && roomCompleted == true)
+        if (CompletedTerminalsAmount >= 1)
         {
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
@@ -74,13 +75,15 @@ public class RunManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.N))
         {
-            CompletedTerminalsAmount = 1;
+            CompletedTerminalsAmount = 4;
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
             currentHealth = maxHealth;
         }
+
+        
 
     }
     
@@ -166,15 +169,15 @@ public class RunManager : MonoBehaviour
 
    public void FilterPuzzles()
     {
-        if(completedPuzzles.Count > 0 && puzzles.Count > 0)
+        if(completedPuzzles.Count > 0 && randomizedPuzzles.Count > 0)
         {
             foreach(CompletedPuzzle completedPuzzle in completedPuzzles)
             {
-                for(int i = 0; i < puzzles.Count; i++)
+                for(int i = 0; i < randomizedPuzzles.Count; i++)
                 {
-                    if(completedPuzzle.puzzleid == puzzles[i].id)
+                    if(completedPuzzle.puzzleid == randomizedPuzzles[i].id)
                     {
-                        puzzles.Remove(puzzles[i]);
+                        randomizedPuzzles.Remove(puzzles[i]);
                     }
                 }
             }

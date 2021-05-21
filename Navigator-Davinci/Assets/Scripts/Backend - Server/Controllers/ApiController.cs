@@ -226,8 +226,7 @@ public class ApiController : MonoBehaviour
             PuzzleData Puzzle = new PuzzleData(Data[i].AsObject["id"], Data[i].AsObject["name"], Data[i].AsObject["difficulty"], Data[i].AsObject["description"], Data[i].AsObject["creator"]);
             RunManager.instance.puzzles.Add(Puzzle);
         }
-        
-        
+
         
     }
 

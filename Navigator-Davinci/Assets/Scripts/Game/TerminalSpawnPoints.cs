@@ -42,11 +42,17 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.GetComponent<Terminal>().terminalNumber = i;
             terminalCopy.GetComponent<Terminal>().difficulty = difficultyList[i];
 
-         
+
+            LoadPuzzles(difficultyList[i]);
+
             //Load the puzzle in the terminal
             if(Room.instance.roomNumber == 1)
             {
-                terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, false);
+                //needs to be changed
+                //terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, false);
+
+                //LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, false);
+                terminalCopy.GetComponent<Terminal>().LoadPuzzle(false);
             }
             else
             {
@@ -57,7 +63,8 @@ public class TerminalSpawnPoints : MonoBehaviour
 
                 if(RunManager.instance.completedPuzzles.Count > 0)
                 {
-                    terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, true);
+                    //LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, true);
+                    terminalCopy.GetComponent<Terminal>().LoadPuzzle(true);
                 }
                 
             }
@@ -80,6 +87,7 @@ public class TerminalSpawnPoints : MonoBehaviour
         }
         else
         {
+            difficultyList = new List<string>();
 
             switch (Room.instance.roomNumber)
             {
@@ -226,35 +234,16 @@ public class TerminalSpawnPoints : MonoBehaviour
         LoadTerminals();
     }
 
-    public PuzzleData LoadPuzzles(string difficulty, bool hasCompletedPuzzles)
+    public void LoadPuzzles(string difficulty)
     {
 
-        if (hasCompletedPuzzles)
+        foreach (PuzzleData puzzle in RunManager.instance.puzzles)
         {
-            Debug.Log("Starting to filter puzzles");
-            //Remove puzzles that the user already completed
-            RunManager.instance.FilterPuzzles();
-        }
-
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
-        
-        foreach(PuzzleData puzzle in RunManager.instance.puzzles)
-        {
-            if(puzzle.difficulty == difficulty)
+            if (difficulty == puzzle.difficulty)
             {
-                if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))
-                {
-                    RunManager.instance.randomizedPuzzles.Add(puzzle);
-                    return puzzle;
-                }
-                
+                RunManager.instance.randomizedPuzzles.Add(puzzle);
             }
         }
-
-        return null;
-
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
-
 
     }
 
