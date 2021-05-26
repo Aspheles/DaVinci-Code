@@ -97,18 +97,6 @@ public class RunManager : MonoBehaviour
         
     }
 
-    public void ShowResult()
-    {
-        //RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
-        Launcher.instance.OpenPuzzleResult();
-        float nr = (points / terminal.questions.Count) * 10;
-        print("correct "+terminal.answeredCorrect);
-        print("total "+ terminal.questions.Count);
-        print("cijfer "+ (terminal.answeredCorrect / terminal.questions.Count) * 10);
-        this.mark.gameObject.GetComponent<TMP_Text>().text = nr.ToString();
-        Cursor.visible = true;
-    }
-
 
     public static List<T> Shuffle<T>(List<T> _list)
     {
