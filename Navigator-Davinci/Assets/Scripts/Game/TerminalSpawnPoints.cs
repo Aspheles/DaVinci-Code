@@ -20,8 +20,10 @@ public class TerminalSpawnPoints : MonoBehaviour
 
     public void LoadTerminals()
     {
-      
-        if(GameObject.FindGameObjectsWithTag("Terminal").Length > 0)
+
+        RunManager.instance.randomizedPuzzles = new List<PuzzleData>();
+
+        if (GameObject.FindGameObjectsWithTag("Terminal").Length > 0)
         {
             for(int i = 0; i < spawnpoints.Count; i++)
             {
@@ -30,7 +32,7 @@ public class TerminalSpawnPoints : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < spawnpoints.Count; i++)
+        for (int i = 0; i < spawnpoints.Count; i++)
         {
             //Terminal terminalCopy = terminalObject.GetComponent<Terminal>();
             GameObject terminalCopy = Instantiate(terminalObject, spawnpoints[i].transform.position, Quaternion.identity);
@@ -42,11 +44,11 @@ public class TerminalSpawnPoints : MonoBehaviour
             terminalCopy.GetComponent<Terminal>().terminalNumber = i;
             terminalCopy.GetComponent<Terminal>().difficulty = difficultyList[i];
 
-
             LoadPuzzles(difficultyList[i]);
 
+
             //Load the puzzle in the terminal
-            if(Room.instance.roomNumber == 1)
+            if (Room.instance.roomNumber == 1)
             {
                 //needs to be changed
                 //terminalCopy.GetComponent<Terminal>().puzzle = LoadPuzzles(terminalCopy.GetComponent<Terminal>().difficulty, false);
@@ -230,20 +232,27 @@ public class TerminalSpawnPoints : MonoBehaviour
                     break;
             }
         }
-        RunManager.instance.randomizedPuzzles = new List<PuzzleData>();
         LoadTerminals();
     }
 
     public void LoadPuzzles(string difficulty)
     {
-
+        Debug.Log("Loading puzzle");
+       
         foreach (PuzzleData puzzle in RunManager.instance.puzzles)
         {
-            if (difficulty == puzzle.difficulty)
+            if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))
             {
-                RunManager.instance.randomizedPuzzles.Add(puzzle);
+                if (difficulty == puzzle.difficulty)
+                {
+                    RunManager.instance.randomizedPuzzles.Add(puzzle);
+                    return;
+                }
             }
+
         }
+        
+        
 
     }
 
