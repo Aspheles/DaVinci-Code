@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Launcher : MonoBehaviour
 {
@@ -136,5 +137,19 @@ public class Launcher : MonoBehaviour
     {
         SceneManager.LoadScene(2);
         //DontDestroyOnLoad(UserInfo.instance);
+    }
+
+    public void OpenGamePuzzle()
+    {
+        MenuManager.instance.OpenMenu("gamepuzzle");
+        Cursor.visible = true;
+    }
+
+    public void OpenResult()
+    {
+        GameObject.Find("StartTerminal").GetComponent<TextMeshProUGUI>().text = "";
+        GameCamera.instance.canMove = false;
+        Player.instance.canwalk = false;
+        MenuManager.instance.OpenMenu("result");
     }
 }

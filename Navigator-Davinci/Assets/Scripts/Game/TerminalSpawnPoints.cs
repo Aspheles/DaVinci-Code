@@ -238,7 +238,8 @@ public class TerminalSpawnPoints : MonoBehaviour
     public void LoadPuzzles(string difficulty)
     {
         Debug.Log("Loading puzzle");
-       
+        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
+
         foreach (PuzzleData puzzle in RunManager.instance.puzzles)
         {
             if (!RunManager.instance.randomizedPuzzles.Contains(puzzle))

@@ -31,7 +31,8 @@ public class TriggerPuzzlePad : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     //mat.color = Color.white;
-                    RunManager.instance.OpenPuzzle();
+                    Launcher.instance.OpenGamePuzzle();
+                    //RunManager.instance.OpenPuzzle();
                     terminal.progress = Terminal.ScreenProgress.PROGRESS;
                     terminal.GetQuestions();
                     RunManager.instance.loadingScreen.SetActive(true);

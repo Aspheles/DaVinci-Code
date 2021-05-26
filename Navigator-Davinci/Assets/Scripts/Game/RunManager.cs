@@ -32,6 +32,7 @@ public class RunManager : MonoBehaviour
     public int CompletedTerminalsAmount;
     public List<CompletedPuzzle> completedPuzzles;
     public List<PuzzleData> completed;
+    public Result result;
 
 
     private void Awake()
@@ -66,7 +67,7 @@ public class RunManager : MonoBehaviour
 
         //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
 
-        if (CompletedTerminalsAmount >= 1)
+        if (CompletedTerminalsAmount >= 4)
         {
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
@@ -85,7 +86,13 @@ public class RunManager : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        
+        if(currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Launcher.instance.OpenGameOverMenu();
+            Player.instance.canwalk = false;
+            gameOver = true;
+        }
 
     }
     
@@ -129,8 +136,7 @@ public class RunManager : MonoBehaviour
     public void ClosePuzzle()
     {
         puzzleUI.SetActive(false);
-        Cursor.visible = false;
-        Player.instance.player.transform.position = startingPosition.position;
+        
     }
 
     public void LoadPuzzlesData()
@@ -151,6 +157,9 @@ public class RunManager : MonoBehaviour
             TakeDamage(1);
         }
 
+        Launcher.instance.OpenResult();
+        result.ShowResult(terminal.questions.Count, terminal.answeredCorrect);
+
         points = 0;
 
     }
@@ -162,6 +171,7 @@ public class RunManager : MonoBehaviour
        
         if (currentHealth == 0)
         {
+
             Launcher.instance.OpenGameOverMenu();
             Player.instance.canwalk = false;
             gameOver = true;

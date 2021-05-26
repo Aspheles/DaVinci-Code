@@ -17,10 +17,13 @@ public class GameCamera : MonoBehaviour
     public float distance;
     Vector3 dollyDir;
     float maxDistance;
-
+    public static GameCamera instance;
+    public bool canMove;
 
     void Start()
     {
+        instance = this;
+        canMove = true;
         UnityEngine.Cursor.visible = false;
         //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         rotation = pivotPoint.transform.eulerAngles;
@@ -37,19 +40,23 @@ public class GameCamera : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey("="))
+        if (canMove)
         {
-            Zoom(0.05f);
+            if (Input.GetKey("="))
+            {
+                Zoom(0.05f);
+            }
+
+            if (Input.GetKey("-"))
+            {
+                Zoom(-0.05f);
+            }
+
+
+            Move();
+            Collision();
         }
-
-        if (Input.GetKey("-"))
-        {
-            Zoom(-0.05f);
-        }
-
-
-        Move();
-        Collision();
+        
     }
 
     void Move()
