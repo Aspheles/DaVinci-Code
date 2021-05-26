@@ -8,7 +8,8 @@ public class Puzzle : MonoBehaviour
     public GameObject puzzleObject;
     public int id;
     public TMP_Text name;
-    public string difficulty;
+    public TMP_Text difficulty;
+    //public string difficulty;
     public string creator;
     public string description;
     public static Puzzle instance;
@@ -17,12 +18,13 @@ public class Puzzle : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        
     }
 
     public void Edit()
     {
         PuzzleData Puzzle = PuzzleOverview.instance.puzzles.Find((x) => x.name == name.text);
-        //Debug.Log(Question.question);
+
         if (Puzzle != null)
         {
             Session.instance.puzzle = Puzzle;

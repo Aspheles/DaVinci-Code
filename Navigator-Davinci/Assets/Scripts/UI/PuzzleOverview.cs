@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 
 
@@ -14,6 +15,12 @@ public class PuzzleOverview : MonoBehaviour
     public static PuzzleOverview instance;
     public List<PuzzleData> puzzles;
     public Puzzle selectedPuzzle;
+    public TMP_Dropdown difficultyDropdown;
+    public TMP_InputField searchbar;
+    public TMP_Dropdown filterDropdown;
+
+    public GameObject difficultyPanel;
+    public GameObject namePanel;
 
     [Header("Detail page")]
     [SerializeField] TMP_Text puzzleName;
@@ -41,12 +48,26 @@ public class PuzzleOverview : MonoBehaviour
         {
             message.text = Session.instance.ErrorHandling();
         }
+
+        if (filterDropdown.options[filterDropdown.value].text == "Sort by Name")
+        {
+            namePanel.SetActive(true);
+            difficultyPanel.SetActive(false);
+        }else{
+            namePanel.SetActive(false);
+            difficultyPanel.SetActive(true);
+
+            //Puzzles need to be filtered
+            LoadPuzzles(true);
+        }
+
+
     }
 
     /// <summary>
     /// Loads all the puzzles.
     /// </summary>
-    public void LoadPuzzles()
+    public void LoadPuzzles(bool hasDifficulty=false)
     {
         //puzzles = new List<PuzzleData>();
 
@@ -57,18 +78,52 @@ public class PuzzleOverview : MonoBehaviour
 
         if (puzzles.Count > 0 && puzzles != null)
         {
-            foreach(PuzzleData puzzle in puzzles)
+
+            if (hasDifficulty)
             {
-                GameObject puzzleCopyObject = Instantiate(puzzleObject, container.position, Quaternion.identity);
-                puzzleCopyObject.transform.SetParent(container);
-                puzzleCopyObject.GetComponent<Puzzle>().id = puzzle.id;
-                puzzleCopyObject.GetComponent<Puzzle>().name.text = puzzle.name;
-                puzzleCopyObject.GetComponent<Puzzle>().description = puzzle.description;
-                puzzleCopyObject.GetComponent<Puzzle>().difficulty = puzzle.difficulty;
-                puzzleCopyObject.GetComponent<Puzzle>().creator = puzzle.creator;
+                foreach (PuzzleData puzzle in puzzles)
+                {
+                    if (puzzle.difficulty == difficultyDropdown.options[difficultyDropdown.value].text)
+                    {
+                        GameObject puzzleCopyObject = Instantiate(puzzleObject, container.position, Quaternion.identity);
+                        puzzleCopyObject.transform.SetParent(container);
+                        puzzleCopyObject.GetComponent<Puzzle>().id = puzzle.id;
+                        puzzleCopyObject.GetComponent<Puzzle>().name.text = puzzle.name;
+                        puzzleCopyObject.GetComponent<Puzzle>().description = puzzle.description;
+                        puzzleCopyObject.GetComponent<Puzzle>().difficulty.text = puzzle.difficulty;
+                        puzzleCopyObject.GetComponent<Puzzle>().creator = puzzle.creator;
+                    }
+
+                }
             }
+            else
+            {
+                foreach (PuzzleData puzzle in puzzles)
+                {
+                  
+                    GameObject puzzleCopyObject = Instantiate(puzzleObject, container.position, Quaternion.identity);
+                    puzzleCopyObject.transform.SetParent(container);
+                    puzzleCopyObject.GetComponent<Puzzle>().id = puzzle.id;
+                    puzzleCopyObject.GetComponent<Puzzle>().name.text = puzzle.name;
+                    puzzleCopyObject.GetComponent<Puzzle>().description = puzzle.description;
+                    puzzleCopyObject.GetComponent<Puzzle>().difficulty.text = puzzle.difficulty;
+                    puzzleCopyObject.GetComponent<Puzzle>().creator = puzzle.creator;
+                    
+
+                }
+            }
+           
+
+            
         }
     }
+
+    public void OrderPuzzles()
+    {
+        puzzles = puzzles.OrderBy(x => x.name).ToList();
+
+    }
+
     public void Open()
     {
         
@@ -99,7 +154,7 @@ public class PuzzleOverview : MonoBehaviour
             editPage.SetActive(false);
 
             puzzleName.text = puzzleinfo.name.text;
-            puzzleDifficulty.text = "Difficulty: " + puzzleinfo.difficulty;
+            puzzleDifficulty.text = "Difficulty: " + puzzleinfo.difficulty.text;
             puzzleCreator.text = "Created by: " + puzzleinfo.creator;
             puzzleDescription.text = puzzleinfo.description;
         }
