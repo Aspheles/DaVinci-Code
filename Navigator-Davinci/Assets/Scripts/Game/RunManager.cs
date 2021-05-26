@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class RunManager : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class RunManager : MonoBehaviour
     public int maxRoomNumber = 6;
     public int CompletedTerminalsAmount;
     public List<CompletedPuzzle> completedPuzzles;
+    public List<PuzzleData> completed;
+
 
     private void Awake()
     {
@@ -63,7 +66,7 @@ public class RunManager : MonoBehaviour
 
         //Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) +1 && room.isCompleted == true
 
-        if (CompletedTerminalsAmount >= Mathf.Round(TerminalSpawnPoints.instance.spawnpoints.Count / 2) + 1 && roomCompleted == true)
+        if (CompletedTerminalsAmount >= 1)
         {
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
@@ -74,13 +77,15 @@ public class RunManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.N))
         {
-            CompletedTerminalsAmount = 1;
+            CompletedTerminalsAmount = 4;
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
             currentHealth = maxHealth;
         }
+
+        
 
     }
     
@@ -101,11 +106,11 @@ public class RunManager : MonoBehaviour
         room.terminals.Clear();
 
         GetFinishedPuzzles();
-
+        
         //Reset Values
         CompletedTerminalsAmount = 0;
 
-        LoadPuzzlesData();
+        //LoadPuzzlesData();
 
         TerminalSpawnPoints.instance.difficultyList.Clear();
       
@@ -166,21 +171,35 @@ public class RunManager : MonoBehaviour
 
    public void FilterPuzzles()
     {
-        if(completedPuzzles.Count > 0 && puzzles.Count > 0)
+        RunManager.instance.completed = new List<PuzzleData>();
+
+        foreach (PuzzleData puzzle in RunManager.instance.puzzles)
         {
-            foreach(CompletedPuzzle completedPuzzle in completedPuzzles)
+            for (int i = 0; i < RunManager.instance.completedPuzzles.Count; i++)
             {
-                for(int i = 0; i < puzzles.Count; i++)
+                if (puzzle.id == RunManager.instance.completedPuzzles[i].puzzleid)
                 {
-                    if(completedPuzzle.puzzleid == puzzles[i].id)
-                    {
-                        puzzles.Remove(puzzles[i]);
-                    }
+                    RunManager.instance.completed.Add(puzzle);
+                }
+            }
+        }
+
+        if (completed.Count > 0)
+        { 
+            for (int i = 0; i < completed.Count; i++)
+            {
+                if (puzzles.Contains(completed[i]))
+                {
+                    puzzles.Remove(completed[i]);
                 }
             }
 
             Debug.Log("Finished filtering puzzles");
         }
+       
+
+
+
     }
 
 
