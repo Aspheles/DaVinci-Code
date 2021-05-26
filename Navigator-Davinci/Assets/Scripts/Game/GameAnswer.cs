@@ -15,6 +15,7 @@ public class GameAnswer : MonoBehaviour
 
         if (RunManager.instance.terminal.questionNumber >= RunManager.instance.terminal.questions.Count -1)
         {
+            RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
             RunManager.instance.ShowResult();
         }
         else

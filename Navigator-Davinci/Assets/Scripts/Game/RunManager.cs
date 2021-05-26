@@ -83,6 +83,7 @@ public class RunManager : MonoBehaviour
         if(terminal.answeredCorrect > Mathf.Round(terminal.questions.Count / 2))
         {
             terminal.progress = Terminal.ScreenProgress.FINISHED;
+           
             ClosePuzzle();
             
         }
@@ -92,17 +93,18 @@ public class RunManager : MonoBehaviour
             ClosePuzzle();
         }
 
-      
         points = 0;
         
     }
 
     public void ShowResult()
     {
-        RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
+        //RunManager.instance.terminal.answeredCorrect = RunManager.instance.points;
         Launcher.instance.OpenPuzzleResult();
         float nr = (points / terminal.questions.Count) * 10;
-        print(nr);
+        print("correct "+terminal.answeredCorrect);
+        print("total "+ terminal.questions.Count);
+        print("cijfer "+ (terminal.answeredCorrect / terminal.questions.Count) * 10);
         this.mark.gameObject.GetComponent<TMP_Text>().text = nr.ToString();
         Cursor.visible = true;
     }
