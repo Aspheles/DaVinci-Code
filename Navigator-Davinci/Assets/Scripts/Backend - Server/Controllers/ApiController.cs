@@ -109,6 +109,8 @@ public class ApiController : MonoBehaviour
 
         }
 
+        
+
         //Reset terminals
         TerminalSpawnPoints.instance.ResetTerminals();
 

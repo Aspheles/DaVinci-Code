@@ -102,14 +102,6 @@ public class Terminal : MonoBehaviour
             puzzleLoaded = true;
         }*/
 
-        
-
-       
-
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.puzzles);
-
-        RunManager.Shuffle<PuzzleData>(RunManager.instance.randomizedPuzzles);
-
         if (hasCompletedPuzzles)
         {
             Debug.Log("Starting to filter puzzles");
@@ -117,17 +109,10 @@ public class Terminal : MonoBehaviour
             RunManager.instance.FilterPuzzles();
         }
 
-
         //RunManager.instance.randomizedPuzzles = selectedPuzzles;
         if (RunManager.instance.randomizedPuzzles[terminalNumber] != null)
             puzzle = RunManager.instance.randomizedPuzzles[terminalNumber];
-        else Debug.Log("Puzzle in terminal: " + terminalNumber + " not found");
-      
-           
-            
-            //Check if puzzle gets loaded in EXE
-            
-        
+        else Debug.Log("Puzzle in terminal: " + terminalNumber + " not found");        
     }
 
     //Makes a api request to receive question from the current puzzle loaded in terminal

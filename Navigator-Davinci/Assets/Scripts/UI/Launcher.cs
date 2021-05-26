@@ -115,10 +115,13 @@ public class Launcher : MonoBehaviour
         Portal.instance.CancelNow();
     }
 
-    public void OpenPuzzleResult()
+    public void OpenGameOverMenu()
     {
-        MenuManager.instance.OpenMenu("puzzleresult");
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        MenuManager.instance.OpenMenu("gameover");
     }
+
     public void StartGame()
     {
         if(UserInfo.instance.email != null)
