@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class RunManager : MonoBehaviour
 {
@@ -31,7 +30,6 @@ public class RunManager : MonoBehaviour
     public int maxRoomNumber = 6;
     public int CompletedTerminalsAmount;
     public List<CompletedPuzzle> completedPuzzles;
-    public List<PuzzleData> completed;
 
 
     private void Awake()
@@ -106,11 +104,11 @@ public class RunManager : MonoBehaviour
         room.terminals.Clear();
 
         GetFinishedPuzzles();
-        
+
         //Reset Values
         CompletedTerminalsAmount = 0;
 
-        //LoadPuzzlesData();
+        LoadPuzzlesData();
 
         TerminalSpawnPoints.instance.difficultyList.Clear();
       
@@ -171,35 +169,21 @@ public class RunManager : MonoBehaviour
 
    public void FilterPuzzles()
     {
-        RunManager.instance.completed = new List<PuzzleData>();
-
-        foreach (PuzzleData puzzle in RunManager.instance.puzzles)
+        if(completedPuzzles.Count > 0 && randomizedPuzzles.Count > 0)
         {
-            for (int i = 0; i < RunManager.instance.completedPuzzles.Count; i++)
+            foreach(CompletedPuzzle completedPuzzle in completedPuzzles)
             {
-                if (puzzle.id == RunManager.instance.completedPuzzles[i].puzzleid)
+                for(int i = 0; i < randomizedPuzzles.Count; i++)
                 {
-                    RunManager.instance.completed.Add(puzzle);
-                }
-            }
-        }
-
-        if (completed.Count > 0)
-        { 
-            for (int i = 0; i < completed.Count; i++)
-            {
-                if (puzzles.Contains(completed[i]))
-                {
-                    puzzles.Remove(completed[i]);
+                    if(completedPuzzle.puzzleid == randomizedPuzzles[i].id)
+                    {
+                        randomizedPuzzles.Remove(puzzles[i]);
+                    }
                 }
             }
 
             Debug.Log("Finished filtering puzzles");
         }
-       
-
-
-
     }
 
 
