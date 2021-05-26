@@ -57,11 +57,60 @@ public class PuzzleOverview : MonoBehaviour
             namePanel.SetActive(false);
             difficultyPanel.SetActive(true);
 
-            //Puzzles need to be filtered
-            LoadPuzzles(true);
+           
         }
 
 
+    }
+
+    public void filterPuzzleOnDifficulty()
+    {
+
+        //Puzzles need to be filtered
+        if (difficultyDropdown.options[difficultyDropdown.value].text != "Select:") LoadPuzzles(true);
+        else LoadPuzzles();
+    }
+
+
+    public void filterPuzzleOnText()
+    {
+
+        if(searchbar.text == "")
+        {
+            LoadPuzzles();
+        }
+        else
+        {
+          
+            List<PuzzleData> foundpuzzles = puzzles.FindAll((x) => x.name.Contains(searchbar.text));
+
+            if (foundpuzzles != null)
+            {
+                for (int o = 0; o < container.childCount; o++)
+                {
+                    Destroy(container.GetChild(o).gameObject);
+                }
+
+                foreach (PuzzleData puzzle in foundpuzzles)
+                {
+
+                    GameObject puzzleCopyObject = Instantiate(puzzleObject, container.position, Quaternion.identity);
+                    puzzleCopyObject.transform.SetParent(container);
+                    puzzleCopyObject.GetComponent<Puzzle>().id = puzzle.id;
+                    puzzleCopyObject.GetComponent<Puzzle>().name.text = puzzle.name;
+                    puzzleCopyObject.GetComponent<Puzzle>().description = puzzle.description;
+                    puzzleCopyObject.GetComponent<Puzzle>().difficulty.text = puzzle.difficulty;
+                    puzzleCopyObject.GetComponent<Puzzle>().creator = puzzle.creator;
+
+
+                }
+            }
+        }
+
+
+
+       
+        
     }
 
     /// <summary>
@@ -112,9 +161,9 @@ public class PuzzleOverview : MonoBehaviour
 
                 }
             }
-           
 
             
+              
         }
     }
 
