@@ -157,8 +157,8 @@ public class RunManager : MonoBehaviour
             TakeDamage(1);
         }
 
-        Launcher.instance.OpenResult();
-        result.ShowResult(terminal.questions.Count, terminal.answeredCorrect);
+       
+
 
         points = 0;
 

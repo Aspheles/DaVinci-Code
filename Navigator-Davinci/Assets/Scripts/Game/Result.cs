@@ -9,6 +9,8 @@ public class Result : MonoBehaviour
     public GameObject ScoreView;
     public void ShowResult(int questions, int correct)
     {
+        Debug.Log("Questions amount: " + questions);
+        Debug.Log("Correct amount: " + correct);
 
         scoreText.text = correct.ToString() + "/" + questions.ToString();
     }
