@@ -84,11 +84,23 @@ public class ApiController : MonoBehaviour
             case Request.GETFINISHEDPUZZLES:
                 GetFinishedPuzzles(Data);
                 break;
+            case Request.SENDMONEYTODB:
+                SendMoneyToDB(Data);
+                break;
 
             default:
                 Debug.LogError("No Function assigned");
                 break;
         }
+    }
+
+    private void SendMoneyToDB(JSONNode Data)
+    {
+        UserInfo.instance.currency = Data;
+        Debug.Log("Money has been updated");
+
+        //Reseting points for next room
+        RunManager.instance.totalPoints = 0;
     }
 
     private void GetFinishedPuzzles(JSONNode Data)

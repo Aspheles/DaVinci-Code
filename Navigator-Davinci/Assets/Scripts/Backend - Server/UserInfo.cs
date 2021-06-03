@@ -14,6 +14,7 @@ public class UserInfo : MonoBehaviour
     public bool isadmin = false;
     public static UserInfo instance;
     public string selectedDifficulty;
+    public int currency;
 
     private void Start()
     {

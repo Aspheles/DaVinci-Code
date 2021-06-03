@@ -33,6 +33,8 @@ public class RunManager : MonoBehaviour
     public List<CompletedPuzzle> completedPuzzles;
     public List<PuzzleData> completed;
     public Result result;
+    public int totalPoints;
+    
 
 
     private void Awake()
@@ -69,6 +71,7 @@ public class RunManager : MonoBehaviour
 
         if (CompletedTerminalsAmount >= 4)
         {
+            SendMoneyToDB();
             FinishRoom();
             if (currentHealth < maxHealth) currentHealth++;
             
@@ -95,10 +98,17 @@ public class RunManager : MonoBehaviour
         }
 
     }
-    
 
+    public int CalculatePoints()
+    {
+        return totalPoints *10;
+    }
+    
     public void NextRoom()
     {
+
+        
+        Debug.Log(CalculatePoints().ToString());
 
         if(room.difficulty == "Easy" && room.roomNumber > 6)
         {
@@ -157,9 +167,9 @@ public class RunManager : MonoBehaviour
             TakeDamage(1);
         }
 
-       
 
 
+        totalPoints = totalPoints + points;
         points = 0;
 
     }
@@ -251,6 +261,19 @@ public class RunManager : MonoBehaviour
         };
 
         ApiHandler.instance.CallApiRequest("post", form, Request.GETFINISHEDPUZZLES);
+    }
+
+    public void SendMoneyToDB()
+    {
+        Debug.Log("Sending money to db");
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("accountid", UserInfo.instance.id.ToString()),
+            new MultipartFormDataSection("money", CalculatePoints().ToString())
+        };
+
+        ApiHandler.instance.CallApiRequest("post", form, Request.SENDMONEYTODB);
     }
 
     public static List<T> Shuffle<T>(List<T> _list)
