@@ -87,6 +87,9 @@ public class ApiController : MonoBehaviour
             case Request.SENDMONEYTODB:
                 SendMoneyToDB(Data);
                 break;
+            case Request.FETCHINGMONEY:
+                FetchMoneyFromDB(Data);
+                break;
 
             default:
                 Debug.LogError("No Function assigned");
@@ -94,9 +97,21 @@ public class ApiController : MonoBehaviour
         }
     }
 
+    private void FetchMoneyFromDB(JSONNode Data)
+    {
+        //Checking if user has money in db
+        if (Data != null)
+        {
+            UserInfo.instance.currency = Data[0].AsObject["currency"];
+            UserInfo.instance.fetchedMoney = true;
+        }
+    }
+
     private void SendMoneyToDB(JSONNode Data)
     {
-        UserInfo.instance.currency = Data;
+        //Resetting fetched money so it can load the data again
+        UserInfo.instance.fetchedMoney = false;
+
         Debug.Log("Money has been updated");
 
         //Reseting points for next room
@@ -122,13 +137,8 @@ public class ApiController : MonoBehaviour
         }
 
         
-
         //Reset terminals
         TerminalSpawnPoints.instance.ResetTerminals();
-
-        
-
-
     }
     private void FinishRoom(JSONNode Data)
     {

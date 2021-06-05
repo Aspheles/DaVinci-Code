@@ -28,6 +28,7 @@ public static class Request
         LOADGAMEQUESTIONANSWERS = server + "/loadgamequestionanswers.php",
         FINISHROOM = server + "/finishroom.php",
         GETFINISHEDPUZZLES = server + "/getfinishedpuzzles.php",
-        SENDMONEYTODB = server + "/sendmoneytodb.php";
+        SENDMONEYTODB = server + "/sendmoneytodb.php",
+        FETCHINGMONEY = server + "/fetchingmoney.php";
 
 }
