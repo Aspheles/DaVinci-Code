@@ -33,6 +33,7 @@ public class ShopManager : MonoBehaviour
                 vendor.SetActive(true);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                GameCamera.instance.canMove = false;
             }
         }
         else
@@ -51,7 +52,27 @@ public class ShopManager : MonoBehaviour
 
     public void CloseAlertPanel()
     {
-        alertPanel.SetActive(false);
+        if(alertPanel.GetComponentInChildren<TMP_Text>().text == "Upgrade has been purchased")
+        {
+            alertPanel.SetActive(false);
+            CloseShop();
+            StartCoroutine(PlayPurchaseAnim());
+
+        }
+        else
+        {
+            alertPanel.SetActive(false);
+        }
+       
+    }
+
+
+    IEnumerator PlayPurchaseAnim()
+    {
+        yield return new WaitForSeconds(.3f);
+        Animator anim = shopNpc.GetComponent<Animator>();
+        anim.speed = .4f;
+        anim.Play("Armature_Selling");
     }
 
     public void BuyConfirmation()
@@ -70,5 +91,6 @@ public class ShopManager : MonoBehaviour
         vendor.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+        GameCamera.instance.canMove = true;
     }
 }

@@ -7,6 +7,9 @@ ModelImporter:
       74: -8945691123924629249
     second: Armature|Idle
   - first:
+      74: -4252468374965969587
+    second: Armature|Selling
+  - first:
       74: 786504323170427181
     second: Armature|T-Pose
   externalObjects: {}
