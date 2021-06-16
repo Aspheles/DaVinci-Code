@@ -102,15 +102,19 @@ public class Upgrade
 
     public int id;
     public string name;
+    public string description;
     public int level;
     public Powers power;
+    public int price;
 
-    public Upgrade(int id, string name, int level, Powers power)
+    public Upgrade(int id, string name, string description, int level, Powers power, int price)
     {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.level = level;
         this.power = power;
+        this.price = price;
 
     }
 

@@ -40,6 +40,17 @@ public class TriggerPuzzlePad : MonoBehaviour
                 }
 
             }
+        }else if(terminal.progress == Terminal.ScreenProgress.FAILED && RunManager.instance.retries > 0)
+        {
+            confirmText.text = "Press 'E' to rewind the terminal";
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RunManager.instance.retries = 0;
+                UserInfo.instance.playerManager.upgrades.Remove(UserInfo.instance.playerManager.upgrades.Find((x) => x.id == 2));
+                terminal.questionNumber = 0;
+                terminal.progress = Terminal.ScreenProgress.READY;
+            }
         }
     }
 

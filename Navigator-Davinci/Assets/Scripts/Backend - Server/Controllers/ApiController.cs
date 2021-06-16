@@ -90,6 +90,11 @@ public class ApiController : MonoBehaviour
             case Request.FETCHINGMONEY:
                 FetchMoneyFromDB(Data);
                 break;
+
+            case Request.PURCHASEREQUEST:
+                PurchaseRequest(Data);
+                break;
+
             case Request.FETCHUPGRADES:
                 FetchUpgrades(Data);
                 break;
@@ -104,6 +109,18 @@ public class ApiController : MonoBehaviour
         }
     }
 
+    private void PurchaseRequest(JSONNode Data)
+    {
+        UserInfo.instance.fetchedMoney = false;
+        UserInfo.instance.fetchedUpgrades = false;
+
+        //Checking if user already has powerup
+        if(Data.Count == 2)
+        {
+            ShopManager.instance.OpenAlertPanel("Item has been sold out");
+        }
+    }
+
     private void LoadUpgrades(JSONNode Data)
     {
         UpgradeManager.instance.upgrades = new List<Upgrade>();
@@ -113,11 +130,13 @@ public class ApiController : MonoBehaviour
 
             int upgradeid = int.Parse(Data[i].AsObject["id"]);
             string upgradeName = Data[i].AsObject["name"];
+            string upgradeDescription = Data[i].AsObject["description"];
             int upgradeLevel = Data[i].AsObject["level"];
+            int upgradePrice = Data[i].AsObject["price"];
             Upgrade.Powers upgradePower = GetUpgradePower(Data[i].AsObject["power"]);
 
            
-            Upgrade upgrade = new Upgrade(upgradeid, upgradeName, upgradeLevel, upgradePower);
+            Upgrade upgrade = new Upgrade(upgradeid, upgradeName, upgradeDescription, upgradeLevel, upgradePower, upgradePrice);
             UpgradeManager.instance.upgrades.Add(upgrade);
 
         }

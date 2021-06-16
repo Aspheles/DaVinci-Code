@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
+using TMPro;
 
 public class UserInfo : MonoBehaviour
 {
@@ -29,24 +30,36 @@ public class UserInfo : MonoBehaviour
 
     private void Update()
     {
-        if (!fetchedMoney && !string.IsNullOrEmpty(id)) playerManager.FetchCurrencyFromDB(id);
+        if (!fetchedMoney && !string.IsNullOrEmpty(id))
+        {
+            playerManager.FetchCurrencyFromDB(id);
+        }
 
-        
+        if (!fetchedUpgrades)
+        {
+            playerManager.CheckUpgrdes(id);
+            fetchedUpgrades = true;
+        }
+
+        if (GameObject.FindGameObjectWithTag("currency") != null)
+        {
+            GameObject.FindGameObjectWithTag("currency").GetComponent<TMP_Text>().text = currency.ToString();
+        }
 
 
 
-            if (GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
-            {          
-                GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
+        if (GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
+        {          
+            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
 
-                if (!fetchedUpgrades && !string.IsNullOrEmpty(id))
-                {
-                    playerManager.CheckUpgrdes(id);
-                    fetchedUpgrades = true;
-                }
-
-
+            if (!fetchedUpgrades && !string.IsNullOrEmpty(id))
+            {
+                playerManager.CheckUpgrdes(id);
+                fetchedUpgrades = true;
             }
+
+
+        }
 
         if (GameObject.Find("Admin") == isActiveAndEnabled)
             GameObject.Find("Admin").SetActive(isadmin);

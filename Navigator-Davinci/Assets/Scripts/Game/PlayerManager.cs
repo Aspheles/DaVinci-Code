@@ -19,6 +19,20 @@ public class PlayerManager : MonoBehaviour
         ApiHandler.instance.CallApiRequest("post", form, Request.FETCHINGMONEY);
     }
 
+    public void SendPurchaseRequest(string accountid, string upgradeid, string level, string price)
+    {
+        Debug.Log("Sending purchase request");
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("accountid", accountid),
+            new MultipartFormDataSection("upgradeid", upgradeid),
+            new MultipartFormDataSection("level", level),
+            new MultipartFormDataSection("price", price)
+        };
+
+        ApiHandler.instance.CallApiRequest("post", form, Request.PURCHASEREQUEST);
+    }
 
     public void CheckUpgrdes(string accountid)
     {

@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Terrain
   - Terminal
+  - currency
   layers:
   - Default
   - TransparentFX

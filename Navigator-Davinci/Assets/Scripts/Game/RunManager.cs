@@ -57,7 +57,7 @@ public class RunManager : MonoBehaviour
 
     private void Update()
     {
-
+        
         if (run == null)
         {
             Run.instance.CreateRun(run);
