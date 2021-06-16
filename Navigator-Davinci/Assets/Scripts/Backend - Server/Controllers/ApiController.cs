@@ -90,11 +90,82 @@ public class ApiController : MonoBehaviour
             case Request.FETCHINGMONEY:
                 FetchMoneyFromDB(Data);
                 break;
+            case Request.FETCHUPGRADES:
+                FetchUpgrades(Data);
+                break;
+
+            case Request.LOADUPGRADES:
+                LoadUpgrades(Data);
+                break;
 
             default:
                 Debug.LogError("No Function assigned");
                 break;
         }
+    }
+
+    private void LoadUpgrades(JSONNode Data)
+    {
+        UpgradeManager.instance.upgrades = new List<Upgrade>();
+
+        for (int i = 0; i < Data.Count; i++)
+        {
+
+            int upgradeid = int.Parse(Data[i].AsObject["id"]);
+            string upgradeName = Data[i].AsObject["name"];
+            int upgradeLevel = Data[i].AsObject["level"];
+            Upgrade.Powers upgradePower = GetUpgradePower(Data[i].AsObject["power"]);
+
+           
+            Upgrade upgrade = new Upgrade(upgradeid, upgradeName, upgradeLevel, upgradePower);
+            UpgradeManager.instance.upgrades.Add(upgrade);
+
+        }
+
+        Debug.Log("Upgrades have been initialized");
+
+      
+    }
+
+    Upgrade.Powers GetUpgradePower(string power)
+    {
+        switch (power)
+        {
+            case "health":
+                return Upgrade.Powers.HEALTH;
+            case "retry":
+                return Upgrade.Powers.RETRY;
+
+            default:
+                Debug.Log("Upgrade doesn't exist");
+                return 0;
+        }
+    }
+
+    private void FetchUpgrades(JSONNode Data)
+    {
+        Debug.Log("Trying to assign upgrades to user");
+
+        UserInfo.instance.playerManager.upgrades = new List<Upgrade>();
+
+        if(UpgradeManager.instance.upgrades.Count > 0)
+        {
+            for (int i = 0; i < Data.Count; i++)
+            {
+
+                Upgrade foundUpgrade = UpgradeManager.instance.upgrades.Find((x) => x.id == int.Parse(Data[i].AsObject["upgradeid"]));
+                if(foundUpgrade != null)
+                {
+                    foundUpgrade.level = int.Parse(Data[i].AsObject["level"]);
+                    UserInfo.instance.playerManager.upgrades.Add(foundUpgrade);
+                }
+
+
+
+            }
+        }
+        
+
     }
 
     private void FetchMoneyFromDB(JSONNode Data)

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Networking;
 
 public class FormController : MonoBehaviour
 {
@@ -90,3 +91,28 @@ public class Answer
 
 }
 
+[Serializable]
+public class Upgrade
+{
+    public enum Powers
+    {
+        HEALTH,
+        RETRY
+    }
+
+    public int id;
+    public string name;
+    public int level;
+    public Powers power;
+
+    public Upgrade(int id, string name, int level, Powers power)
+    {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+        this.power = power;
+
+    }
+
+   
+}

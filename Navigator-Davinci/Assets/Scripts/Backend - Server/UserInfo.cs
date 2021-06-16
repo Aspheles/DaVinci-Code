@@ -15,23 +15,38 @@ public class UserInfo : MonoBehaviour
     public static UserInfo instance;
     public string selectedDifficulty;
     public int currency;
-    PlayerManager playerManager;
+    public PlayerManager playerManager;
     public bool fetchedMoney = false;
+    public bool fetchedUpgrades = false;
+    
 
     private void Start()
     {
         instance = this;
         playerManager = GetComponent<PlayerManager>();
+        playerManager.LoadUpgrades();
     }
 
     private void Update()
     {
         if (!fetchedMoney && !string.IsNullOrEmpty(id)) playerManager.FetchCurrencyFromDB(id);
 
-        if (GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
-        {          
-            GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
-        }
+        
+
+
+
+            if (GameObject.Find("LoggedInMenu") == isActiveAndEnabled)
+            {          
+                GameObject.Find("user").GetComponent<Text>().text = "Welcome " + username;
+
+                if (!fetchedUpgrades && !string.IsNullOrEmpty(id))
+                {
+                    playerManager.CheckUpgrdes(id);
+                    fetchedUpgrades = true;
+                }
+
+
+            }
 
         if (GameObject.Find("Admin") == isActiveAndEnabled)
             GameObject.Find("Admin").SetActive(isadmin);

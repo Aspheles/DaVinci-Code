@@ -27,6 +27,7 @@ public class RunManager : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
     public HealthBar healthBar;
+    public int retries = 0;
     public bool gameOver = false;
     public int maxRoomNumber = 6;
     public int CompletedTerminalsAmount;
@@ -34,7 +35,8 @@ public class RunManager : MonoBehaviour
     public List<PuzzleData> completed;
     public Result result;
     public int totalPoints;
-    
+
+    public bool loadedUpgrades = false;
 
 
     private void Awake()
@@ -42,12 +44,14 @@ public class RunManager : MonoBehaviour
         instance = this;
         questionLoaded = false;
         maxHealth = 4;
+        UserInfo.instance.playerManager.ApplyUpgrades();
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         CompletedTerminalsAmount = 0;
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
         room = GameObject.Find("Room").GetComponent<Room>();
         LoadPuzzlesData();
+        
     }
 
 
@@ -97,6 +101,11 @@ public class RunManager : MonoBehaviour
             gameOver = true;
         }
 
+    }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount;
     }
 
     public int CalculatePoints()
@@ -274,6 +283,11 @@ public class RunManager : MonoBehaviour
         };
 
         ApiHandler.instance.CallApiRequest("post", form, Request.SENDMONEYTODB);
+    }
+
+    public void SendPurchaseRequest()
+    {
+        Debug.Log("Requesting to buy upgrade ");
     }
 
     public static List<T> Shuffle<T>(List<T> _list)
