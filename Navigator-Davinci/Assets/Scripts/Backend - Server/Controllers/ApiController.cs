@@ -103,12 +103,20 @@ public class ApiController : MonoBehaviour
                 LoadUpgrades(Data);
                 break;
 
+            case Request.REMOVEUPGRADE:
+                RemoveUpgrade(Data);
+                break;
+
             default:
                 Debug.LogError("No Function assigned");
                 break;
         }
     }
 
+    private void RemoveUpgrade(JSONNode Data)
+    {
+        UserInfo.instance.fetchedUpgrades = false;
+    }
     private void PurchaseRequest(JSONNode Data)
     {
         UserInfo.instance.fetchedMoney = false;

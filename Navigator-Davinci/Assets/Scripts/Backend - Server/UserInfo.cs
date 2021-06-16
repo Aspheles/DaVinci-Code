@@ -35,7 +35,7 @@ public class UserInfo : MonoBehaviour
             playerManager.FetchCurrencyFromDB(id);
         }
 
-        if (!fetchedUpgrades)
+        if (!fetchedUpgrades && !string.IsNullOrEmpty(id))
         {
             playerManager.CheckUpgrdes(id);
             fetchedUpgrades = true;

@@ -47,7 +47,7 @@ public class TriggerPuzzlePad : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 RunManager.instance.retries = 0;
-                UserInfo.instance.playerManager.upgrades.Remove(UserInfo.instance.playerManager.upgrades.Find((x) => x.id == 2));
+                UserInfo.instance.playerManager.RemoveUpgrade(UserInfo.instance.id, "2");
                 terminal.questionNumber = 0;
                 terminal.progress = Terminal.ScreenProgress.READY;
             }

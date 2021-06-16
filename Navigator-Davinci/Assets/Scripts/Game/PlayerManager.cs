@@ -84,4 +84,17 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
+    public void RemoveUpgrade(string accountid, string upgradeid)
+    {
+        Debug.Log("Removing used upgrade");
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("accountid", accountid),
+            new MultipartFormDataSection("upgradeid", upgradeid)
+        };
+
+        ApiHandler.instance.CallApiRequest("post", form, Request.REMOVEUPGRADE);
+    }
 }

@@ -51,6 +51,10 @@ public class RunManager : MonoBehaviour
         startingPosition = GameObject.Find("SpawnPoint").GetComponent<Transform>();
         room = GameObject.Find("Room").GetComponent<Room>();
         LoadPuzzlesData();
+        if(UserInfo.instance.playerManager.upgrades.Find((x)=> x.id == 1) != null)
+        {
+            UserInfo.instance.playerManager.RemoveUpgrade(UserInfo.instance.id, "1");
+        }
         
     }
 

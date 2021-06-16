@@ -32,6 +32,7 @@ public static class Request
         FETCHINGMONEY = server + "/fetchingmoney.php",
         FETCHUPGRADES = server + "/fetchpurchases.php",
         PURCHASEREQUEST = server + "/purchaserequest.php",
-        LOADUPGRADES = server + "/loadupgrades.php";
+        LOADUPGRADES = server + "/loadupgrades.php",
+        REMOVEUPGRADE = server + "/removeupgrade.php";
 
 }
