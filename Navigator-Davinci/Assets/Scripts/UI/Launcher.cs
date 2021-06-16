@@ -152,4 +152,9 @@ public class Launcher : MonoBehaviour
         Player.instance.canwalk = false;
         MenuManager.instance.OpenMenu("result");
     }
+
+    public void OpenVendorMenu()
+    {
+        MenuManager.instance.OpenMenu("vendor");
+    }
 }
