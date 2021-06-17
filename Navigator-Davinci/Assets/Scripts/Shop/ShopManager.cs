@@ -34,6 +34,7 @@ public class ShopManager : MonoBehaviour
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 GameCamera.instance.canMove = false;
+                Player.instance.canwalk = false;
             }
         }
         else
@@ -97,5 +98,6 @@ public class ShopManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         GameCamera.instance.canMove = true;
+        Player.instance.canwalk = true;
     }
 }
