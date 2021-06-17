@@ -79,6 +79,7 @@ public class ShopManager : MonoBehaviour
 
         yield return new WaitForSeconds(.2f);
         anim.SetBool(condition, false);
+        anim.speed = 1f;
     }
 
     public void BuyConfirmation()
