@@ -56,23 +56,28 @@ public class ShopManager : MonoBehaviour
         {
             alertPanel.SetActive(false);
             CloseShop();
-            StartCoroutine(PlayPurchaseAnim());
+            StartCoroutine(PlayPurchaseAnim("sold", .4f));
 
         }
         else
         {
             alertPanel.SetActive(false);
+            CloseShop();
+            StartCoroutine(PlayPurchaseAnim("deny", 1f));
         }
        
     }
 
 
-    IEnumerator PlayPurchaseAnim()
+    IEnumerator PlayPurchaseAnim(string condition, float speed)
     {
         yield return new WaitForSeconds(.3f);
         Animator anim = shopNpc.GetComponent<Animator>();
-        anim.speed = .4f;
-        anim.Play("Armature_Selling");
+        anim.speed = speed;
+        anim.SetBool(condition, true);
+
+        yield return new WaitForSeconds(.2f);
+        anim.SetBool(condition, false);
     }
 
     public void BuyConfirmation()
